@@ -1,0 +1,716 @@
+[2025-10-07 03:47:49] ✅ Starting backend... (this may take a second)
+
+[2025-10-07T03:47:49.838079] Starting backend: local_backend_server.py
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 2, in <module>
+    from flask_cors import CORS
+ModuleNotFoundError: No module named 'flask_cors'
+[2025-10-07 03:48:42] ℹ No backend process running.
+[2025-10-07 03:49:05] ✅ Starting backend... (this may take a second)
+
+[2025-10-07T03:49:05.778337] Starting backend: local_backend_server.py
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 2, in <module>
+    from flask_cors import CORS
+ModuleNotFoundError: No module named 'flask_cors'
+[2025-10-07 03:49:23] ✅ Starting backend... (this may take a second)
+
+[2025-10-07T03:49:23.353329] Starting backend: local_backend_server.py
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 2, in <module>
+    from flask_cors import CORS
+ModuleNotFoundError: No module named 'flask_cors'
+[2025-10-07 03:52:33] ✅ Starting backend... (this may take a second)
+
+[2025-10-07T03:52:33.634883] Starting backend: local_backend_server.py
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 48, in <module>
+    print("\U0001f680 Flask backend running at http://127.0.0.1:5000")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f680' in position 0: character maps to <undefined>
+[2025-10-07 03:54:19] ✅ Starting backend... (this may take a second)
+
+[2025-10-07T03:54:19.954700] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [07/Oct/2025 03:58:28] "GET /.netlify/functions/signup HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 03:59:32] "GET /adminEscrowDetails?escrowId=68dd27ed3daf595336b94e38 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 03:59:57] "GET /adminEscrowDetails?escrowId=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:02:12] "GET /adminEscrowDetails?escrowId=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:02:44] "GET /adminEscrowDetails?escrowId=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:03:38] "GET /adminEscrowDetails?escrowId=%2068dd27ed3daf595336b94e38 HTTP/1.1" 404 -
+[2025-10-07 04:05:18,853] ERROR in app: Exception on /.netlify/functions/getEscrow [GET]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 21, in get_escrow
+    escrow_id = f"escrow{len(escrows)+1}"
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 04:05:18] "GET /.netlify/functions/getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 04:06:57] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:07:12] "GET /getEscrow?id=68dd27ed3daf595336b94e38 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:09:00] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:10:05] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:12:19] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:15:52] "GET /.netlify/functions/signup HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:16:54] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:21:20] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:25:05] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+[2025-10-07 04:27:18,250] ERROR in app: Exception on /.netlify/functions/getEscrow [GET]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 21, in get_escrow
+    })
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 04:27:18] "GET /.netlify/functions/getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 04:29:35] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:29:36] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:29:55] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:32:02] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:32:04] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:32:04] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:32:04] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:32:15] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:32:16] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:32:54] "GET /.netlify/functions/signup HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:33:03] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:33:05] "GET /admin.html HTTP/1.1" 404 -
+[2025-10-07 04:34:28,306] ERROR in app: Exception on /.netlify/functions/getEscrow [GET]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 21, in get_escrow
+    amount = data.get("amount")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 04:34:28] "GET /.netlify/functions/getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 500 -
+[2025-10-07 04:43:53,325] ERROR in app: Exception on /.netlify/functions/getEscrow [GET]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 21, in get_escrow
+    amount = data.get("amount")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 04:43:53] "GET /.netlify/functions/getEscrow?id=demo123 HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 04:48:07] "GET /getEscrow?id=demo123 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:48:46] "OPTIONS /createEscrow HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:50:11] "GET /getEscrow?id=demo123 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:50:29] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:55:41] "GET /getEscrow?id=escrow001 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 04:58:18] "GET /.netlify/functions/signup HTTP/1.1" 404 -
+[2025-10-07 04:59:09,640] ERROR in app: Exception on /.netlify/functions/getEscrow [GET]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 21, in get_escrow
+    amount = data.get("amount")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 04:59:09] "GET /.netlify/functions/getEscrow?id=demo123 HTTP/1.1" 500 -
+[2025-10-07 05:01:22,289] ERROR in app: Exception on /.netlify/functions/getEscrow [GET]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 21, in get_escrow
+    # -------------------------
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 05:01:22] "GET /.netlify/functions/getEscrow?id=demo123 HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 05:06:11] "GET /.netlify/functions/signup HTTP/1.1" 404 -
+[2025-10-07 05:06:23,229] ERROR in app: Exception on /.netlify/functions/getEscrow [GET]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 21, in get_escrow
+    # -------------------------
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 05:06:23] "GET /.netlify/functions/getEscrow?id=demo123 HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 05:06:32] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:09:41] "GET /getEscrow?id=demo123 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:10:27] "GET /getEscrow?id=demo123 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:15:35] "POST /createEscrow HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:18:43] "POST /createEscrow HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:18:48] "GET /getEscrow?id=68dede5b104fb9f2f3d05762 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:24:39] "GET /getEscrow?id=demo123 HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:25:33] "GET /admin.html HTTP/1.1" 404 -
+127.0.0.1 - - [07/Oct/2025 05:43:29] "GET /getEscrow?id=demo123 HTTP/1.1" 404 -
+ver'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+
+[2025-10-07T19:32:35.593824] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [07/Oct/2025 19:56:36] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 19:56:36] "POST /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 19:57:34] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 19:57:34] "POST /login HTTP/1.1" 401 -
+127.0.0.1 - - [07/Oct/2025 19:57:45] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 19:57:45] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 19:59:18] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 19:59:18,846] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 19:59:19] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 19:59:23] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 19:59:23,955] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 19:59:23] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 19:59:25] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 19:59:25,923] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 19:59:25] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 21:46:52] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 21:46:52,860] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 21:46:52] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 21:47:29] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 21:47:29] "POST /login HTTP/1.1" 401 -
+127.0.0.1 - - [07/Oct/2025 21:47:36] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 21:47:36] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 21:47:47] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 21:47:47,305] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 21:47:47] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 22:27:48] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 22:27:48,237] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 22:27:48] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 22:27:54] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 22:27:54,903] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 22:27:54] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 22:28:30] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 22:28:30,274] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 22:28:30] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 22:54:23] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 22:54:23] "POST /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 22:54:43] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 22:54:43] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 22:54:46] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 22:54:46] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 22:55:00] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 22:55:00,819] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    print(f"\u2705 Escrow created: {buyer} -> {seller} (${amount})")
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 22:55:00] "POST /createEscrow HTTP/1.1" 500 -
+127.0.0.1 - - [07/Oct/2025 23:11:59] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:11:59] "POST /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:11] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:11] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:13] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:13] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:14] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:14] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:19] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:12:19] "POST /login HTTP/1.1" 401 -
+127.0.0.1 - - [07/Oct/2025 23:12:35] "OPTIONS /createEscrow HTTP/1.1" 200 -
+[2025-10-07 23:12:35,579] ERROR in app: Exception on /createEscrow [POST]
+Traceback (most recent call last):
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 72, in create_escrow
+    # -------------------------
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BONNIE\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+127.0.0.1 - - [07/Oct/2025 23:12:35] "POST /createEscrow HTTP/1.1" 500 -
+[2025-10-07 23:13:11] ✅ Starting backend... (this may take a second)
+
+[2025-10-07T23:13:11.809686] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [07/Oct/2025 23:13:41] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:13:41] "POST /signup HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:13:52] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:13:52] "POST /login HTTP/1.1" 401 -
+127.0.0.1 - - [07/Oct/2025 23:13:57] "OPTIONS /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:13:57] "POST /login HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:14:06] "OPTIONS /createEscrow HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:14:06] "POST /createEscrow HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:14:21] "GET /getEscrow?id=demo123 HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:14:45] "OPTIONS /adminConfirmDeposit HTTP/1.1" 200 -
+127.0.0.1 - - [07/Oct/2025 23:14:45] "POST /adminConfirmDeposit HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 01:00:35] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 01:00:35] "POST /signup HTTP/1.1" 200 -
+
+[2025-10-08T03:50:11.927853] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [08/Oct/2025 03:52:26] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 03:52:56] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 03:53:04] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 04:09:28] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 04:19:36] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 05:15:30] "OPTIONS /signup HTTP/1.1" 200 -
+127.0.0.1 - - [08/Oct/2025 05:18:12] "OPTIONS /signup HTTP/1.1" 200 -
+[2025-10-08 05:18:19] 🟥 Sent terminate to backend process.
+[2025-10-08 05:18:38] ✅ Starting backend... (this may take a second)
+
+[2025-10-08T05:18:38.837044] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.88.249:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+
+[2025-10-08T05:59:33.870676] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.88.249:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+[2025-10-08 17:31:24] ✅ Starting backend... (this may take a second)
+
+[2025-10-08T17:31:24.306766] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.88.249:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+127.0.0.1 - - [08/Oct/2025 23:35:40] "GET /myEscrows HTTP/1.1" 404 -
+ * Detected change in 'C:\\Users\\BONNIE\\OneDrive\\Desktop\\Vanguardescrow\\local_backend_server.py', reloading
+Flask backend running at http://127.0.0.1:5000
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+127.0.0.1 - - [09/Oct/2025 00:51:26] "GET /myEscrows HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 00:51:28] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Oct/2025 00:51:37] "GET /createEscrow HTTP/1.1" 405 -
+ * Detected change in 'C:\\Users\\BONNIE\\OneDrive\\Desktop\\Vanguardescrow\\local_backend_server.py', reloading
+Flask backend running at http://127.0.0.1:5000
+a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.88.249:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+ * Detected change in 'C:\\Users\\BONNIE\\OneDrive\\Desktop\\Vanguardescrow\\local_backend_server.py', reloading
+Flask backend running at http://127.0.0.1:5000
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+ * Detected change in 'C:\\Users\\BONNIE\\OneDrive\\Desktop\\Vanguardescrow\\local_backend_server.py', reloading
+Flask backend running at http://127.0.0.1:5000
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+127.0.0.1 - - [09/Oct/2025 01:22:12] "OPTIONS /createEscrow HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 01:22:12] "POST /createEscrow HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 01:33:29] "OPTIONS /createEscrow HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 01:33:29] "POST /createEscrow HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 01:34:46] "OPTIONS /confirmDeposit HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 01:34:46] "POST /confirmDeposit HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 01:34:49] "OPTIONS /releaseFunds HTTP/1.1" 200 -
+127.0.0.1 - - [09/Oct/2025 01:34:49] "POST /releaseFunds HTTP/1.1" 200 -
+ * Detected change in 'C:\\Users\\BONNIE\\OneDrive\\Desktop\\Vanguardescrow\\local_backend_server.py', reloading
+Flask backend running at http://127.0.0.1:5000
+ * Restarting with stat
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 81
+    wallet = "TRC 2O Wallet: TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR
+             ^
+SyntaxError: unterminated string literal (detected at line 81)
+[2025-10-09 01:53:17] ✅ Starting backend... (this may take a second)
+
+[2025-10-09T01:53:17.934887] Starting backend: local_backend_server.py
+  File "C:\Users\BONNIE\OneDrive\Desktop\Vanguardescrow\local_backend_server.py", line 81
+    wallet = "TRC 2O Wallet: TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR
+             ^
+SyntaxError: unterminated string literal (detected at line 81)
+[2025-10-09 01:55:48] ✅ Starting backend... (this may take a second)
+
+[2025-10-09T01:55:48.973495] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.88.249:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+[2025-10-10 02:17:06] ✅ Starting backend... (this may take a second)
+
+[2025-10-10T02:17:06.528693] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.88.249:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589
+[2025-10-27 00:33:45] ✅ Starting backend... (this may take a second)
+
+[2025-10-27T00:33:45.117077] Starting backend: local_backend_server.py
+Flask backend running at http://127.0.0.1:5000
+ * Serving Flask app 'local_backend_server'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.88.249:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 141-022-589

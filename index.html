@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>
+   VanGuard Escrow — Secure Escrow for Digital Services &amp; Accounts
+  </title>
+<style>
+   :root{
+      --blue: #1e40af;
+      --light-blue: #3b82f6;
+      --gray: #f9fafb;
+      --muted: #6b7280;
+      --glass: rgba(255,255,255,0.7);
+      --card-shadow: 0 6px 18px rgba(16,24,40,0.06);
+      --rounded: 14px;
+      --radius-sm: 8px;
+      --max-w: 1200px;
+      --gap: 20px;
+      --glass-border: rgba(30,64,175,0.07);
+      --success: #16a34a;
+      --danger: #ef4444;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#ffffff 0%, #fbfdff 100%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      padding: 32px 16px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .container{
+      width:100%;
+      max-width:var(--max-w);
+      display:flex;
+      flex-direction:column;
+      gap:var(--gap);
+    }
+
+    /* Header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px;
+      background:transparent;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo {
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      display:inline-grid;
+      place-items:center;
+      background:linear-gradient(135deg,var(--blue),var(--light-blue));
+      color:white;
+      font-weight:700;
+      box-shadow: 0 6px 20px rgba(59,130,246,0.14);
+      font-family:Inter, sans-serif;
+    }
+    .brand h1{
+      font-size:16px;
+      margin:0;
+      letter-spacing:0.1px;
+    }
+    nav{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex:1;
+      margin-left:24px;
+    }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:8px;
+      transition:all .18s ease;
+      font-size:14px;
+    }
+    nav a:hover{ background:var(--gray); color:var(--blue); transform:translateY(-2px) }
+
+    .header-actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .lang-select{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:10px;
+      background:var(--gray);
+      cursor:pointer;
+      font-size:14px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--blue),var(--light-blue));
+      color:white;
+      padding:10px 16px;
+      border-radius:12px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow: 0 8px 22px rgba(30,64,175,0.12);
+      transition:transform .14s ease, box-shadow .14s ease;
+    }
+    .cta:hover{ transform:translateY(-3px) }
+
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding:32px;
+    }
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.95));
+      border-radius:var(--rounded);
+      padding:28px;
+      box-shadow:var(--card-shadow);
+      border:1px solid var(--glass-border);
+    }
+    .eyebrow{ color:var(--muted); font-weight:600; font-size:13px; letter-spacing:0.6px}
+    .hero h2{
+      margin:12px 0 8px 0;
+      font-size:28px;
+      line-height:1.05;
+    }
+    .hero p{ margin:0 0 18px 0; color:#334155 }
+
+    .hero-cta{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .btn-outline{
+      padding:10px 16px;
+      border-radius:10px;
+      border:1px solid var(--light-blue);
+      background:transparent;
+      color:var(--light-blue);
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    /* Right hero small info panel */
+    .stats{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .stat-item{
+      background:var(--gray);
+      border-radius:12px;
+      padding:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      box-shadow:var(--card-shadow);
+      transition:transform .16s ease;
+    }
+    .stat-item:hover{ transform:translateY(-4px) }
+
+    .small{ font-size:13px; color:var(--muted) }
+    .big{ font-weight:700; font-size:18px }
+
+    /* Sections grid */
+    .sections{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    /* How it works */
+    .card{
+      background:white;
+      border-radius:var(--rounded);
+      padding:18px;
+      box-shadow:var(--card-shadow);
+      border:1px solid rgba(15,23,42,0.03);
+    }
+    .steps{
+      display:flex;
+      gap:12px;
+      flex-direction:column;
+    }
+    .step{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:10px;
+      border-radius:10px;
+      transition:all .12s ease;
+    }
+    .step:hover{ background:var(--gray) }
+    .step .bubble{
+      min-width:40px;
+      min-height:40px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(90deg,var(--blue),var(--light-blue));
+      color:white;
+      font-weight:700;
+      box-shadow: 0 6px 14px rgba(30,64,175,0.08);
+    }
+
+    /* Services */
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .service{
+      padding:12px;
+      border-radius:10px;
+      background:linear-gradient(180deg, #fff, #fbfdff);
+      border:1px solid rgba(2,6,23,0.03);
+      box-shadow:var(--card-shadow);
+      transition:transform .14s ease, box-shadow .14s ease;
+      cursor:default;
+    }
+    .service:hover{ transform:translateY(-6px) }
+
+    /* Pricing */
+    .pricing{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-top:12px;
+      font-weight:700;
+      font-size:18px;
+    }
+
+    /* Markets badges */
+    .badges{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px }
+    .badge{
+      background:linear-gradient(90deg, rgba(30,64,175,0.06), rgba(59,130,246,0.04));
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:600;
+      color:var(--blue);
+      border:1px solid rgba(30,64,175,0.04);
+    }
+
+    /* Payment methods */
+    .payments{
+      display:flex;
+      gap:8px;
+      flex-direction:column;
+      margin-top:12px;
+    }
+    .payment-pill{
+      padding:10px;
+      border-radius:10px;
+      border:1px dashed rgba(30,64,175,0.08);
+      background:white;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .note{ color:var(--muted); font-size:13px; margin-top:8px }
+
+    /* Forms section (right column) */
+    .auth {
+      position:sticky;
+      top:40px;
+    }
+    .form {
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      background:linear-gradient(180deg,#fff,#fbfdff);
+      border-radius:12px;
+      padding:16px;
+      box-shadow:var(--card-shadow);
+      border:1px solid rgba(2,6,23,0.03);
+    }
+    .form input{
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid rgba(15,23,42,0.06);
+      font-size:14px;
+    }
+    .form button{
+      padding:10px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      background:linear-gradient(90deg,var(--blue),var(--light-blue));
+      color:white;
+      font-weight:700;
+    }
+    .muted{ color:var(--muted); font-size:13px }
+
+    .msg{
+      padding:8px 10px;
+      border-radius:8px;
+      font-size:13px;
+      margin-top:6px;
+    }
+    .msg.success{ background:rgba(16,185,129,0.08); color:var(--success); border:1px solid rgba(16,185,129,0.12) }
+    .msg.error{ background:rgba(239,68,68,0.06); color:var(--danger); border:1px solid rgba(239,68,68,0.08) }
+
+    /* Footer */
+    footer{
+      margin-top:12px;
+      padding:20px;
+      border-radius:12px;
+      background:#fff;
+      display:flex;
+      gap:20px;
+      justify-content:space-between;
+      align-items:flex-start;
+      box-shadow:var(--card-shadow);
+      border:1px solid rgba(2,6,23,0.03);
+      flex-wrap:wrap;
+    }
+    .footer-col{ min-width:180px; max-width:360px }
+    .footer-links a{ display:block; color:var(--muted); text-decoration:none; margin-bottom:6px }
+    .rating{ font-weight:700; color:#f59e0b }
+
+    /* Legal sections anchors */
+    .legal{
+      margin-top:8px;
+      padding:14px;
+      border-radius:10px;
+      background:linear-gradient(180deg,#fff,#fbfdff);
+      box-shadow:var(--card-shadow);
+      border:1px solid rgba(2,6,23,0.03);
+    }
+
+    /* subtle animations */
+    @keyframes floatUp {
+      0%{ transform:translateY(6px); opacity:.6 }
+      100%{ transform:translateY(0); opacity:1 }
+    }
+    .card, .hero-card, .service, .stat-item{ animation: floatUp .6s ease both }
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .hero{ grid-template-columns: 1fr; }
+      .sections{ grid-template-columns: 1fr; }
+      .container{ padding:20px; }
+      nav{ display:none }
+    }
+    @media (max-width:640px){
+      body{ padding:16px }
+      header{ padding:8px 0 }
+      .brand h1{ font-size:15px }
+      .hero h2{ font-size:22px }
+      .services-grid{ grid-template-columns:1fr }
+      .stat-item{ font-size:13px }
+      .auth{ position:static }
+    }
+
+    /* Modal (for Sign Up) */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(2,6,23,0.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:70;
+      padding:16px;
+    }
+    .modal{
+      width:100%;
+      max-width:520px;
+      border-radius:14px;
+      padding:18px;
+      background:white;
+      box-shadow: 0 20px 60px rgba(2,6,23,0.2);
+      animation: floatUp .18s ease;
+    }
+    .close-btn{
+      background:transparent;
+      border:none;
+      font-size:18px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="container" role="main">
+<header>
+<div style="display:flex;align-items:center;">
+<div class="brand">
+<div aria-hidden="true" class="logo">
+       VG
+      </div>
+<div>
+<h1>
+        VanGuard Escrow
+       </h1>
+<div data-i18n="tagline" style="font-size:12px;color:var(--muted);margin-top:4px">
+        Secure transactions for digital goods
+       </div>
+</div>
+</div>
+</div>
+<nav aria-label="Primary">
+<a data-i18n="nav_home" href="#home">
+      Home
+     </a>
+<a data-i18n="nav_how" href="#how">
+      How It Works
+     </a>
+<a data-i18n="nav_services" href="#services">
+      Services
+     </a>
+<a data-i18n="nav_pricing" href="#pricing">
+      Pricing
+     </a>
+<a data-i18n="nav_markets" href="#markets">
+      Markets
+     </a>
+<a data-i18n="nav_payments" href="#payments">
+      Payment Methods
+     </a>
+<a data-i18n="nav_contact" href="#contact">
+      Contact
+     </a>
+</nav>
+<div class="header-actions">
+<div class="lang-select" title="Language selector">
+      🌐
+      <select aria-label="Language select" id="lang" style="border:none;background:transparent;font-weight:600;cursor:pointer">
+<option value="en">
+        English
+       </option>
+<option value="es">
+        Español
+       </option>
+<option value="ms">
+        Bahasa
+       </option>
+<option value="it">
+        Italiano
+       </option>
+<option value="fr">
+        Français
+       </option>
+<option value="pl">
+        Polski
+       </option>
+</select>
+</div>
+<form id="loginForm">
+</form>
+</div>
+</header>
+<section aria-labelledby="hero-title" class="hero" id="home">
+<div class="hero-card">
+<div class="eyebrow" data-i18n="hero_eyebrow">
+      Trusted • Fast • Transparent
+     </div>
+<h2 data-i18n="hero_title" id="hero-title">
+      Secure Escrow for Digital Services &amp; Accounts
+     </h2>
+<p data-i18n="hero_p">
+      VanGuard Escrow protects both buyers and sellers when exchanging Stripe accounts, online stores, social channels, and other digital services. We hold funds in trust until terms are met.
+     </p>
+<div class="hero-cta">
+<button class="cta" data-i18n="cta_start_tx" id="startTx">
+       Start Transaction
+      </button>
+<button class="btn-outline" data-i18n="cta_learn_more" id="learnMore" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+       Learn More
+      </button>
+</div>
+<div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap">
+<div style="background:#fff;padding:10px 12px;border-radius:10px;border:1px solid rgba(2,6,23,0.03);box-shadow:var(--card-shadow);min-width:140px">
+<div class="small" data-i18n="stat_rating">
+        Rating
+       </div>
+<div style="display:flex;gap:8px;align-items:center">
+<div class="rating">
+         ⭐ 4.8/5
+        </div>
+<div class="muted" data-i18n="stat_reviews" style="font-weight:600">
+         1.2k reviews
+        </div>
+</div>
+</div>
+<div style="background:var(--gray);padding:10px 12px;border-radius:10px;border:1px solid rgba(2,6,23,0.03);min-width:140px">
+<div class="small" data-i18n="stat_primary_payment">
+        Primary Payment
+       </div>
+<div class="big" data-i18n="stat_crypto">
+        Crypto
+       </div>
+</div>
+</div>
+</div>
+<aside>
+<div class="stats">
+<div class="stat-item">
+<div>
+<div class="small" data-i18n="stat_tx_count">
+         Transactions
+        </div>
+<div class="big">
+         5,420
+        </div>
+</div>
+<div class="small" data-i18n="stat_all_time">
+        All-time
+       </div>
+</div>
+<div class="stat-item">
+<div>
+<div class="small" data-i18n="stat_dispute_rate">
+         Dispute rate
+        </div>
+<div class="big">
+         0.9%
+        </div>
+</div>
+<div class="small" data-i18n="stat_low">
+        Low
+       </div>
+</div>
+<div class="stat-item">
+<div>
+<div class="small" data-i18n="stat_uptime">
+         Uptime
+        </div>
+<div class="big">
+         99.98%
+        </div>
+</div>
+<div class="small" data-i18n="stat_secure">
+        Secure
+       </div>
+</div>
+</div>
+</aside>
+</section>
+<div class="sections">
+<div style="display:flex;flex-direction:column;gap:18px;">
+<section aria-labelledby="how-title" class="card" id="how">
+<h3 data-i18n="how_title" id="how-title">
+       How It Works
+      </h3>
+<div class="steps" style="margin-top:12px">
+<div aria-hidden="false" class="step">
+<div class="bubble">
+         1
+        </div>
+<div>
+<div data-i18n="step_1_title" style="font-weight:700">
+          Buyer &amp; Seller agree on terms
+         </div>
+<div class="muted" data-i18n="step_1_desc" style="margin-top:6px">
+          Define deliverables, timelines, and conditions.
+         </div>
+</div>
+</div>
+<div class="step">
+<div class="bubble">
+         2
+        </div>
+<div>
+<div data-i18n="step_2_title" style="font-weight:700">
+          Buyer deposits money
+         </div>
+<div class="muted" data-i18n="step_2_desc" style="margin-top:6px">
+          Funds are held securely by VanGuard until completion.
+         </div>
+</div>
+</div>
+<div class="step">
+<div class="bubble">
+         3
+        </div>
+<div>
+<div data-i18n="step_3_title" style="font-weight:700">
+          Seller delivers
+         </div>
+<div class="muted" data-i18n="step_3_desc" style="margin-top:6px">
+          Transfer of account, files, credentials, or services as agreed.
+         </div>
+</div>
+</div>
+<div class="step">
+<div class="bubble">
+         4
+        </div>
+<div>
+<div data-i18n="step_4_title" style="font-weight:700">
+          Funds released
+         </div>
+<div class="muted" data-i18n="step_4_desc" style="margin-top:6px">
+          Upon buyer confirmation (or dispute resolution), funds are released to seller.
+         </div>
+</div>
+</div>
+</div>
+</section>
+<section aria-labelledby="services-title" class="card" id="services">
+<h3 data-i18n="services_title" id="services-title">
+       Services
+      </h3>
+<p class="muted" data-i18n="services_desc" style="margin-top:6px">
+       We specialise in secure transfers across a range of digital goods &amp; services.
+      </p>
+<div aria-hidden="false" class="services-grid">
+<div class="service">
+<div data-i18n="service_freelancing_title" style="font-weight:700">
+         Freelancing
+        </div>
+<div class="muted" data-i18n="service_freelancing_desc" style="margin-top:6px">
+         Milestone-based protection for remote work.
+        </div>
+</div>
+<div class="service">
+<div data-i18n="service_verification_title" style="font-weight:700">
+         Verification
+        </div>
+<div class="muted" data-i18n="service_verification_desc" style="margin-top:6px">
+         Third-party verification &amp; identity checks to reduce fraud.
+        </div>
+</div>
+<div class="service">
+<div data-i18n="service_ecommerce_title" style="font-weight:700">
+         Ecommerce Store Sale
+        </div>
+<div class="muted" data-i18n="service_ecommerce_desc" style="margin-top:6px">
+         Domain, store, inventory transfer assistance and verification.
+        </div>
+</div>
+<div class="service">
+<div data-i18n="service_payment_title" style="font-weight:700">
+         Payment Gateway Account Sale
+        </div>
+<div class="muted" data-i18n="service_payment_desc" style="margin-top:6px">
+         Secure handoff of payment gateway credentials under escrow.
+        </div>
+</div>
+<div class="service" style="grid-column:1 / -1">
+<div data-i18n="service_channel_title" style="font-weight:700">
+         TikTok / YouTube Channel Sale
+        </div>
+<div class="muted" data-i18n="service_channel_desc" style="margin-top:6px">
+         Content &amp; audience transfer with audience-validation steps.
+        </div>
+</div>
+</div>
+</section>
+<section aria-labelledby="pricing-title" class="card" id="pricing">
+<h3 data-i18n="pricing_title" id="pricing-title">
+       Pricing
+      </h3>
+<div class="pricing">
+<div data-i18n="pricing_fee_amount" style="font-size:22px;color:var(--blue)">
+        10% total fee
+       </div>
+<div class="muted" data-i18n="pricing_fee_breakdown" style="font-size:14px">
+        (5% buyer + 5% seller)
+       </div>
+</div>
+<p class="muted" data-i18n="pricing_desc" style="margin-top:10px">
+       Transparent fee — no hidden charges. Volume discounts and enterprise arrangements available on request.
+      </p>
+</section>
+<section aria-labelledby="markets-title" class="card" id="markets">
+<h3 data-i18n="markets_title" id="markets-title">
+       Markets
+      </h3>
+<div class="muted" data-i18n="markets_desc" style="margin-top:6px">
+       We operate across multiple regions with local compliance guidance.
+      </div>
+<div class="badges" role="list">
+<div class="badge" data-i18n="market_europe" role="listitem">
+        Europe
+       </div>
+<div class="badge" data-i18n="market_na" role="listitem">
+        North America
+       </div>
+<div class="badge" data-i18n="market_sg" role="listitem">
+        Singapore
+       </div>
+<div class="badge" data-i18n="market_my" role="listitem">
+        Malaysia
+       </div>
+<div class="badge" data-i18n="market_me" role="listitem">
+        Middle East
+       </div>
+</div>
+</section>
+<section aria-labelledby="payments-title" class="card" id="payments">
+<h3 data-i18n="payments_title" id="payments-title">
+       Payment Methods
+      </h3>
+<div class="payments">
+<div class="payment-pill">
+<div data-i18n="payment_crypto_title">
+         Crypto (primary)
+        </div>
+<div class="muted" data-i18n="payment_crypto_desc">
+         BTC, ETH &amp; stablecoins
+        </div>
+</div>
+<div class="payment-pill">
+<div data-i18n="payment_cashapp_title">
+         Cash App
+        </div>
+<div class="muted" data-i18n="payment_cashapp_desc">
+         US only
+        </div>
+</div>
+<div class="payment-pill">
+<div data-i18n="payment_wire_title">
+         Bank / Wire
+        </div>
+<div class="muted" data-i18n="payment_wire_desc">
+         By arrangement
+        </div>
+</div>
+</div>
+<div class="note" data-i18n="payments_note">
+       Note: Crypto is the primary payment method due to speed and irrevocability. Cash App is supported for US transactions only — follow KYC rules for fiat transfers.
+      </div>
+</section>
+</div>
+<aside class="auth">
+<div aria-labelledby="signup-title" class="form" id="signupFormCard" style="display:flex;flex-direction:column;gap:10px;">
+<h4 id="signup-title" style="margin:0">
+       Create account
+      </h4>
+<div class="muted">
+       Sign up to start or receive escrow payments
+      </div>
+<div aria-live="polite" id="signupMsg" role="status" style="font-size:13px;">
+</div>
+<div style="font-size:13px;color:#6b7280">
+       Already have an account?
+       <a href="#" id="openLoginFromCard" style="color:#1e40af;font-weight:600;">
+        Login
+       </a>
+</div>
+<form id="loginForm">
+<input autocomplete="name" id="signupName" placeholder="Full Name" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
+<input autocomplete="email" id="signupEmail" placeholder="Email" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="email"/>
+<input autocomplete="new-password" id="signupPassword" placeholder="Password" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="password"/>
+<select id="signupRole" name="role" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;background:white;color:#0f172a;width:100%;box-sizing:border-box;">
+<option disabled="" selected="" value="">
+         Select Role
+        </option>
+<option value="buyer">
+         Buyer
+        </option>
+<option value="seller">
+         Seller
+        </option>
+</select>
+<button id="signupBtn" style="padding:10px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;">
+        Create account
+       </button>
+</form>
+</div>
+<div style="height:12px">
+</div>
+<div aria-labelledby="login-title" class="form" id="loginFormCard">
+<h4 data-i18n="login_title" id="login-title" style="margin:0">
+       Login
+      </h4>
+<div class="muted" data-i18n="login_desc">
+       Access your dashboard
+      </div>
+<div aria-live="polite" id="loginMsg" role="status">
+</div>
+<form id="loginForm"><input autocomplete="email" data-i18n-placeholder="login_email_ph" id="loginEmail" placeholder="Email" type="email"/><input autocomplete="current-password" data-i18n-placeholder="login_password_ph" id="loginPassword" placeholder="Password" type="password"/><button data-i18n="login_btn" id="loginBtn">
+       Sign in
+      </button><form id="loginForm"></form></form></div>
+</aside>
+</div>
+<footer id="contact">
+<div class="footer-col">
+<div style="display:flex;align-items:center;gap:12px">
+<div class="logo" style="width:52px;height:52px;border-radius:12px">
+       VG
+      </div>
+<div>
+<div style="font-weight:800">
+        VanGuard Escrow
+       </div>
+<div class="muted" data-i18n="tagline" style="font-size:13px">
+        Securely exchange digital goods &amp; services
+       </div>
+</div>
+</div>
+<div style="margin-top:12px">
+<div class="muted" data-i18n="footer_email_label">
+       Email
+      </div>
+<div style="font-weight:700">
+       support@vanguardescrow.online
+      </div>
+</div>
+<div style="margin-top:12px">
+<div class="muted" data-i18n="footer_chat_label">
+       Live chat
+      </div>
+<div>
+<a data-i18n="footer_chat_link" href="https://calendar.app.google/e17xCZ5wzsouKU7N8" rel="noopener" target="_blank">
+        Google Meet
+       </a>
+</div>
+</div>
+</div>
+<div class="footer-col footer-links">
+<div data-i18n="footer_quick_links" style="font-weight:700;margin-bottom:8px">
+      Quick Links
+     </div>
+<a data-i18n="nav_home" href="#home">
+      Home
+     </a>
+<a data-i18n="nav_how" href="#how">
+      How It Works
+     </a>
+<a data-i18n="nav_services" href="#services">
+      Services
+     </a>
+<a data-i18n="nav_pricing" href="#pricing">
+      Pricing
+     </a>
+<a data-i18n="nav_markets" href="#markets">
+      Markets
+     </a>
+<a data-i18n="nav_payments" href="#payments">
+      Payment Methods
+     </a>
+<a data-i18n="nav_contact" href="#contact">
+      Contact
+     </a>
+</div>
+<div class="footer-col">
+<div data-i18n="footer_legal" style="font-weight:700">
+      Legal
+     </div>
+<div style="margin-top:8px">
+<a data-i18n="legal_terms" href="#terms">
+       Terms
+      </a>
+<a data-i18n="legal_privacy" href="#privacy">
+       Privacy Policy
+      </a>
+<a data-i18n="legal_disputes" href="#disputes">
+       Disputes &amp; Arbitration
+      </a>
+</div>
+<div style="margin-top:12px">
+<div class="muted" data-i18n="footer_status_label">
+       Status
+      </div>
+<div class="small" data-i18n="footer_status_value">
+       Operational • Uptime 99.98%
+      </div>
+</div>
+</div>
+</footer>
+<div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px">
+<section aria-labelledby="terms-title" class="legal" id="terms">
+<h4 data-i18n="legal_terms" id="terms-title">
+      Terms
+     </h4>
+<p data-i18n="legal_terms_p" style="margin-top:8px">
+      VanGuard Escrow acts as an independent escrow service and custodian for funds deposited by buyers until agreed conditions are met. By using our services both parties acknowledge that VanGuard holds funds in trust and will only release them upon buyer confirmation or final dispute resolution. VanGuard does not assume liability for fraudulent representations made by buyers or sellers; however, we provide mediation and verification services to minimize risk. Fees, timelines, and specific deliverables must be documented in the transaction agreement. In case of disputes, both parties must cooperate with evidence submission. VanGuard reserves the right to suspend or terminate services in the event of illegal activity or clear policy violations. Use of the platform constitutes acceptance of these terms.
+     </p>
+</section>
+<section aria-labelledby="privacy-title" class="legal" id="privacy">
+<h4 data-i18n="legal_privacy" id="privacy-title">
+      Privacy Policy
+     </h4>
+<p class="muted" data-i18n="legal_privacy_p" style="margin-top:8px">
+      We collect and process personal data necessary to provide escrow services—contact details, transaction records and verification documents. Data is stored securely and retained as needed for compliance. We do not sell personal data to third parties. For disputes or legal requirements, we may disclose data to law enforcement or payment processors. Users may request access or deletion subject to regulatory exceptions.
+     </p>
+</section>
+<section aria-labelledby="disputes-title" class="legal" id="disputes">
+<h4 data-i18n="legal_disputes" id="disputes-title">
+      Disputes &amp; Arbitration
+     </h4>
+<p class="muted" data-i18n="legal_disputes_p" style="margin-top:8px">
+      In case of a dispute, VanGuard provides a structured resolution flow: evidence submission, mediator review, and final determination. Parties agree to attempt mediation before arbitration. If arbitration is necessary, it will follow the procedures stipulated in the transaction agreement. Specific jurisdiction details are provided per-transaction.
+     </p>
+</section>
+</div>
+<div aria-hidden="true" aria-modal="true" class="modal-backdrop" id="modalBackdrop" role="dialog">
+<div class="modal" role="document">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<div data-i18n="modal_signup_title" style="font-weight:800">
+       Create account
+      </div>
+<button aria-label="Close" class="close-btn" id="closeModal">
+       ✕
+      </button>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div aria-live="polite" id="signupMsg_2" role="status">
+</div>
+<form id="loginForm">
+<input id="signupName_2" placeholder="Full Name" required="" type="text"/>
+<input data-i18n-placeholder="signup_email_ph" id="signupEmail_2" placeholder="Email" required="" type="email"/>
+<input data-i18n-placeholder="signup_password_ph" id="signupPassword_2" placeholder="Password" required="" type="password"/>
+<select class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="signupRole_2" name="role" required="">
+<option disabled="" selected="" value="">
+         Select Role
+        </option>
+<option value="buyer">
+         Buyer
+        </option>
+<option value="seller">
+         Seller
+        </option>
+</select>
+<button data-i18n="signup_btn" id="signupBtn_2">
+        Create account
+       </button>
+</form>
+</div>
+</div>
+</div>
+</div>
+<script>
+   /**********************
+     * Backend base URL
+     **********************/
+    const BASE_URL = "/.netlify/functions/";
+
+    /* Utility: show message in container */
+    function showMsg(el, text, type='success') {
+      if(!el) return;
+      el.innerText = text || '';
+      el.className = 'msg ' + (type === 'success' ? 'success' : 'error');
+      setTimeout(()=> {
+        // keep success message, but fade error after 6s
+        if(type !== 'success') el.innerText = '';
+      }, 6000);
+    }
+
+    /* Simple fetch wrapper for JSON POST */
+    async function postJSON(path, data) {
+      try {
+        const res = await fetch(BASE_URL + path, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data),
+          credentials: 'include'
+        });
+        const text = await res.text();
+        // attempt to parse JSON but gracefully handle plain text
+        let json = null;
+        try { json = JSON.parse(text); } catch(e) { json = {message: text}; }
+        return { ok: res.ok, status: res.status, body: json };
+      } catch (err) {
+        return { ok:false, status:0, body: { message: err.message || 'Network error' } };
+      }
+    }
+
+    /************************************
+     * NEW: Internationalization (i18n)
+     ************************************/
+    const translations = {
+      en: {
+        tagline: "Secure transactions for digital goods",
+        nav_home: "Home", nav_how: "How It Works", nav_services: "Services", nav_pricing: "Pricing", nav_markets: "Markets", nav_payments: "Payment Methods", nav_contact: "Contact",
+        header_signup: "Sign Up",
+        hero_eyebrow: "Trusted • Fast • Transparent", hero_title: "Secure Escrow for Digital Services & Accounts",
+        hero_p: "VanGuard Escrow protects both buyers and sellers when exchanging Stripe accounts, online stores, social channels, and other digital services. We hold funds in trust until terms are met.",
+        cta_start_tx: "Start Transaction", cta_learn_more: "Learn More",
+        stat_rating: "Rating", stat_reviews: "1.2k reviews", stat_primary_payment: "Primary Payment", stat_crypto: "Crypto",
+        stat_tx_count: "Transactions", stat_all_time: "All-time", stat_dispute_rate: "Dispute rate", stat_low: "Low", stat_uptime: "Uptime", stat_secure: "Secure",
+        how_title: "How It Works",
+        step_1_title: "Buyer & Seller agree on terms", step_1_desc: "Define deliverables, timelines, and conditions.",
+        step_2_title: "Buyer deposits money", step_2_desc: "Funds are held securely by VanGuard until completion.",
+        step_3_title: "Seller delivers", step_3_desc: "Transfer of account, files, credentials, or services as agreed.",
+        step_4_title: "Funds released", step_4_desc: "Upon buyer confirmation (or dispute resolution), funds are released to seller.",
+        services_title: "Services", services_desc: "We specialise in secure transfers across a range of digital goods & services.",
+        service_freelancing_title: "Freelancing", service_freelancing_desc: "Milestone-based protection for remote work.",
+        service_verification_title: "Verification", service_verification_desc: "Third-party verification & identity checks to reduce fraud.",
+        service_ecommerce_title: "Ecommerce Store Sale", service_ecommerce_desc: "Domain, store, inventory transfer assistance and verification.",
+        service_payment_title: "Payment Gateway Account Sale", service_payment_desc: "Secure handoff of payment gateway credentials under escrow.",
+        service_channel_title: "TikTok / YouTube Channel Sale", service_channel_desc: "Content & audience transfer with audience-validation steps.",
+        pricing_title: "Pricing", pricing_fee_amount: "10% total fee", pricing_fee_breakdown: "(5% buyer + 5% seller)", pricing_desc: "Transparent fee — no hidden charges. Volume discounts and enterprise arrangements available on request.",
+        markets_title: "Markets", markets_desc: "We operate across multiple regions with local compliance guidance.",
+        market_europe: "Europe", market_na: "North America", market_sg: "Singapore", market_my: "Malaysia", market_me: "Middle East",
+        payments_title: "Payment Methods", payment_crypto_title: "Crypto (primary)", payment_crypto_desc: "BTC, ETH & stablecoins", payment_cashapp_title: "Cash App", payment_cashapp_desc: "US only", payment_wire_title: "Bank / Wire", payment_wire_desc: "By arrangement", payments_note: "Note: Crypto is the primary payment method due to speed and irrevocability. Cash App is supported for US transactions only — follow KYC rules for fiat transfers.",
+        signup_title: "Create account", signup_desc: "Sign up to start or receive escrow payments", signup_btn: "Create account", signup_email_ph: "Email", signup_password_ph: "Password", login_prompt: "Already have an account?", login_link: "Login",
+        login_title: "Login", login_desc: "Access your dashboard", login_btn: "Sign in", login_email_ph: "Email", login_password_ph: "Password",
+        modal_signup_title: "Create account",
+        footer_email_label: "Email", footer_chat_label: "Live chat", footer_chat_link: "Google Meet", footer_quick_links: "Quick Links", footer_legal: "Legal",
+        legal_terms: "Terms", legal_privacy: "Privacy Policy", legal_disputes: "Disputes & Arbitration",
+        footer_status_label: "Status", footer_status_value: "Operational • Uptime 99.98%",
+        legal_terms_p: "VanGuard Escrow acts as an independent escrow service and custodian for funds deposited by buyers until agreed conditions are met. By using our services both parties acknowledge that VanGuard holds funds in trust and will only release them upon buyer confirmation or final dispute resolution. VanGuard does not assume liability for fraudulent representations made by buyers or sellers; however, we provide mediation and verification services to minimize risk. Fees, timelines, and specific deliverables must be documented in the transaction agreement. In case of disputes, both parties must cooperate with evidence submission. VanGuard reserves the right to suspend or terminate services in the event of illegal activity or clear policy violations. Use of the platform constitutes acceptance of these terms.",
+        legal_privacy_p: "We collect and process personal data necessary to provide escrow services—contact details, transaction records and verification documents. Data is stored securely and retained as needed for compliance. We do not sell personal data to third parties. For disputes or legal requirements, we may disclose data to law enforcement or payment processors. Users may request access or deletion subject to regulatory exceptions.",
+        legal_disputes_p: "In case of a dispute, VanGuard provides a structured resolution flow: evidence submission, mediator review, and final determination. Parties agree to attempt mediation before arbitration. If arbitration is necessary, it will follow the procedures stipulated in the transaction agreement. Specific jurisdiction details are provided per-transaction."
+      },
+      es: {
+        tagline: "Transacciones seguras para bienes digitales",
+        nav_home: "Inicio", nav_how: "Cómo Funciona", nav_services: "Servicios", nav_pricing: "Precios", nav_markets: "Mercados", nav_payments: "Métodos de Pago", nav_contact: "Contacto",
+        header_signup: "Registrarse",
+        hero_eyebrow: "Confiable • Rápido • Transparente", hero_title: "Fideicomiso Seguro para Cuentas y Servicios Digitales",
+        hero_p: "VanGuard Escrow protege tanto a compradores como a vendedores al intercambiar cuentas Stripe, tiendas en línea, canales sociales y otros servicios digitales. Retenemos los fondos en fideicomiso hasta que se cumplan los términos.",
+        cta_start_tx: "Iniciar Transacción", cta_learn_more: "Saber Más",
+        stat_rating: "Puntuación", stat_reviews: "1.2k reseñas", stat_primary_payment: "Pago Principal", stat_crypto: "Cripto",
+        stat_tx_count: "Transacciones", stat_all_time: "Histórico", stat_dispute_rate: "Tasa de Disputa", stat_low: "Baja", stat_uptime: "Tiempo Activo", stat_secure: "Seguro",
+        how_title: "Cómo Funciona",
+        step_1_title: "Comprador y Vendedor acuerdan términos", step_1_desc: "Definir entregables, plazos y condiciones.",
+        step_2_title: "El Comprador deposita el dinero", step_2_desc: "Los fondos son retenidos de forma segura por VanGuard hasta su finalización.",
+        step_3_title: "El Vendedor entrega", step_3_desc: "Transferencia de cuenta, archivos, credenciales o servicios según lo acordado.",
+        step_4_title: "Fondos liberados", step_4_desc: "Tras la confirmación del comprador (o resolución de disputa), los fondos se liberan al vendedor.",
+        services_title: "Servicios", services_desc: "Nos especializamos en transferencias seguras a través de una gama de bienes y servicios digitales.",
+        service_freelancing_title: "Freelance", service_freelancing_desc: "Protección basada en hitos para el trabajo remoto.",
+        service_verification_title: "Verificación", service_verification_desc: "Verificación de terceros y controles de identidad para reducir el fraude.",
+        service_ecommerce_title: "Venta de Tienda de Comercio Electrónico", service_ecommerce_desc: "Asistencia y verificación de la transferencia de dominio, tienda e inventario.",
+        service_payment_title: "Venta de Cuenta de Pasarela de Pago", service_payment_desc: "Entrega segura de credenciales de pasarela de pago bajo fideicomiso.",
+        service_channel_title: "Venta de Canal de TikTok / YouTube", service_channel_desc: "Transferencia de contenido y audiencia con pasos de validación de audiencia.",
+        pricing_title: "Precios", pricing_fee_amount: "10% tarifa total", pricing_fee_breakdown: "(5% comprador + 5% vendedor)", pricing_desc: "Tarifa transparente, sin cargos ocultos. Descuentos por volumen y acuerdos empresariales disponibles bajo petición.",
+        markets_title: "Mercados", markets_desc: "Operamos en múltiples regiones con orientación de cumplimiento local.",
+        market_europe: "Europa", market_na: "Norteamérica", market_sg: "Singapur", market_my: "Malasia",
+        payments_title: "Métodos de Pago", payment_crypto_title: "Cripto (principal)", payment_crypto_desc: "BTC, ETH & stablecoins", payment_cashapp_title: "Cash App", payment_cashapp_desc: "Solo EE. UU.", payment_wire_title: "Banco / Transferencia", payment_wire_desc: "Mediante acuerdo", payments_note: "Nota: Cripto es el método de pago principal debido a la velocidad e irrevocabilidad. Cash App solo es compatible con transacciones en EE. UU. — siga las reglas de KYC para transferencias fiduciarias.",
+        signup_title: "Crear cuenta", signup_desc: "Regístrate para iniciar o recibir pagos de fideicomiso", signup_btn: "Crear cuenta", signup_email_ph: "Correo Electrónico", signup_password_ph: "Contraseña", login_prompt: "¿Ya tienes cuenta?", login_link: "Iniciar sesión",
+        login_title: "Iniciar sesión", login_desc: "Accede a tu panel", login_btn: "Iniciar sesión", login_email_ph: "Correo Electrónico", login_password_ph: "Contraseña",
+        modal_signup_title: "Crear cuenta",
+        footer_email_label: "Correo Electrónico", footer_chat_label: "Chat en vivo", footer_chat_link: "Google Meet", footer_quick_links: "Enlaces Rápidos", footer_legal: "Legal",
+        legal_terms: "Términos", legal_privacy: "Política de Privacidad", legal_disputes: "Disputas y Arbitraje",
+        footer_status_label: "Estado", footer_status_value: "Operativo • Tiempo Activo 99.98%",
+        legal_terms_p: "VanGuard Escrow actúa como un servicio de fideicomiso independiente y custodio de los fondos depositados por los compradores hasta que se cumplen las condiciones acordadas. Al utilizar nuestros servicios, ambas partes reconocen que VanGuard mantiene los fondos en fideicomiso y solo los liberará tras la confirmación del comprador o la resolución final de la disputa. VanGuard no asume responsabilidad por representaciones fraudulentas realizadas por compradores o vendedores; sin embargo, proporcionamos servicios de mediación y verificación para minimizar el riesgo. Las tarifas, los plazos y los entregables específicos deben documentarse en el acuerdo de transacción. En caso de disputas, ambas partes deben cooperar con la presentación de pruebas. VanGuard se reserva el derecho de suspender o terminar los servicios en caso de actividad ilegal o violaciones claras de la política. El uso de la plataforma constituye la aceptación de estos términos.",
+        legal_privacy_p: "Recopilamos y procesamos los datos personales necesarios para proporcionar servicios de fideicomiso: detalles de contacto, registros de transacciones y documentos de verificación. Los datos se almacenan de forma segura y se conservan según sea necesario para el cumplimiento. No vendemos datos personales a terceros. Para disputas o requisitos legales, podemos divulgar datos a las fuerzas del orden o a los procesadores de pagos. Los usuarios pueden solicitar acceso o eliminación sujetos a excepciones reglamentarias.",
+        legal_disputes_p: "En caso de disputa, VanGuard proporciona un flujo de resolución estructurado: presentación de pruebas, revisión del mediador y determinación final. Las partes acuerdan intentar la mediación antes del arbitraje. Si el arbitraje es necesario, seguirá los procedimientos estipulados en el acuerdo de transacción. Los detalles de jurisdicción específicos se proporcionan por transacción."
+      },
+      ms: {
+        tagline: "Urus niaga selamat untuk barangan digital",
+        nav_home: "Laman Utama", nav_how: "Cara Ia Berfungsi", nav_services: "Perkhidmatan", nav_pricing: "Harga", nav_markets: "Pasaran", nav_payments: "Kaedah Pembayaran", nav_contact: "Hubungi",
+        header_signup: "Daftar",
+        hero_eyebrow: "Dipercayai • Pantas • Telus", hero_title: "Escrow Selamat untuk Akaun & Perkhidmatan Digital",
+        hero_p: "VanGuard Escrow melindungi pembeli dan penjual semasa pertukaran akaun Stripe, kedai dalam talian, saluran sosial, dan perkhidmatan digital lain. Kami memegang dana dalam amanah sehingga syarat dipenuhi.",
+        cta_start_tx: "Mulakan Urus Niaga", cta_learn_more: "Ketahui Lebih Lanjut",
+        stat_rating: "Penarafan", stat_reviews: "1.2k ulasan", stat_primary_payment: "Pembayaran Utama", stat_crypto: "Kripto",
+        stat_tx_count: "Urus Niaga", stat_all_time: "Sepanjang Masa", stat_dispute_rate: "Kadar Pertikaian", stat_low: "Rendah", stat_uptime: "Waktu Beroperasi", stat_secure: "Selamat",
+        how_title: "Cara Ia Berfungsi",
+        step_1_title: "Pembeli & Penjual bersetuju dengan terma", step_1_desc: "Tentukan penghantaran, garis masa, dan syarat.",
+        step_2_title: "Pembeli mendepositkan wang", step_2_desc: "Dana dipegang dengan selamat oleh VanGuard sehingga selesai.",
+        step_3_title: "Penjual menghantar", step_3_desc: "Pemindahan akaun, fail, kelayakan, atau perkhidmatan seperti yang dipersetujui.",
+        step_4_title: "Dana dikeluarkan", step_4_desc: "Apabila pembeli mengesahkan (atau penyelesaian pertikaian), dana dikeluarkan kepada penjual.",
+        services_title: "Perkhidmatan", services_desc: "Kami pakar dalam pemindahan selamat merentasi pelbagai barangan & perkhidmatan digital.",
+        service_freelancing_title: "Kerja Bebas", service_freelancing_desc: "Perlindungan berasaskan pencapaian untuk kerja jarak jauh.",
+        service_verification_title: "Pengesahan", service_verification_desc: "Pengesahan pihak ketiga & pemeriksaan identiti untuk mengurangkan penipuan.",
+        service_ecommerce_title: "Jualan Kedai E-dagang", service_ecommerce_desc: "Bantuan pemindahan domain, kedai, inventori dan pengesahan.",
+        service_payment_title: "Jualan Akaun Gerbang Pembayaran", service_payment_desc: "Penyerahan selamat kelayakan gerbang pembayaran di bawah escrow.",
+        service_channel_title: "Jualan Saluran TikTok / YouTube", service_channel_desc: "Pemindahan kandungan & audiens dengan langkah pengesahan audiens.",
+        pricing_title: "Harga", pricing_fee_amount: "10% jumlah yuran", pricing_fee_breakdown: "(5% pembeli + 5% penjual)", pricing_desc: "Yuran telus — tiada caj tersembunyi. Diskaun volume dan pengaturan perusahaan tersedia atas permintaan.",
+        markets_title: "Pasaran", markets_desc: "Kami beroperasi merentasi pelbagai wilayah dengan panduan pematuhan tempatan.",
+        market_europe: "Eropah", market_na: "Amerika Utara", market_sg: "Singapura", market_my: "Malaysia", market_me: "Timur Tengah",
+        payments_title: "Kaedah Pembayaran", payment_crypto_title: "Kripto (utama)", payment_crypto_desc: "BTC, ETH & stablecoin", payment_cashapp_title: "Aplikasi Tunai", payment_cashapp_desc: "AS sahaja", payment_wire_title: "Bank / Kawat", payment_wire_desc: "Melalui perjanjian", payments_note: "Nota: Kripto ialah kaedah pembayaran utama kerana kelajuan dan ketidakbolehbalikan. Cash App hanya disokong untuk urus niaga AS — ikuti peraturan KYC untuk pemindahan fiat.",
+        signup_title: "Cipta akaun", signup_desc: "Daftar untuk memulakan atau menerima pembayaran escrow", signup_btn: "Cipta akaun", signup_email_ph: "E-mel", signup_password_ph: "Kata Laluan", login_prompt: "Sudah ada akaun?", login_link: "Log Masuk",
+        login_title: "Log masuk", login_desc: "Akses papan pemuka anda", login_btn: "Daftar masuk", login_email_ph: "E-mel", login_password_ph: "Kata Laluan",
+        modal_signup_title: "Cipta akaun",
+        footer_email_label: "E-mel", footer_chat_label: "Sembang langsung", footer_chat_link: "Google Meet", footer_quick_links: "Pautan Pantas", footer_legal: "Undang-undang",
+        legal_terms: "Terma", legal_privacy: "Dasar Privasi", legal_disputes: "Pertikaian & Arbitrasi",
+        footer_status_label: "Status", footer_status_value: "Beroperasi • Waktu Beroperasi 99.98%",
+        legal_terms_p: "VanGuard Escrow bertindak sebagai perkhidmatan escrow dan penjaga bebas untuk dana yang didepositkan oleh pembeli sehingga syarat yang dipersetujui dipenuhi. Dengan menggunakan perkhidmatan kami, kedua-dua pihak mengakui bahawa VanGuard memegang dana dalam amanah dan hanya akan mengeluarkannya setelah pengesahan pembeli atau penyelesaian pertikaian akhir. VanGuard tidak bertanggungjawab terhadap representasi palsu yang dibuat oleh pembeli atau penjual; namun, kami menyediakan perkhidmatan mediasi dan pengesahan untuk mengurangkan risiko. Yuran, garis masa, dan penghantaran tertentu mesti didokumenkan dalam perjanjian urus niaga. Sekiranya berlaku pertikaian, kedua-dua pihak mesti bekerjasama dengan penyerahan bukti. VanGuard berhak untuk menggantung atau menamatkan perkhidmatan sekiranya berlaku aktiviti haram atau pelanggaran dasar yang jelas. Penggunaan platform ini merupakan penerimaan terma ini.",
+        legal_privacy_p: "Kami mengumpul dan memproses data peribadi yang diperlukan untuk menyediakan perkhidmatan escrow — butiran hubungan, rekod urus niaga dan dokumen pengesahan. Data disimpan dengan selamat dan dikekalkan mengikut keperluan untuk pematuhan. Kami tidak menjual data peribadi kepada pihak ketiga. Untuk pertikaian atau keperluan undang-undang, kami boleh mendedahkan data kepada penguatkuasaan undang-undang atau pemproses pembayaran. Pengguna boleh meminta akses atau penghapusan tertakluk kepada pengecualian peraturan.",
+        legal_disputes_p: "Sekiranya berlaku pertikaian, VanGuard menyediakan aliran penyelesaian berstruktur: penyerahan bukti, semakan mediator, dan penentuan akhir. Pihak-pihak bersetuju untuk mencuba mediasi sebelum arbitrasi. Sekiranya arbitrasi diperlukan, ia akan mengikut prosedur yang ditetapkan dalam perjanjian urus niaga. Butiran bidang kuasa tertentu disediakan bagi setiap urus niaga."
+      },
+      it: {
+        tagline: "Transazioni sicure per beni digitali",
+        nav_home: "Home", nav_how: "Come Funziona", nav_services: "Servizi", nav_pricing: "Prezzi", nav_markets: "Mercati", nav_payments: "Metodi di Pagamento", nav_contact: "Contatti",
+        header_signup: "Registrati",
+        hero_eyebrow: "Affidabile • Veloce • Trasparente", hero_title: "Escrow Sicuro per Servizi e Account Digitali",
+        hero_p: "VanGuard Escrow protegge sia gli acquirenti che i venditori durante lo scambio di account Stripe, negozi online, canali social e altri servizi digitali. Manteniamo i fondi in custodia fino a quando le condizioni non sono soddisfatte.",
+        cta_start_tx: "Avvia Transazione", cta_learn_more: "Scopri di Più",
+        stat_rating: "Valutazione", stat_reviews: "1.2k recensioni", stat_primary_payment: "Pagamento Principale", stat_crypto: "Criptovaluta",
+        stat_tx_count: "Transazioni", stat_all_time: "Totali", stat_dispute_rate: "Tasso di Disputa", stat_low: "Basso", stat_uptime: "Uptime", stat_secure: "Sicuro",
+        how_title: "Come Funziona",
+        step_1_title: "Acquirente e Venditore concordano i termini", step_1_desc: "Definire i risultati, le tempistiche e le condizioni.",
+        step_2_title: "L'Acquirente deposita il denaro", step_2_desc: "I fondi sono detenuti in modo sicuro da VanGuard fino al completamento.",
+        step_3_title: "Il Venditore consegna", step_3_desc: "Trasferimento di account, file, credenziali o servizi come concordato.",
+        step_4_title: "Fondi rilasciati", step_4_desc: "Dopo la conferma dell'acquirente (o la risoluzione della disputa), i fondi vengono rilasciati al venditore.",
+        services_title: "Servizi", services_desc: "Siamo specializzati in trasferimenti sicuri su una gamma di beni e servizi digitali.",
+        service_freelancing_title: "Freelance", service_freelancing_desc: "Protezione basata su milestone per il lavoro a distanza.",
+        service_verification_title: "Verifica", service_verification_desc: "Verifica di terze parti e controlli di identità per ridurre le frodi.",
+        service_ecommerce_title: "Vendita di Negozi E-commerce", service_ecommerce_desc: "Assistenza e verifica del trasferimento di dominio, negozio e inventario.",
+        service_payment_title: "Vendita di Account Gateway di Pagamento", service_payment_desc: "Passaggio di consegne sicuro delle credenziali del gateway di pagamento in escrow.",
+        service_channel_title: "Vendita di Canali TikTok / YouTube", service_channel_desc: "Trasferimento di contenuti e pubblico con passaggi di validazione del pubblico.",
+        pricing_title: "Prezzi", pricing_fee_amount: "10% commissione totale", pricing_fee_breakdown: "(5% acquirente + 5% venditore)", pricing_desc: "Commissione trasparente — nessun costo nascosto. Sconti sul volume e accordi aziendali disponibili su richiesta.",
+        markets_title: "Mercati", markets_desc: "Operiamo in più regioni con linee guida di conformità locali.",
+        market_europe: "Europa", market_na: "Nord America", market_sg: "Singapore", market_my: "Malesia", market_me: "Medio Oriente",
+        payments_title: "Metodi di Pagamento", payment_crypto_title: "Criptovaluta (principale)", payment_crypto_desc: "BTC, ETH e stablecoin", payment_cashapp_title: "Cash App", payment_cashapp_desc: "Solo USA", payment_wire_title: "Banca / Bonifico", payment_wire_desc: "Su accordo", payments_note: "Nota: la Criptovaluta è il metodo di pagamento principale per velocità e irrevocabilità. Cash App è supportata solo per le transazioni negli Stati Uniti — seguire le regole KYC per i trasferimenti fiat.",
+        signup_title: "Crea account", signup_desc: "Registrati per avviare o ricevere pagamenti in escrow", signup_btn: "Crea account", signup_email_ph: "E-mail", signup_password_ph: "Password", login_prompt: "Hai già un account?", login_link: "Accedi",
+        login_title: "Accesso", login_desc: "Accedi alla tua dashboard", login_btn: "Accedi", login_email_ph: "E-mail", login_password_ph: "Password",
+        modal_signup_title: "Crea account",
+        footer_email_label: "E-mail", footer_chat_label: "Chat dal vivo", footer_chat_link: "Google Meet", footer_quick_links: "Link Rapidi", footer_legal: "Legale",
+        legal_terms: "Termini", legal_privacy: "Informativa sulla Privacy", legal_disputes: "Controversie e Arbitrato",
+        footer_status_label: "Stato", footer_status_value: "Operativo • Uptime 99.98%",
+        legal_terms_p: "VanGuard Escrow funge da servizio di escrow indipendente e custode per i fondi depositati dagli acquirenti fino al soddisfacimento delle condizioni concordate. Utilizzando i nostri servizi, entrambe le parti riconoscono che VanGuard detiene i fondi in custodia e li rilascerà solo dopo la conferma dell'acquirente o la risoluzione finale della controversia. VanGuard non si assume alcuna responsabilità per dichiarazioni fraudolente fatte da acquirenti o venditori; tuttavia, forniamo servizi di mediazione e verifica per ridurre al minimo i rischi. Commissioni, tempistiche e risultati specifici devono essere documentati nell'accordo di transazione. In caso di controversie, entrambe le parti devono cooperare con la presentazione delle prove. VanGuard si riserva il diritto di sospendere o terminare i servizi in caso di attività illegali o chiare violazioni delle politiche. L'uso della piattaforma costituisce l'accettazione di questi termini.",
+        legal_privacy_p: "Raccogliamo e trattiamo i dati personali necessari per fornire servizi di escrow: dettagli di contatto, registri delle transazioni e documenti di verifica. I dati vengono archiviati in modo sicuro e conservati secondo necessità per la conformità. Non vendiamo dati personali a terzi. Per controversie o requisiti legali, potremmo divulgare dati alle forze dell'ordine o ai processori di pagamento. Gli utenti possono richiedere l'accesso o la cancellazione soggetti a eccezioni normative.",
+        legal_disputes_p: "In caso di controversia, VanGuard fornisce un flusso di risoluzione strutturato: presentazione delle prove, revisione del mediatore e determinazione finale. Le parti concordano di tentare la mediazione prima dell'arbitrato. Se l'arbitrato è necessario, seguirà le procedure stipulate nell'accordo di transazione. I dettagli specifici sulla giurisdizione sono forniti per transazione."
+      },
+      fr: {
+        tagline: "Transactions sécurisées pour les biens numériques",
+        nav_home: "Accueil", nav_how: "Comment ça Marche", nav_services: "Services", nav_pricing: "Tarification", nav_markets: "Marchés", nav_payments: "Modes de Paiement", nav_contact: "Contact",
+        header_signup: "S'inscrire",
+        hero_eyebrow: "Fiable • Rapide • Transparent", hero_title: "Escrow Sécurisé pour les Services et Comptes Numériques",
+        hero_p: "VanGuard Escrow protège à la fois les acheteurs et les vendeurs lors de l'échange de comptes Stripe, de boutiques en ligne, de chaînes sociales et d'autres services numériques. Nous détenons les fonds en fiducie jusqu'à ce que les conditions soient remplies.",
+        cta_start_tx: "Démarrer la Transaction", cta_learn_more: "En Savoir Plus",
+        stat_rating: "Note", stat_reviews: "1,2k avis", stat_primary_payment: "Paiement Principal", stat_crypto: "Crypto",
+        stat_tx_count: "Transactions", stat_all_time: "Total", stat_dispute_rate: "Taux de Litige", stat_low: "Faible", stat_uptime: "Disponibilité", stat_secure: "Sécurisé",
+        how_title: "Comment ça Marche",
+        step_1_title: "L'Acheteur et le Vendeur s'accordent sur les termes", step_1_desc: "Définir les livrables, les délais et les conditions.",
+        step_2_title: "L'Acheteur dépose l'argent", step_2_desc: "Les fonds sont détenus en toute sécurité par VanGuard jusqu'à la finalisation.",
+        step_3_title: "Le Vendeur livre", step_3_desc: "Transfert du compte, des fichiers, des identifiants ou des services comme convenu.",
+        step_4_title: "Fonds libérés", step_4_desc: "Après la confirmation de l'acheteur (ou la résolution du litige), les fonds sont libérés au vendeur.",
+        services_title: "Services", services_desc: "Nous sommes spécialisés dans les transferts sécurisés d'une gamme de biens et services numériques.",
+        service_freelancing_title: "Travail Indépendant", service_freelancing_desc: "Protection basée sur des jalons pour le travail à distance.",
+        service_verification_title: "Vérification", service_verification_desc: "Vérification par des tiers et contrôles d'identité pour réduire la fraude.",
+        service_ecommerce_title: "Vente de Boutique E-commerce", service_ecommerce_desc: "Assistance et vérification du transfert de domaine, de boutique et d'inventaire.",
+        service_payment_title: "Vente de Compte de Passerelle de Paiement", service_payment_desc: "Transfert sécurisé des identifiants de passerelle de paiement sous escrow.",
+        service_channel_title: "Vente de Chaîne TikTok / YouTube", service_channel_desc: "Transfert de contenu et d'audience avec étapes de validation de l'audience.",
+        pricing_title: "Tarification", pricing_fee_amount: "10% de frais totaux", pricing_fee_breakdown: "(5% acheteur + 5% vendeur)", pricing_desc: "Frais transparents — pas de frais cachés. Réductions de volume et arrangements d'entreprise disponibles sur demande.",
+        markets_title: "Marchés", markets_desc: "Nous opérons dans plusieurs régions avec des directives de conformité locales.",
+        market_europe: "Europe", market_na: "Amérique du Nord", market_sg: "Singapour", market_my: "Malaisie", market_me: "Moyen-Orient",
+        payments_title: "Modes de Paiement", payment_crypto_title: "Crypto (principal)", payment_crypto_desc: "BTC, ETH et stablecoins", payment_cashapp_title: "Cash App", payment_cashapp_desc: "USA uniquement", payment_wire_title: "Banque / Virement", payment_wire_desc: "Par arrangement", payments_note: "Note: La Crypto est le mode de paiement principal en raison de sa rapidité et de son irrévocabilité. Cash App n'est pris en charge que pour les transactions américaines — suivez les règles KYC pour les transferts fiduciaires.",
+        signup_title: "Créer un compte", signup_desc: "Inscrivez-vous pour démarrer ou recevoir des paiements escrow", signup_btn: "Créer un compte", signup_email_ph: "E-mail", signup_password_ph: "Mot de passe", login_prompt: "Vous avez déjà un compte?", login_link: "Connexion",
+        login_title: "Connexion", login_desc: "Accédez à votre tableau de bord", login_btn: "Se connecter", login_email_ph: "E-mail", login_password_ph: "Mot de passe",
+        modal_signup_title: "Créer un compte",
+        footer_email_label: "E-mail", footer_chat_label: "Chat en direct", footer_chat_link: "Google Meet", footer_quick_links: "Liens Rapides", footer_legal: "Légal",
+        legal_terms: "Conditions", legal_privacy: "Politique de Confidentialité", legal_disputes: "Litiges et Arbitrage",
+        footer_status_label: "Statut", footer_status_value: "Opérationnel • Disponibilité 99.98%",
+        legal_terms_p: "VanGuard Escrow agit en tant que service d'escrow indépendant et dépositaire des fonds déposés par les acheteurs jusqu'à ce que les conditions convenues soient remplies. En utilisant nos services, les deux parties reconnaissent que VanGuard détient les fonds en fiducie et ne les libérera qu'après confirmation de l'acheteur ou résolution finale du litige. VanGuard n'assume aucune responsabilité pour les déclarations frauduleuses faites par les acheteurs ou les vendeurs; cependant, nous fournissons des services de médiation et de vérification pour minimiser les risques. Les frais, les délais et les livrables spécifiques doivent être documentés dans l'accord de transaction. En cas de litige, les deux parties doivent coopérer à la soumission des preuves. VanGuard se réserve le droit de suspendre ou de résilier les services en cas d'activité illégale ou de violations claires des politiques. L'utilisation de la plateforme constitue l'acceptation de ces conditions.",
+        legal_privacy_p: "Nous recueillons et traitons les données personnelles nécessaires pour fournir des services d'escrow : coordonnées, enregistrements de transactions et documents de vérification. Les données sont stockées en toute sécurité et conservées au besoin pour la conformité. Nous ne vendons pas de données personnelles à des tiers. Pour les litiges ou les exigences légales, nous pouvons divulguer des données aux forces de l'ordre ou aux processeurs de paiement. Les utilisateurs peuvent demander l'accès ou la suppression sous réserve des exceptions réglementaires.",
+        legal_disputes_p: "En cas de litige, VanGuard fournit un flux de résolution structuré : soumission des preuves, examen du médiateur et détermination finale. Les parties conviennent de tenter la médiation avant l'arbitrage. Si l'arbitrage est nécessaire, il suivra les procédures stipulées dans l'accord de transaction. Des détails de juridiction spécifiques sont fournis par transaction."
+      },
+      pl: {
+        tagline: "Bezpieczne transakcje dla dóbr cyfrowych",
+        nav_home: "Strona Główna", nav_how: "Jak to Działa", nav_services: "Usługi", nav_pricing: "Cennik", nav_markets: "Rynki", nav_payments: "Metody Płatności", nav_contact: "Kontakt",
+        header_signup: "Zarejestruj Się",
+        hero_eyebrow: "Zaufany • Szybki • Przejrzysty", hero_title: "Bezpieczny Escrow dla Usług i Kont Cyfrowych",
+        hero_p: "VanGuard Escrow chroni zarówno kupujących, jak i sprzedających podczas wymiany kont Stripe, sklepów internetowych, kanałów społecznościowych i innych usług cyfrowych. Przechowujemy środki w zaufaniu do momentu spełnienia warunków.",
+        cta_start_tx: "Rozpocznij Transakcję", cta_learn_more: "Dowiedz Się Więcej",
+        stat_rating: "Ocena", stat_reviews: "1,2 tys. recenzji", stat_primary_payment: "Główna Metoda Płatności", stat_crypto: "Krypto",
+        stat_tx_count: "Transakcje", stat_all_time: "Łącznie", stat_dispute_rate: "Współczynnik Sporów", stat_low: "Niski", stat_uptime: "Czas Działania", stat_secure: "Bezpieczny",
+        how_title: "Jak to Działa",
+        step_1_title: "Kupujący i Sprzedający uzgadniają warunki", step_1_desc: "Określenie dostaw, harmonogramów i warunków.",
+        step_2_title: "Kupujący deponuje pieniądze", step_2_desc: "Środki są bezpiecznie przechowywane przez VanGuard do momentu ukończenia.",
+        step_3_title: "Sprzedający dostarcza", step_3_desc: "Przekazanie konta, plików, poświadczeń lub usług zgodnie z ustaleniami.",
+        step_4_title: "Środki uwolnione", step_4_desc: "Po potwierdzeniu kupującego (lub rozstrzygnięciu sporu) środki są uwalniane do sprzedającego.",
+        services_title: "Usługi", services_desc: "Specjalizujemy się w bezpiecznych transferach w zakresie dóbr i usług cyfrowych.",
+        service_freelancing_title: "Freelancing", service_freelancing_desc: "Ochrona oparta na kamieniach milowych dla pracy zdalnej.",
+        service_verification_title: "Weryfikacja", service_verification_desc: "Weryfikacja przez osoby trzecie i kontrole tożsamości w celu zmniejszenia oszustw.",
+        service_ecommerce_title: "Sprzedaż Sklepu E-commerce", service_ecommerce_desc: "Pomoc w transferze domeny, sklepu, inwentarza i weryfikacja.",
+        service_payment_title: "Sprzedaż Konta Bramki Płatności", service_payment_desc: "Bezpieczne przekazanie poświadczeń bramki płatności w ramach escrow.",
+        service_channel_title: "Sprzedaż Kanału TikTok / YouTube", service_channel_desc: "Transfer treści i publiczności z etapami walidacji publiczności.",
+        pricing_title: "Cennik", pricing_fee_amount: "10% całkowitej opłaty", pricing_fee_breakdown: "(5% kupujący + 5% sprzedający)", pricing_desc: "Przejrzysta opłata — bez ukrytych kosztów. Zniżki ilościowe i umowy dla przedsiębiorstw dostępne na życzenie.",
+        markets_title: "Rynki", markets_desc: "Działamy w wielu regionach z lokalnymi wytycznymi dotyczącymi zgodności.",
+        market_europe: "Europa", market_na: "Ameryka Północna", market_sg: "Singapur", market_my: "Malezja", market_me: "Bliski Wschód",
+        payments_title: "Metody Płatności", payment_crypto_title: "Krypto (główna)", payment_crypto_desc: "BTC, ETH i stablecoiny", payment_cashapp_title: "Cash App", payment_cashapp_desc: "Tylko USA", payment_wire_title: "Bank / Przelew", payment_wire_desc: "Na mocy ustaleń", payments_note: "Uwaga: Krypto jest główną metodą płatności ze względu na szybkość i nieodwołalność. Cash App jest obsługiwana tylko dla transakcji w USA — przestrzegaj zasad KYC dla przelewów fiat.",
+        signup_title: "Utwórz konto", signup_desc: "Zarejestruj się, aby rozpocząć lub odbierać płatności escrow", signup_btn: "Utwórz konto", signup_email_ph: "E-mail", signup_password_ph: "Hasło", login_prompt: "Masz już konto?", login_link: "Zaloguj się",
+        login_title: "Logowanie", login_desc: "Dostęp do pulpitu nawigacyjnego", login_btn: "Zaloguj się", login_email_ph: "E-mail", login_password_ph: "Hasło",
+        modal_signup_title: "Utwórz konto",
+        footer_email_label: "E-mail", footer_chat_label: "Czat na żywo", footer_chat_link: "Google Meet", footer_quick_links: "Szybkie Linki", footer_legal: "Prawne",
+        legal_terms: "Warunki", legal_privacy: "Polityka Prywatności", legal_disputes: "Spory i Arbitraż",
+        footer_status_label: "Status", footer_status_value: "Operacyjny • Czas Działania 99.98%",
+        legal_terms_p: "VanGuard Escrow działa jako niezależna usługa escrow i depozytariusz funduszy zdeponowanych przez kupujących do momentu spełnienia uzgodnionych warunków. Korzystając z naszych usług, obie strony potwierdzają, że VanGuard przechowuje fundusze w zaufaniu i uwolni je tylko po potwierdzeniu kupującego lub ostatecznym rozstrzygnięciu sporu. VanGuard nie ponosi odpowiedzialności za fałszywe oświadczenia kupujących lub sprzedających; jednak zapewniamy usługi mediacji i weryfikacji w celu zminimalizowania ryzyka. Opłaty, harmonogramy i konkretne dostawy muszą być udokumentowane w umowie transakcyjnej. W przypadku sporów obie strony muszą współpracować przy składaniu dowodów. VanGuard zastrzega sobie prawo do zawieszenia lub zakończenia świadczenia usług w przypadku nielegalnej działalności lub wyraźnego naruszenia zasad. Korzystanie z platformy oznacza akceptację niniejszych warunków.",
+        legal_privacy_p: "Zbieramy i przetwarzamy dane osobowe niezbędne do świadczenia usług escrow — dane kontaktowe, rejestry transakcji i dokumenty weryfikacyjne. Dane są bezpiecznie przechowywane i przechowywane zgodnie z potrzebami dla zachowania zgodności. Nie sprzedajemy danych osobowych stronom trzecim. W przypadku sporów lub wymogów prawnych możemy ujawnić dane organom ścigania lub procesorom płatności. Użytkownicy mogą żądać dostępu lub usunięcia z zastrzeżeniem wyjątków regulacyjnych.",
+        legal_disputes_p: "W przypadku sporu VanGuard zapewnia ustrukturyzowany przepływ rozstrzygania: składanie dowodów, przegląd mediatora i ostateczne rozstrzygnięcie. Strony zgadzają się podjąć próbę mediacji przed arbitrażem. Jeśli arbitraż jest konieczny, będzie on przebiegał zgodnie z procedurami określonymi w umowie transakcyjnej. Szczegółowe informacje dotyczące jurysdykcji są podawane dla każdej transakcji."
+      }
+    };
+
+    const i18n = (key) => {
+      const lang = document.getElementById('lang').value || 'en';
+      return (translations[lang] && translations[lang][key]) || translations['en'][key] || key;
+    };
+
+    function translatePage() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = i18n(key);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.placeholder = i18n(key);
+      });
+
+      // Special handling for the tagline in the footer since it's an inner div
+      const footerTagline = document.querySelector('footer .footer-col > div > div.muted');
+      if(footerTagline) footerTagline.textContent = i18n('tagline');
+
+      // Special handling for the login prompt in the signup card
+      const loginPrompt = document.querySelector('#signupFormCard > div:last-child');
+      if(loginPrompt) {
+          const promptText = i18n('login_prompt');
+          const loginLink = i18n('login_link');
+          loginPrompt.innerHTML = `${promptText} <a href="#" id="openLoginFromCard" style="color:#1e40af;font-weight:600;">${loginLink}</a>`;
+      }
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      translatePage();
+      document.getElementById('lang').addEventListener('change', translatePage);
+    });
+
+
+    /***********************
+     * Form and Modal Logic
+     ***********************/
+
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const openSignupBtn = document.getElementById('openSignup');
+    const closeModalBtn = document.getElementById('closeModal');
+    const openLoginFromCard = document.getElementById('openLoginFromCard');
+    const signupCardForm = document.getElementById('signupFormCard');
+    const loginCardForm = document.getElementById('loginFormCard');
+
+
+    function openModal() {
+      modalBackdrop.style.display = 'flex';
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+      modalBackdrop.style.display = 'none';
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+    }
+
+    // Open signup modal from header button
+    if(openSignupBtn) openSignupBtn.addEventListener('click', openModal);
+
+    // Close modal button
+    if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+
+    // Close modal on outside click
+    if(modalBackdrop) modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+
+    // Toggle between signup and login cards in the sidebar
+    if (openLoginFromCard) {
+      openLoginFromCard.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (signupCardForm) signupCardForm.style.display = 'none';
+        if (loginCardForm) loginCardForm.style.display = 'flex';
+      });
+    }
+
+
+    /* Registration Handler (for modal and main card) */
+    async function handleRegistration(e) {
+      e.preventDefault();
+
+      const formId = e.target.id; // Either 'signupBtn' in modal or card
+
+      // Get fields from the modal. The elements in the modal do not have the redundant styles.
+      const nameEl = document.querySelector(`#modalBackdrop #signupName`);
+      const emailEl = document.querySelector(`#modalBackdrop #signupEmail`);
+      const passwordEl = document.querySelector(`#modalBackdrop #signupPassword`);
+      const roleEl = document.querySelector(`#modalBackdrop #signupRole`);
+      const msgEl = document.querySelector(`#modalBackdrop #signupMsg`);
+
+      // If called from the main card, use the card's elements
+      if (formId === 'signupBtn' && e.target.closest('#signupFormCard')) {
+          nameEl.value = document.querySelector('#signupFormCard #signupName').value;
+          emailEl.value = document.querySelector('#signupFormCard #signupEmail').value;
+          passwordEl.value = document.querySelector('#signupFormCard #signupPassword').value;
+          roleEl.value = document.querySelector('#signupFormCard #signupRole').value;
+          msgEl = document.querySelector('#signupFormCard #signupMsg');
+      }
+
+
+      const data = {
+        name: nameEl.value,
+        email: emailEl.value,
+        password: passwordEl.value,
+        role: roleEl.value,
+      };
+
+      if (!data.name || !data.email || !data.password || !data.role) {
+        showMsg(msgEl, 'Please fill in all fields.', 'error');
+        return;
+      }
+
+      showMsg(msgEl, 'Creating account...', 'success');
+      e.target.disabled = true;
+
+      const res = await postJSON('/register', data);
+
+      e.target.disabled = false;
+
+      if (res.ok && res.body.status === 'success') {
+        showMsg(msgEl, 'Success! You can now log in.', 'success');
+        // Optionally switch to login view on success
+        if(formId === 'signupBtn' && e.target.closest('#signupFormCard')) {
+          if (signupCardForm) signupCardForm.style.display = 'none';
+          if (loginCardForm) loginCardForm.style.display = 'flex';
+          // Clear successful signup form fields
+          nameEl.value = '';
+          emailEl.value = '';
+          passwordEl.value = '';
+          roleEl.value = '';
+        } else {
+          closeModal();
+        }
+      } else {
+        showMsg(msgEl, res.body.error || res.body.message || 'Registration failed.', 'error');
+      }
+    }
+
+    // Attach registration handler to both buttons (modal and card)
+    document.querySelectorAll('#signupBtn').forEach(btn => {
+      btn.addEventListener('click', handleRegistration);
+    });
+
+    /* Login Handler (for main card) */
+    async function handleLogin(e) {
+      e.preventDefault();
+
+      const emailEl = document.querySelector('#loginFormCard #loginEmail');
+      const passwordEl = document.querySelector('#loginFormCard #loginPassword');
+      const msgEl = document.querySelector('#loginFormCard #loginMsg');
+      const btnEl = document.querySelector('#loginFormCard #loginBtn');
+
+      const data = {
+        email: emailEl.value,
+        password: passwordEl.value,
+      };
+
+      if (!data.email || !data.password) {
+        showMsg(msgEl, 'Please enter both email and password.', 'error');
+        return;
+      }
+
+      showMsg(msgEl, 'Logging in...', 'success');
+      btnEl.disabled = true;
+
+      const res = await postJSON('/login', data);
+
+      btnEl.disabled = false;
+
+      if (res.ok && res.body.status === 'success') {
+        // save user_id in localStorage (so dashboard.html can use it later)
+        localStorage.setItem("user_id", res.body.user_id);
+        localStorage.setItem("user_role", res.body.role); // Assuming the API returns the role
+
+        showMsg(msgEl, `Welcome, redirecting to ${res.body.role} dashboard...`, 'success');
+
+        // redirect to appropriate dashboard
+        window.location.href = res.body.role === 'seller' ? "seller_dashboard.html" : "buyer_dashboard.html";
+
+      } else {
+        showMsg(msgEl, res.body.error || res.body.message || 'Login failed.', 'error');
+      }
+    }
+
+    // Attach login handler to the main card's button
+    document.querySelectorAll('#loginFormCard #loginBtn').forEach(btn => {
+      btn.addEventListener('click', handleLogin);
+    });
+
+    /***********************
+     * Other JS / Animations
+     ***********************/
+
+    // Simple CTA pulse animation
+    (function pulseCTAs(){
+      const cta = document.querySelectorAll('.cta');
+      cta.forEach((b, i) => {
+        b.style.transition = 'transform .14s ease, box-shadow .14s ease';
+        b.addEventListener('mouseenter', ()=> b.style.transform = 'translateY(-3px)');
+        b.addEventListener('mouseleave', ()=> b.style.transform = 'translateY(0)');
+      });
+    })();
+
+    // Defensive: report BASE_URL in console for devs
+    console.info('VanGuard Escrow frontend configured. Backend BASE_URL =', BASE_URL);
+
+  
+// ===================================================
+// SIGNUP HANDLER (Inserted by Fixer Tool)
+// ===================================================
+// --- Corrected Signup Handler for index.html ---
+document.getElementById("signupBtn")?.addEventListener("click", async (e) => {
+  // Ensure we stop the form from submitting normally (which you say is working)
+  e.preventDefault(); 
+
+  const name = document.getElementById("signupName")?.value.trim();
+  const email = document.getElementById("signupEmail")?.value.trim();
+  const password = document.getElementById("signupPassword")?.value.trim();
+  const role = document.getElementById("signupRole")?.value || "buyer";
+  const msgEl = document.getElementById("signupMsg");
+
+  // Clear previous message and show a loading state
+  showMsg(msgEl, "⏳ Creating account...", "info"); // Assuming 'info' style exists
+
+  try {
+    const response = await fetch("https://vanguardescrow.online/.netlify/functions/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password, role }),
+    });
+
+    // 1. Use response.json() directly. This only succeeds if the server sends JSON.
+    // If the server returns a non-JSON error (e.g., a simple text 500), this line will catch it.
+    const data = await response.json(); 
+    
+    // 2. The standard way to check for success is response.ok (status 200-299)
+    // AND checking the response body's status field for specific messaging.
+    if (response.ok && data.status === "success") {
+      // SUCCESS: Display the message from the server or a standard one
+      showMsg(msgEl, data.message || "✅ Account created successfully!", "success");
+    } else {
+      // FAILURE: Catch server-side errors (400, 401, 500, etc.)
+      // Use the message/error from the server's JSON body
+      showMsg(msgEl, `❌ Registration failed: ${data.message || data.error || 'Unknown server error'}`, "error");
+    }
+
+  } catch (error) {
+    // This catches network failures or issues with parsing the JSON response
+    console.error("Fetch/Parse Error:", error);
+    showMsg(msgEl, `⚠️ Network connection or response error. Please try again.`, "error");
+  }
+});
+
+// Final check: Ensure your showMsg function is simple, like this:
+/*
+function showMsg(element, message, type) {
+    if (element) {
+        element.textContent = message;
+        // Optionally update the class for styling (e.g., color)
+        element.className = 'message ' + type; 
+    }
+}
+*/
+  </script>
+<script>
+   // Auto-added event listeners by Frontend Button Fixer
+document.addEventListener("DOMContentLoaded", function() {
+
+    const openSignup = document.querySelector("button[id='openSignup']") ||
+        Array.from(document.querySelectorAll('button')).find(b => (b.innerText || '').toLowerCase().includes("sign up"));
+    if (openSignup) {
+        openSignup.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Sign Up button clicked");
+        });
+        console.log("Event listener attached for Sign Up");
+    } else {
+        console.warn("Button 'Sign Up' not found in DOM");
+    }
+
+    const startTx = document.querySelector("button[id='startTx']") ||
+        Array.from(document.querySelectorAll('button')).find(b => (b.innerText || '').toLowerCase().includes("start transaction"));
+    if (startTx) {
+        startTx.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Start Transaction button clicked");
+        });
+        console.log("Event listener attached for Start Transaction");
+    } else {
+        console.warn("Button 'Start Transaction' not found in DOM");
+    }
+
+    const signupBtn = document.querySelector("button[id='signupBtn']") ||
+        Array.from(document.querySelectorAll('button')).find(b => (b.innerText || '').toLowerCase().includes("create account"));
+    if (signupBtn) {
+        signupBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Create Account button clicked");
+        });
+        console.log("Event listener attached for Create Account");
+    } else {
+        console.warn("Button 'Create Account' not found in DOM");
+    }
+
+    const loginBtn = document.querySelector("button[id='loginBtn']") ||
+        Array.from(document.querySelectorAll('button')).find(b => (b.innerText || '').toLowerCase().includes("sign in"));
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Sign In button clicked");
+        });
+        console.log("Event listener attached for Sign In");
+    } else {
+        console.warn("Button 'Sign In' not found in DOM");
+    }
+
+    const signupBtn = document.querySelector("button[id='signupBtn']") ||
+        Array.from(document.querySelectorAll('button')).find(b => (b.innerText || '').toLowerCase().includes("create account"));
+    if (signupBtn) {
+        signupBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Create Account button clicked");
+        });
+        console.log("Event listener attached for Create Account");
+    } else {
+        console.warn("Button 'Create Account' not found in DOM");
+    }
+
+});
+
+// --- Signup handler fix ---
+// --- Corrected Signup Handler for index.html ---
+document.getElementById("signupBtn")?.addEventListener("click", async (e) => {
+  // Ensure we stop the form from submitting normally (which you say is working)
+  e.preventDefault(); 
+
+  const name = document.getElementById("signupName")?.value.trim();
+  const email = document.getElementById("signupEmail")?.value.trim();
+  const password = document.getElementById("signupPassword")?.value.trim();
+  const role = document.getElementById("signupRole")?.value || "buyer";
+  const msgEl = document.getElementById("signupMsg");
+
+  // Clear previous message and show a loading state
+  showMsg(msgEl, "⏳ Creating account...", "info"); // Assuming 'info' style exists
+
+  try {
+    const response = await fetch("https://vanguardescrow.online/.netlify/functions/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password, role }),
+    });
+
+    // 1. Use response.json() directly. This only succeeds if the server sends JSON.
+    // If the server returns a non-JSON error (e.g., a simple text 500), this line will catch it.
+    const data = await response.json(); 
+    
+    // 2. The standard way to check for success is response.ok (status 200-299)
+    // AND checking the response body's status field for specific messaging.
+    if (response.ok && data.status === "success") {
+      // SUCCESS: Display the message from the server or a standard one
+      showMsg(msgEl, data.message || "✅ Account created successfully!", "success");
+    } else {
+      // FAILURE: Catch server-side errors (400, 401, 500, etc.)
+      // Use the message/error from the server's JSON body
+      showMsg(msgEl, `❌ Registration failed: ${data.message || data.error || 'Unknown server error'}`, "error");
+    }
+
+  } catch (error) {
+    // This catches network failures or issues with parsing the JSON response
+    console.error("Fetch/Parse Error:", error);
+    showMsg(msgEl, `⚠️ Network connection or response error. Please try again.`, "error");
+  }
+});
+
+// Final check: Ensure your showMsg function is simple, like this:
+/*
+function showMsg(element, message, type) {
+    if (element) {
+        element.textContent = message;
+        // Optionally update the class for styling (e.g., color)
+        element.className = 'message ' + type; 
+    }
+}
+*/
+  </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("loginForm");
+  if (!form) return;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      const res = await fetch("https://vanguardescrow.online/.netlify/functions/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message || "Login failed");
+      localStorage.setItem("token", result.token);
+      alert("✅ Login successful!");
+      window.location.href = "buyer_dashboard.html";
+    } catch (err) {
+      alert("❌ " + err.message);
+    }
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("loginForm");
+  if (!form) {
+    console.error("No login form found!");
+    return;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Stop native form submit
+    const email = document.getElementById("loginEmail")?.value;
+    const password = document.getElementById("loginPassword")?.value;
+
+    try {
+      const res = await fetch("https://vanguardescrow.online/.netlify/functions/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      const json = await res.json();
+      if (res.ok && json.token) {
+        // ✅ Save token before redirect
+        localStorage.setItem("token", json.token);
+        console.log("Token saved:", json.token);
+        // Wait a moment to ensure it persists
+        setTimeout(() => {
+          window.location.href = "buyer_dashboard.html";
+        }, 500);
+      } else {
+        alert("Login failed: " + (json.error || res.statusText));
+      }
+    } catch (err) {
+      alert("Error during login: " + err.message);
+      console.error(err);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
