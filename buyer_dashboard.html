@@ -315,11 +315,13 @@ window.addEventListener("DOMContentLoaded", () => {
     msg.innerHTML = "Processing...";
     msg.className = "msg";
     const data = Object.fromEntries(new FormData(form).entries());
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-  // A. SUREFIRE FIX: Proactive token check and redirect
+  // ✅ SUREFIRE FIX: Check token and redirect if missing
   if (!token) {
-    showMsg(msg, `❌ Error: No Authorization Token Found. Redirecting to Login...`, 'error');
+    // Using your native message display logic (msg.innerHTML, msg.className)
+    msg.innerHTML = `❌ Error: No Authorization Token Found. Redirecting to Login...`;
+    msg.className = "msg error";
     console.error(actionName + " error: No token found. Redirecting.");
     
     // Redirect to index.html (the token generation page)
@@ -334,7 +336,7 @@ window.addEventListener("DOMContentLoaded", () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // B. Simplified header: Token is guaranteed to exist now
+        // Token is guaranteed to exist now, so we can use a direct header
         "Authorization": "Bearer " + token 
       },
       body: JSON.stringify(data)
@@ -349,13 +351,11 @@ window.addEventListener("DOMContentLoaded", () => {
     msg.className = "msg success";
     console.log(actionName + " success:", json);
   } catch (err) {
-    // Note: The redirection handles the case of a missing token, 
-    // this catch now only handles server/network errors.
+    // This now only handles server/network errors, as missing token is handled above.
     msg.innerHTML = "❌ " + err.message;
     msg.className = "msg error";
     console.error(actionName + " error:", err);
   }
-} // End of handleEscrowSubmit function
   const base = "https://vanguardescrow.online/.netlify/functions";
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
