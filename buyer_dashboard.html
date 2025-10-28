@@ -317,31 +317,45 @@ window.addEventListener("DOMContentLoaded", () => {
     const data = Object.fromEntries(new FormData(form).entries());
     const token = localStorage.getItem("token");
 
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token ? "Bearer " + token : ""
-        },
-        body: JSON.stringify(data)
-      });
-
-      let text = await res.text();
-      let json;
-      try { json = JSON.parse(text); } catch { json = null; }
-
-      if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
-      msg.innerHTML = "✅ " + actionName + " successful!";
-      msg.className = "msg success";
-      console.log(actionName + " success:", json);
-    } catch (err) {
-      msg.innerHTML = "❌ " + err.message;
-      msg.className = "msg error";
-      console.error(actionName + " error:", err);
-    }
+  // A. SUREFIRE FIX: Proactive token check and redirect
+  if (!token) {
+    showMsg(msg, `❌ Error: No Authorization Token Found. Redirecting to Login...`, 'error');
+    console.error(actionName + " error: No token found. Redirecting.");
+    
+    // Redirect to index.html (the token generation page)
+    setTimeout(() => {
+      window.location.href = "index.html"; 
+    }, 1500);
+    return; // Exit the function, preventing the fetch call
   }
 
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // B. Simplified header: Token is guaranteed to exist now
+        "Authorization": "Bearer " + token 
+      },
+      body: JSON.stringify(data)
+    });
+
+    let text = await res.text();
+    let json;
+    try { json = JSON.parse(text); } catch { json = null; }
+
+    if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+    msg.innerHTML = "✅ " + actionName + " successful!";
+    msg.className = "msg success";
+    console.log(actionName + " success:", json);
+  } catch (err) {
+    // Note: The redirection handles the case of a missing token, 
+    // this catch now only handles server/network errors.
+    msg.innerHTML = "❌ " + err.message;
+    msg.className = "msg error";
+    console.error(actionName + " error:", err);
+  }
+} // End of handleEscrowSubmit function
   const base = "https://vanguardescrow.online/.netlify/functions";
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
