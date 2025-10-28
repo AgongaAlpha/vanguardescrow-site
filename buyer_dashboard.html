@@ -305,6 +305,28 @@
 </div>
 </div>
 <script>
+// =======================================================
+// 1. CONFIGURATION CONSTANTS AND HELPER FUNCTION
+// =======================================================
+const AUTH0_DOMAIN = "dev-qlqii3uyji7mbn7d.us.auth0.com";
+const AUTH0_CLIENT_ID = "OYRRg3M0HoQrQXrrk6a6GHU8W0j9SHMR";
+const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
+const ESCROW_ENDPOINT = "https://vanguardescrow.online/.netlify/functions/createEscrow";
+
+async function getAuth0Client() {
+  return await auth0.createAuth0Client({
+    domain: AUTH0_DOMAIN,
+    clientId: AUTH0_CLIENT_ID,
+    authorizationParams: {
+      redirect_uri: window.location.origin,
+      audience: AUTH0_AUDIENCE
+    }
+  });
+}
+
+// =======================================================
+// 2. MAIN APPLICATION LOGIC
+// =======================================================
 window.addEventListener("DOMContentLoaded", () => {
   console.log("✅ Escrow form script loaded");
 
@@ -315,47 +337,64 @@ window.addEventListener("DOMContentLoaded", () => {
     msg.innerHTML = "Processing...";
     msg.className = "msg";
     const data = Object.fromEntries(new FormData(form).entries());
-  const token = localStorage.getItem("token");
 
-  // ✅ SUREFIRE FIX: Check token and redirect if missing
-  if (!token) {
-    // Using your native message display logic (msg.innerHTML, msg.className)
-    msg.innerHTML = `❌ Error: No Authorization Token Found. Redirecting to Login...`;
-    msg.className = "msg error";
-    console.error(actionName + " error: No token found. Redirecting.");
-    
-    // Redirect to index.html (the token generation page)
-    setTimeout(() => {
-      window.location.href = "index.html"; 
-    }, 1500);
-    return; // Exit the function, preventing the fetch call
+    // 1. Get the Auth0 client instance
+    const auth0Client = await getAuth0Client();
+
+    // 2. Check and enforce authentication
+    if (!(await auth0Client.isAuthenticated())) {
+      msg.innerHTML = `⚠️ Session Expired or Not Logged In. Redirecting...`;
+      msg.className = "msg error";
+      console.warn("User not authenticated. Initiating login redirect.");
+      await auth0Client.loginWithRedirect();
+      return;
+    }
+
+    try {
+      // 3. Get a fresh Access Token (CRITICAL FIX)
+      const token = await auth0Client.getTokenSilently(); 
+
+      const res = await fetch(endpoint, { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // 4. Attach the fresh token in the required Bearer format
+          "Authorization": `Bearer ${token}` 
+        },
+        body: JSON.stringify(data)
+      });
+
+      // 5. Check for 401 Unauthorized errors from the server
+      if (res.status === 401) {
+        console.error("401 Unauthorized. Token rejected by Netlify Function.");
+        msg.innerHTML = `❌ Session Invalid/Expired. Please log in again.`;
+        msg.className = "msg error";
+        await auth0Client.logout({ 
+            logoutParams: { returnTo: window.location.origin } 
+        });
+        return; 
+      }
+      
+      // 6. Response Handling (Your original success/error logic)
+      let text = await res.text();
+      let json;
+      try { json = JSON.parse(text); } catch { json = null; }
+
+      if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+
+      msg.innerHTML = "✅ " + actionName + " successful!";
+      msg.className = "msg success";
+      console.log(actionName + " success:", json);
+      
+    } catch (err) {
+      // Handles network or general system errors.
+      msg.innerHTML = "❌ " + (err.message || "Network/System Error");
+      msg.className = "msg error";
+      console.error(actionName + " error:", err);
+    }
   }
-
-  try {
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // Token is guaranteed to exist now, so we can use a direct header
-        "Authorization": "Bearer " + token 
-      },
-      body: JSON.stringify(data)
-    });
-
-    let text = await res.text();
-    let json;
-    try { json = JSON.parse(text); } catch { json = null; }
-
-    if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
-    msg.innerHTML = "✅ " + actionName + " successful!";
-    msg.className = "msg success";
-    console.log(actionName + " success:", json);
-  } catch (err) {
-    // This now only handles server/network errors, as missing token is handled above.
-    msg.innerHTML = "❌ " + err.message;
-    msg.className = "msg error";
-    console.error(actionName + " error:", err);
-  }
+  
+  // These lines must be INSIDE the window.addEventListener block
   const base = "https://vanguardescrow.online/.netlify/functions";
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
