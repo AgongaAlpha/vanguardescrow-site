@@ -469,7 +469,7 @@
        </option>
 </select>
 </div>
-<form id="loginForm">
+<form class="loginForm">
 </form>
 </div>
 </header>
@@ -763,7 +763,7 @@
         Login
        </a>
 </div>
-<form id="loginForm">
+<form class="loginForm">
 <input autocomplete="name" id="signupName" placeholder="Full Name" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
 <input autocomplete="email" id="signupEmail" placeholder="Email" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="email"/>
 <input autocomplete="new-password" id="signupPassword" placeholder="Password" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="password"/>
@@ -794,9 +794,9 @@
       </div>
 <div aria-live="polite" id="loginMsg" role="status">
 </div>
-<form id="loginForm"><input autocomplete="email" data-i18n-placeholder="login_email_ph" id="loginEmail" placeholder="Email" type="email"/><input autocomplete="current-password" data-i18n-placeholder="login_password_ph" id="loginPassword" placeholder="Password" type="password"/><button data-i18n="login_btn" id="loginBtn">
+<form class="loginForm"><input autocomplete="email" data-i18n-placeholder="login_email_ph" id="loginEmail" placeholder="Email" type="email"/><input autocomplete="current-password" data-i18n-placeholder="login_password_ph" id="loginPassword" placeholder="Password" type="password"/><button data-i18n="login_btn" id="loginBtn">
        Sign in
-      </button><form id="loginForm"></form></form></div>
+      </button><form class="loginForm"></form></form></div>
 </aside>
 </div>
 <footer id="contact">
@@ -923,7 +923,7 @@
 <div style="display:flex;flex-direction:column;gap:10px">
 <div aria-live="polite" id="signupMsg_2" role="status">
 </div>
-<form id="loginForm">
+<form class="loginForm">
 <input id="signupName_2" placeholder="Full Name" required="" type="text"/>
 <input data-i18n-placeholder="signup_email_ph" id="signupEmail_2" placeholder="Email" required="" type="email"/>
 <input data-i18n-placeholder="signup_password_ph" id="signupPassword_2" placeholder="Password" required="" type="password"/>
@@ -963,53 +963,7 @@
       }
 
 
-// --- Auth0 Universal Login (inserted) ---
-const AUTH0_DOMAIN = "dev-qlqii3uyji7mbn7d.us.auth0.com";
-const AUTH0_CLIENT_ID = "OYRRg3M0HoQrQXrrk6a6GHU8W0j9SHMR";
-const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
-const AUTH0_REDIRECT_URI = window.location.origin + "/buyer_dashboard.html";
 
-function auth0Redirect() {
-  const params = new URLSearchParams({
-    client_id: AUTH0_CLIENT_ID,
-    response_type: "token id_token",
-    scope: "openid profile email",
-    audience: AUTH0_AUDIENCE,
-    redirect_uri: AUTH0_REDIRECT_URI
-  });
-  window.location.href = `https://${AUTH0_DOMAIN}/authorize?${params.toString()}`;
-}
-
-// Replace existing login/signup handlers to simply redirect to Auth0
-(function attachAuth0Buttons() {
-  const selectors = ['#signupBtn', '#signupBtn_2', '#loginBtn'];
-  selectors.forEach(sel => {
-    document.querySelectorAll(sel).forEach(btn => {
-      try {
-        btn.replaceWith(btn.cloneNode(true));
-      } catch(e) {}
-    });
-  });
-
-  document.querySelectorAll('#signupBtn, #signupBtn_2, #loginBtn').forEach(btn => {
-    if (btn) btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      auth0Redirect();
-    });
-  });
-
-  document.querySelectorAll('form#loginForm, form').forEach(f => {
-    try {
-      if (f.querySelector && (f.querySelector('#loginEmail') || f.querySelector('#loginPassword'))) {
-        f.addEventListener('submit', function(e) {
-          e.preventDefault();
-          auth0Redirect();
-        });
-      }
-    } catch(e) {}
-  });
-})();
-// --- end Auth0 snippet ---
 , 6000);
     }
 
@@ -1675,31 +1629,55 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <script>
-/* Safety override: attach Auth0 redirection to known elements */
-document.addEventListener('DOMContentLoaded', function() {
-  try {
-    document.querySelectorAll('#signupBtn, #signupBtn_2, #loginBtn').forEach(btn => {
-      if (!btn) return;
-      const clone = btn.cloneNode(true);
-      btn.parentNode.replaceChild(clone, btn);
-      clone.addEventListener('click', function(e) {
-        e.preventDefault();
-        auth0Redirect();
-      });
-    });
 
-    document.querySelectorAll('form#loginForm').forEach(f => {
-      const newF = f.cloneNode(true);
-      f.parentNode.replaceChild(newF, f);
-      newF.addEventListener('submit', function(e) {
+
+<!-- ✅ Auth0 Redirect Handler (clean integration) -->
+<script>
+const AUTH0_DOMAIN = "dev-qlqii3uyji7mbn7d.us.auth0.com";
+const AUTH0_CLIENT_ID = "OYRRg3M0HoQrQXrrk6a6GHU8W0j9SHMR";
+const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
+const AUTH0_REDIRECT_URI = window.location.origin + "/buyer_dashboard.html";
+
+function auth0Redirect() {
+  const params = new URLSearchParams({
+    client_id: AUTH0_CLIENT_ID,
+    response_type: "token id_token",
+    scope: "openid profile email",
+    audience: AUTH0_AUDIENCE,
+    redirect_uri: AUTH0_REDIRECT_URI
+  });
+  window.location.href = `https://${AUTH0_DOMAIN}/authorize?${params.toString()}`;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Login buttons and forms trigger Auth0 redirect
+  document.querySelectorAll("#loginBtn, form.loginForm").forEach(el => {
+    el.addEventListener("click", e => {
+      if (el.tagName === "FORM" || el.id === "loginBtn") {
         e.preventDefault();
         auth0Redirect();
-      });
+      }
     });
-  } catch(e) {
-    console.error('Auth0 override attach failed', e);
-  }
+  });
+
+  // Signup buttons open Auth0's sign-up tab
+  document.querySelectorAll("#signupBtn, #signupBtn_2").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      const params = new URLSearchParams({
+        client_id: AUTH0_CLIENT_ID,
+        response_type: "token id_token",
+        scope: "openid profile email",
+        audience: AUTH0_AUDIENCE,
+        redirect_uri: window.location.origin + "/buyer_dashboard.html",
+        screen_hint: "signup"
+      });
+      window.location.href = `https://${AUTH0_DOMAIN}/authorize?${params.toString()}`;
+    });
+  });
 });
 </script>
+<!-- ✅ End Auth0 Redirect Handler -->
+
 </body>
 </html>
