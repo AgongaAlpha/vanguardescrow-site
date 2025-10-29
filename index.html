@@ -960,15 +960,61 @@
       setTimeout(()=> {
         // keep success message, but fade error after 6s
         if(type !== 'success') el.innerText = '';
-      }, 6000);
+      }
+
+
+// --- Auth0 Universal Login (inserted) ---
+const AUTH0_DOMAIN = "dev-qlqii3uyji7mbn7d.us.auth0.com";
+const AUTH0_CLIENT_ID = "OYRRg3M0HoQrQXrrk6a6GHU8W0j9SHMR";
+const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
+const AUTH0_REDIRECT_URI = window.location.origin + "/buyer_dashboard.html";
+
+function auth0Redirect() {
+  const params = new URLSearchParams({
+    client_id: AUTH0_CLIENT_ID,
+    response_type: "token id_token",
+    scope: "openid profile email",
+    audience: AUTH0_AUDIENCE,
+    redirect_uri: AUTH0_REDIRECT_URI
+  });
+  window.location.href = `https://${AUTH0_DOMAIN}/authorize?${params.toString()}`;
+}
+
+// Replace existing login/signup handlers to simply redirect to Auth0
+(function attachAuth0Buttons() {
+  const selectors = ['#signupBtn', '#signupBtn_2', '#loginBtn'];
+  selectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(btn => {
+      try {
+        btn.replaceWith(btn.cloneNode(true));
+      } catch(e) {}
+    });
+  });
+
+  document.querySelectorAll('#signupBtn, #signupBtn_2, #loginBtn').forEach(btn => {
+    if (btn) btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      auth0Redirect();
+    });
+  });
+
+  document.querySelectorAll('form#loginForm, form').forEach(f => {
+    try {
+      if (f.querySelector && (f.querySelector('#loginEmail') || f.querySelector('#loginPassword'))) {
+        f.addEventListener('submit', function(e) {
+          e.preventDefault();
+          auth0Redirect();
+        });
+      }
+    } catch(e) {}
+  });
+})();
+// --- end Auth0 snippet ---
+, 6000);
     }
 
     /* Simple fetch wrapper for JSON POST */
-    async function postJSON(path, data) {
-      try {
-        const res = await fetch(BASE_URL + path, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+    ,
           body: JSON.stringify(data),
           credentials: 'include'
         });
@@ -1308,7 +1354,7 @@
       showMsg(msgEl, 'Creating account...', 'success');
       e.target.disabled = true;
 
-      const res = await postJSON('/register', data);
+      const res = await /* replaced by Auth0 redirect */ auth0Redirect();
 
       e.target.disabled = false;
 
@@ -1358,7 +1404,7 @@
       showMsg(msgEl, 'Logging in...', 'success');
       btnEl.disabled = true;
 
-      const res = await postJSON('/login', data);
+      const res = await /* replaced by Auth0 redirect */ auth0Redirect();
 
       btnEl.disabled = false;
 
@@ -1418,10 +1464,7 @@ document.getElementById("signupBtn")?.addEventListener("click", async (e) => {
   showMsg(msgEl, "⏳ Creating account...", "info"); // Assuming 'info' style exists
 
   try {
-    const response = await fetch("https://vanguardescrow.online/.netlify/functions/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, role }),
+    const response = await /* replaced by Auth0 redirect */ auth0Redirect();,
     });
 
     // 1. Use response.json() directly. This only succeeds if the server sends JSON.
@@ -1539,10 +1582,7 @@ document.getElementById("signupBtn")?.addEventListener("click", async (e) => {
   showMsg(msgEl, "⏳ Creating account...", "info"); // Assuming 'info' style exists
 
   try {
-    const response = await fetch("https://vanguardescrow.online/.netlify/functions/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, role }),
+    const response = await /* replaced by Auth0 redirect */ auth0Redirect();,
     });
 
     // 1. Use response.json() directly. This only succeeds if the server sends JSON.
@@ -1586,11 +1626,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     try {
-      const res = await fetch("https://vanguardescrow.online/.netlify/functions/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      const res = await /* replaced by Auth0 redirect */ auth0Redirect();});
       const result = await res.json();
       if (!res.ok) throw new Error(result.message || "Login failed");
       localStorage.setItem("token", result.token);
@@ -1616,11 +1652,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const password = document.getElementById("loginPassword")?.value;
 
     try {
-      const res = await fetch("https://vanguardescrow.online/.netlify/functions/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
+      const res = await /* replaced by Auth0 redirect */ auth0Redirect();});
       const json = await res.json();
       if (res.ok && json.token) {
         // ✅ Save token before redirect
@@ -1641,5 +1673,33 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
+
+<script>
+/* Safety override: attach Auth0 redirection to known elements */
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    document.querySelectorAll('#signupBtn, #signupBtn_2, #loginBtn').forEach(btn => {
+      if (!btn) return;
+      const clone = btn.cloneNode(true);
+      btn.parentNode.replaceChild(clone, btn);
+      clone.addEventListener('click', function(e) {
+        e.preventDefault();
+        auth0Redirect();
+      });
+    });
+
+    document.querySelectorAll('form#loginForm').forEach(f => {
+      const newF = f.cloneNode(true);
+      f.parentNode.replaceChild(newF, f);
+      newF.addEventListener('submit', function(e) {
+        e.preventDefault();
+        auth0Redirect();
+      });
+    });
+  } catch(e) {
+    console.error('Auth0 override attach failed', e);
+  }
+});
+</script>
 </body>
 </html>
