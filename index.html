@@ -748,55 +748,46 @@
 </section>
 </div>
 <aside class="auth">
-<div aria-labelledby="signup-title" class="form" id="signupFormCard" style="display:flex;flex-direction:column;gap:10px;">
-<h4 id="signup-title" style="margin:0">
-       Create account
+<!-- Sign Up Card -->
+<div aria-labelledby="signup-title" class="form" id="signupFormCard" style="display:flex;flex-direction:column;gap:16px;text-align:center;">
+<h4 id="signup-title" style="margin:0;font-size:20px;">
+       Create Account
       </h4>
-<div class="muted">
-       Sign up to start or receive escrow payments
+<div class="muted" style="font-size:14px;line-height:1.6;">
+       Sign up with Auth0 to start or receive secure escrow payments
       </div>
-<div aria-live="polite" id="signupMsg" role="status" style="font-size:13px;">
-</div>
-<div style="font-size:13px;color:#6b7280">
+<button id="signupBtn" style="padding:14px 20px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;font-size:16px;box-shadow: 0 4px 14px rgba(30,64,175,0.25);transition:transform 0.2s ease, box-shadow 0.2s ease;">
+        Create Account
+      </button>
+<div style="font-size:13px;color:#6b7280;">
        Already have an account?
-       <a href="#" id="openLoginFromCard" style="color:#1e40af;font-weight:600;">
-        Login
+       <a href="#" id="switchToLogin" style="color:#1e40af;font-weight:600;text-decoration:none;">
+        Login here
        </a>
 </div>
-<form class="loginForm">
-<input autocomplete="name" id="signupName" placeholder="Full Name" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="text"/>
-<input autocomplete="email" id="signupEmail" placeholder="Email" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="email"/>
-<input autocomplete="new-password" id="signupPassword" placeholder="Password" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;width:100%;box-sizing:border-box;" type="password"/>
-<select id="signupRole" name="role" required="" style="padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:14px;background:white;color:#0f172a;width:100%;box-sizing:border-box;">
-<option disabled="" selected="" value="">
-         Select Role
-        </option>
-<option value="buyer">
-         Buyer
-        </option>
-<option value="seller">
-         Seller
-        </option>
-</select>
-<button id="signupBtn" style="padding:10px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;">
-        Create account
-       </button>
-</form>
 </div>
-<div style="height:12px">
+
+<div style="height:16px">
 </div>
-<div aria-labelledby="login-title" class="form" id="loginFormCard">
-<h4 data-i18n="login_title" id="login-title" style="margin:0">
+
+<!-- Login Card -->
+<div aria-labelledby="login-title" class="form" id="loginFormCard" style="display:none;flex-direction:column;gap:16px;text-align:center;">
+<h4 data-i18n="login_title" id="login-title" style="margin:0;font-size:20px;">
        Login
       </h4>
-<div class="muted" data-i18n="login_desc">
-       Access your dashboard
+<div class="muted" data-i18n="login_desc" style="font-size:14px;line-height:1.6;">
+       Access your escrow dashboard
       </div>
-<div aria-live="polite" id="loginMsg" role="status">
+<button data-i18n="login_btn" id="loginBtn" style="padding:14px 20px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;font-size:16px;box-shadow: 0 4px 14px rgba(30,64,175,0.25);transition:transform 0.2s ease, box-shadow 0.2s ease;">
+       Sign In
+      </button>
+<div style="font-size:13px;color:#6b7280;">
+       Don't have an account?
+       <a href="#" id="switchToSignup" style="color:#1e40af;font-weight:600;text-decoration:none;">
+        Create one
+       </a>
 </div>
-<form class="loginForm"><input autocomplete="email" data-i18n-placeholder="login_email_ph" id="loginEmail" placeholder="Email" type="email"/><input autocomplete="current-password" data-i18n-placeholder="login_password_ph" id="loginPassword" placeholder="Password" type="password"/><button data-i18n="login_btn" id="loginBtn">
-       Sign in
-      </button><form class="loginForm"></form></form></div>
+</div>
 </aside>
 </div>
 <footer id="contact">
@@ -909,42 +900,6 @@
       In case of a dispute, VanGuard provides a structured resolution flow: evidence submission, mediator review, and final determination. Parties agree to attempt mediation before arbitration. If arbitration is necessary, it will follow the procedures stipulated in the transaction agreement. Specific jurisdiction details are provided per-transaction.
      </p>
 </section>
-</div>
-<div aria-hidden="true" aria-modal="true" class="modal-backdrop" id="modalBackdrop" role="dialog">
-<div class="modal" role="document">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-<div data-i18n="modal_signup_title" style="font-weight:800">
-       Create account
-      </div>
-<button aria-label="Close" class="close-btn" id="closeModal">
-       ✕
-      </button>
-</div>
-<div style="display:flex;flex-direction:column;gap:10px">
-<div aria-live="polite" id="signupMsg_2" role="status">
-</div>
-<form class="loginForm">
-<input id="signupName_2" placeholder="Full Name" required="" type="text"/>
-<input data-i18n-placeholder="signup_email_ph" id="signupEmail_2" placeholder="Email" required="" type="email"/>
-<input data-i18n-placeholder="signup_password_ph" id="signupPassword_2" placeholder="Password" required="" type="password"/>
-<select class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="signupRole_2" name="role" required="">
-<option disabled="" selected="" value="">
-         Select Role
-        </option>
-<option value="buyer">
-         Buyer
-        </option>
-<option value="seller">
-         Seller
-        </option>
-</select>
-<button data-i18n="signup_btn" id="signupBtn_2">
-        Create account
-       </button>
-</form>
-</div>
-</div>
-</div>
 </div>
 <script>
    /**********************
@@ -1191,14 +1146,6 @@
       // Special handling for the tagline in the footer since it's an inner div
       const footerTagline = document.querySelector('footer .footer-col > div > div.muted');
       if(footerTagline) footerTagline.textContent = i18n('tagline');
-
-      // Special handling for the login prompt in the signup card
-      const loginPrompt = document.querySelector('#signupFormCard > div:last-child');
-      if(loginPrompt) {
-          const promptText = i18n('login_prompt');
-          const loginLink = i18n('login_link');
-          loginPrompt.innerHTML = `${promptText} <a href="#" id="openLoginFromCard" style="color:#1e40af;font-weight:600;">${loginLink}</a>`;
-      }
     }
 
     // Initialize on load
@@ -1209,44 +1156,29 @@
 
 
     /***********************
-     * Form and Modal Logic
+     * Card Toggle Logic
      ***********************/
 
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const openSignupBtn = document.getElementById('openSignup');
-    const closeModalBtn = document.getElementById('closeModal');
-    const openLoginFromCard = document.getElementById('openLoginFromCard');
     const signupCardForm = document.getElementById('signupFormCard');
     const loginCardForm = document.getElementById('loginFormCard');
+    const switchToLogin = document.getElementById('switchToLogin');
+    const switchToSignup = document.getElementById('switchToSignup');
 
-
-    function openModal() {
-      modalBackdrop.style.display = 'flex';
-      modalBackdrop.setAttribute('aria-hidden', 'false');
-    }
-
-    function closeModal() {
-      modalBackdrop.style.display = 'none';
-      modalBackdrop.setAttribute('aria-hidden', 'true');
-    }
-
-    // Open signup modal from header button
-    if(openSignupBtn) openSignupBtn.addEventListener('click', openModal);
-
-    // Close modal button
-    if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-
-    // Close modal on outside click
-    if(modalBackdrop) modalBackdrop.addEventListener('click', (e) => {
-      if (e.target === modalBackdrop) closeModal();
-    });
-
-    // Toggle between signup and login cards in the sidebar
-    if (openLoginFromCard) {
-      openLoginFromCard.addEventListener('click', (e) => {
+    // Toggle to Login Card
+    if (switchToLogin) {
+      switchToLogin.addEventListener('click', (e) => {
         e.preventDefault();
         if (signupCardForm) signupCardForm.style.display = 'none';
         if (loginCardForm) loginCardForm.style.display = 'flex';
+      });
+    }
+
+    // Toggle to Signup Card
+    if (switchToSignup) {
+      switchToSignup.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (loginCardForm) loginCardForm.style.display = 'none';
+        if (signupCardForm) signupCardForm.style.display = 'flex';
       });
     }
 
@@ -1299,9 +1231,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // Signup buttons open Auth0's sign-up tab
-  document.querySelectorAll("#signupBtn, #signupBtn_2").forEach(btn => {
-    btn.addEventListener("click", e => {
+  // Signup button opens Auth0's sign-up tab
+  const signupBtn = document.getElementById("signupBtn");
+  if (signupBtn) {
+    signupBtn.addEventListener("click", e => {
       e.preventDefault();
       const params = new URLSearchParams({
         client_id: AUTH0_CLIENT_ID,
@@ -1313,7 +1246,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
       window.location.href = `https://${AUTH0_DOMAIN}/authorize?${params.toString()}`;
     });
-  });
+  }
 });
 </script>
 <!-- ✅ End Auth0 Redirect Handler -->
