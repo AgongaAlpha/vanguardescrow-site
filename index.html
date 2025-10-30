@@ -1202,54 +1202,52 @@
   </script>
 
 
-<!-- ✅ Auth0 Redirect Handler (clean integration) -->
+<script src="https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2.0.4/dist/auth0-spa-js.production.js"></script>
 <script>
-const AUTH0_DOMAIN = "dev-qlqii3uyji7mbn7d.us.auth0.com";
-const AUTH0_CLIENT_ID = "vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas";
-const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
-const AUTH0_REDIRECT_URI = window.location.origin + "/buyer_dashboard.html";
-
-function auth0Redirect() {
-  const params = new URLSearchParams({
-    client_id: AUTH0_CLIENT_ID,
-    response_type: "token id_token",
-    scope: "openid profile email",
-    audience: AUTH0_AUDIENCE,
-    redirect_uri: AUTH0_REDIRECT_URI
+document.addEventListener("DOMContentLoaded", async () => {
+  const auth0Client = await auth0.createAuth0Client({
+    domain: "dev-qlqii3uyji7mbn7d.us.auth0.com",
+    clientId: "vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas",
+    authorizationParams: {
+      audience: "https://vanguardescrow.online/",
+      redirect_uri: window.location.origin + "/index.html"
+    },
+    cacheLocation: "localstorage",
+    useRefreshTokens: true
   });
-  window.location.href = `https://${AUTH0_DOMAIN}/authorize?${params.toString()}`;
-}
 
-document.addEventListener("DOMContentLoaded", function() {
-  // Login buttons and forms trigger Auth0 redirect
+  // handle redirect after login
+  if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+    await auth0Client.handleRedirectCallback();
+    window.location.replace(window.location.origin + "/buyer_dashboard.html");
+  }
+
+  // attach to login buttons
   document.querySelectorAll("#loginBtn, form.loginForm").forEach(el => {
     el.addEventListener("click", e => {
-      if (el.tagName === "FORM" || el.id === "loginBtn") {
-        e.preventDefault();
-        auth0Redirect();
-      }
+      e.preventDefault();
+      auth0Client.loginWithRedirect({
+        authorizationParams: {
+          redirect_uri: window.location.origin + "/index.html"
+        }
+      });
     });
   });
 
-  // Signup button opens Auth0's sign-up tab
-  const signupBtn = document.getElementById("signupBtn");
-  if (signupBtn) {
-    signupBtn.addEventListener("click", e => {
+  // attach to signup buttons
+  document.querySelectorAll("#signupBtn, #signupBtn_2").forEach(btn => {
+    btn.addEventListener("click", e => {
       e.preventDefault();
-      const params = new URLSearchParams({
-        client_id: AUTH0_CLIENT_ID,
-        response_type: "token id_token",
-        scope: "openid profile email",
-        audience: AUTH0_AUDIENCE,
-        redirect_uri: window.location.origin + "/buyer_dashboard.html",
-        screen_hint: "signup"
+      auth0Client.loginWithRedirect({
+        authorizationParams: {
+          redirect_uri: window.location.origin + "/index.html",
+          screen_hint: "signup"
+        }
       });
-      window.location.href = `https://${AUTH0_DOMAIN}/authorize?${params.toString()}`;
     });
-  }
+  });
 });
 </script>
-<!-- ✅ End Auth0 Redirect Handler -->
 
 </body>
 </html>
