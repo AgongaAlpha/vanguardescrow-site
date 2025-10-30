@@ -9,6 +9,7 @@
   </title>
 
 <!-- i18next (client-side translations) -->
+<script src="https://cdn.jsdelivr.net/npm/i18next@23.7.6/i18next.min.js"></script>
 <style>
    body{font-family:"Segoe UI",sans-serif;background:#f8fafc;margin:0;color:#0f172a;}
     header{background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;padding:12px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
@@ -313,19 +314,24 @@
 // 1. CONFIGURATION CONSTANTS AND HELPER FUNCTION
 // =======================================================
 const AUTH0_DOMAIN = "dev-qlqii3uyji7mbn7d.us.auth0.com";
-const AUTH0_CLIENT_ID = "OYRRg3M0HoQrQXrrk6a6GHU8W0j9SHMR";
+const AUTH0_CLIENT_ID = "vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas";
 const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
 const ESCROW_ENDPOINT = "https://vanguardescrow.online/.netlify/functions/createEscrow";
 
+let auth0ClientInstance = null;
+
 async function getAuth0Client() {
-  return await auth0.createAuth0Client({
-    domain: AUTH0_DOMAIN,
-    clientId: AUTH0_CLIENT_ID,
-    authorizationParams: {
-      redirect_uri: window.location.origin,
-      audience: AUTH0_AUDIENCE
-    }
-  });
+  if (!auth0ClientInstance) {
+    auth0ClientInstance = await auth0.createAuth0Client({
+      domain: AUTH0_DOMAIN,
+      clientId: AUTH0_CLIENT_ID,
+      cacheLocation: 'localstorage',
+      authorizationParams: {
+        audience: AUTH0_AUDIENCE
+      }
+    });
+  }
+  return auth0ClientInstance;
 }
 
 // =======================================================
@@ -345,18 +351,19 @@ window.addEventListener("DOMContentLoaded", () => {
     // 1. Get the Auth0 client instance
     const auth0Client = await getAuth0Client();
 
-    // 2. Check and enforce authentication
-    if (!(await auth0Client.isAuthenticated())) {
-      msg.innerHTML = `⚠️ Session Expired or Not Logged In. Redirecting...`;
+    // 2. Check authentication and get token silently
+    let token;
+    try {
+      token = await auth0Client.getTokenSilently();
+    } catch (authError) {
+      msg.innerHTML = `⚠️ Session Expired or Not Logged In. Please log in first.`;
       msg.className = "msg error";
-      console.warn("User not authenticated. Initiating login redirect.");
-      await auth0Client.loginWithRedirect();
+      console.error("Authentication error:", authError);
       return;
     }
 
     try {
-      // 3. Get a fresh Access Token (CRITICAL FIX)
-      const token = await auth0Client.getTokenSilently(); 
+      // 3. Use the Access Token for API calls 
 
       const res = await fetch(endpoint, { 
         method: "POST",
@@ -373,9 +380,6 @@ window.addEventListener("DOMContentLoaded", () => {
         console.error("401 Unauthorized. Token rejected by Netlify Function.");
         msg.innerHTML = `❌ Session Invalid/Expired. Please log in again.`;
         msg.className = "msg error";
-        await auth0Client.logout({ 
-            logoutParams: { returnTo: window.location.origin } 
-        });
         return; 
       }
       
@@ -403,6 +407,16 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
   document.getElementById("releaseFundsForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/releaseFunds", "releaseMsg", "Release Funds"));
+
+  // Logout functionality
+  document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+    const auth0Client = await getAuth0Client();
+    await auth0Client.logout({ 
+      logoutParams: { 
+        returnTo: window.location.origin + "/index.html" 
+      } 
+    });
+  });
 });
 </script>
 <script id="tabControl">
@@ -446,5 +460,327 @@ document.addEventListener("DOMContentLoaded", () => {
   // Show default
   showSection("escrowSection");
 });
-</script></body>
+</script>
+<script id="i18nAndWalletFeatures">
+// =======================================================
+// i18next INITIALIZATION AND LANGUAGE SWITCHING
+// =======================================================
+const translations = {
+  en: {
+    translation: {
+      "title": "Buyer Dashboard — VanGuard Escrow",
+      "header.title": "Buyer Dashboard",
+      "btn.logout": "Logout",
+      "nav.escrow": "Escrow Setup",
+      "nav.my_escrows": "My Escrows",
+      "nav.transactions": "Transactions",
+      "nav.kyc": "KYC",
+      "payment.h2": "Payment Methods (Pay Offsite)",
+      "method.trc": "USDT TRC20",
+      "method.erc": "USDT ERC20",
+      "method.bep": "BTC (BEP20)",
+      "method.cashapp": "Cash App (US only)",
+      "method.bank": "Bank Transfer (Revolut Instant)",
+      "method.bank_note": "Chat Live Admin on our Google Meet link or email support@vanguardescrow.online",
+      "btn.copy": "Copy",
+      "btn.use": "Use",
+      "btn.info": "Info",
+      "btn.use_custom": "Use Custom",
+      "btn.clear": "Clear",
+      "ph.custom": "Enter custom payment method",
+      "note.bank_limit": "NB: Bank transfers aren't supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.",
+      "deposit.h2": "Deposit to Escrow",
+      "deposit.send": "Please send your payment to the wallet below (you chose the method above):",
+      "label.escrow": "Escrow ID:",
+      "label.amount": "Amount:",
+      "btn.deposit_done": "I've Deposited",
+      "my.h2": "My Escrows",
+      "tbl.id": "ID",
+      "tbl.status": "Status",
+      "tbl.amount": "Amount",
+      "tbl.wallet": "Wallet",
+      "transactions.h2": "Transactions",
+      "kyc.h2": "KYC",
+      "kyc.note": "KYC verification will be demanded for buyers who choose to pay sellers via Bank Transfer."
+    }
+  },
+  de: {
+    translation: {
+      "title": "Käufer-Dashboard — VanGuard Escrow",
+      "header.title": "Käufer-Dashboard",
+      "btn.logout": "Abmelden",
+      "nav.escrow": "Escrow-Einrichtung",
+      "nav.my_escrows": "Meine Escrows",
+      "nav.transactions": "Transaktionen",
+      "nav.kyc": "KYC",
+      "payment.h2": "Zahlungsmethoden (Offsite zahlen)",
+      "method.trc": "USDT TRC20",
+      "method.erc": "USDT ERC20",
+      "method.bep": "BTC (BEP20)",
+      "method.cashapp": "Cash App (nur USA)",
+      "method.bank": "Banküberweisung (Revolut Instant)",
+      "method.bank_note": "Live-Admin über Google Meet kontaktieren oder E-Mail an support@vanguardescrow.online",
+      "btn.copy": "Kopieren",
+      "btn.use": "Verwenden",
+      "btn.info": "Info",
+      "btn.use_custom": "Benutzerdefiniert verwenden",
+      "btn.clear": "Löschen",
+      "ph.custom": "Benutzerdefinierte Zahlungsmethode eingeben",
+      "note.bank_limit": "Hinweis: Banküberweisungen werden nicht für Beträge über 5000 $ unterstützt.",
+      "deposit.h2": "Einzahlung auf Escrow",
+      "deposit.send": "Bitte senden Sie Ihre Zahlung an die unten stehende Wallet:",
+      "label.escrow": "Escrow-ID:",
+      "label.amount": "Betrag:",
+      "btn.deposit_done": "Ich habe eingezahlt",
+      "my.h2": "Meine Escrows",
+      "tbl.id": "ID",
+      "tbl.status": "Status",
+      "tbl.amount": "Betrag",
+      "tbl.wallet": "Wallet",
+      "transactions.h2": "Transaktionen",
+      "kyc.h2": "KYC",
+      "kyc.note": "KYC-Verifizierung wird für Käufer verlangt, die Verkäufer per Banküberweisung bezahlen."
+    }
+  },
+  fr: {
+    translation: {
+      "title": "Tableau de bord acheteur — VanGuard Escrow",
+      "header.title": "Tableau de bord acheteur",
+      "btn.logout": "Déconnexion",
+      "nav.escrow": "Configuration Escrow",
+      "nav.my_escrows": "Mes Escrows",
+      "nav.transactions": "Transactions",
+      "nav.kyc": "KYC",
+      "payment.h2": "Modes de paiement (Payer hors site)",
+      "method.trc": "USDT TRC20",
+      "method.erc": "USDT ERC20",
+      "method.bep": "BTC (BEP20)",
+      "method.cashapp": "Cash App (USA uniquement)",
+      "method.bank": "Virement bancaire (Revolut Instant)",
+      "method.bank_note": "Contactez l'administrateur en direct via Google Meet ou par e-mail support@vanguardescrow.online",
+      "btn.copy": "Copier",
+      "btn.use": "Utiliser",
+      "btn.info": "Info",
+      "btn.use_custom": "Utiliser personnalisé",
+      "btn.clear": "Effacer",
+      "ph.custom": "Entrez un mode de paiement personnalisé",
+      "note.bank_limit": "NB : Les virements bancaires ne sont pas pris en charge pour les montants supérieurs à 5000 $.",
+      "deposit.h2": "Dépôt sur Escrow",
+      "deposit.send": "Veuillez envoyer votre paiement au portefeuille ci-dessous :",
+      "label.escrow": "ID Escrow :",
+      "label.amount": "Montant :",
+      "btn.deposit_done": "J'ai déposé",
+      "my.h2": "Mes Escrows",
+      "tbl.id": "ID",
+      "tbl.status": "Statut",
+      "tbl.amount": "Montant",
+      "tbl.wallet": "Portefeuille",
+      "transactions.h2": "Transactions",
+      "kyc.h2": "KYC",
+      "kyc.note": "La vérification KYC sera exigée pour les acheteurs qui choisissent de payer les vendeurs par virement bancaire."
+    }
+  },
+  it: {
+    translation: {
+      "title": "Dashboard Acquirente — VanGuard Escrow",
+      "header.title": "Dashboard Acquirente",
+      "btn.logout": "Disconnetti",
+      "nav.escrow": "Configurazione Escrow",
+      "nav.my_escrows": "I miei Escrow",
+      "nav.transactions": "Transazioni",
+      "nav.kyc": "KYC",
+      "payment.h2": "Metodi di pagamento (Paga fuori sito)",
+      "method.trc": "USDT TRC20",
+      "method.erc": "USDT ERC20",
+      "method.bep": "BTC (BEP20)",
+      "method.cashapp": "Cash App (solo USA)",
+      "method.bank": "Bonifico bancario (Revolut Instant)",
+      "method.bank_note": "Contatta l'amministratore in diretta su Google Meet o via email support@vanguardescrow.online",
+      "btn.copy": "Copia",
+      "btn.use": "Usa",
+      "btn.info": "Info",
+      "btn.use_custom": "Usa personalizzato",
+      "btn.clear": "Cancella",
+      "ph.custom": "Inserisci metodo di pagamento personalizzato",
+      "note.bank_limit": "NB: I bonifici bancari non sono supportati per importi superiori a $ 5000.",
+      "deposit.h2": "Deposita su Escrow",
+      "deposit.send": "Si prega di inviare il pagamento al portafoglio sottostante:",
+      "label.escrow": "ID Escrow:",
+      "label.amount": "Importo:",
+      "btn.deposit_done": "Ho depositato",
+      "my.h2": "I miei Escrow",
+      "tbl.id": "ID",
+      "tbl.status": "Stato",
+      "tbl.amount": "Importo",
+      "tbl.wallet": "Portafoglio",
+      "transactions.h2": "Transazioni",
+      "kyc.h2": "KYC",
+      "kyc.note": "La verifica KYC sarà richiesta per gli acquirenti che scelgono di pagare i venditori tramite bonifico bancario."
+    }
+  },
+  es: {
+    translation: {
+      "title": "Panel de comprador — VanGuard Escrow",
+      "header.title": "Panel de comprador",
+      "btn.logout": "Cerrar sesión",
+      "nav.escrow": "Configuración Escrow",
+      "nav.my_escrows": "Mis Escrows",
+      "nav.transactions": "Transacciones",
+      "nav.kyc": "KYC",
+      "payment.h2": "Métodos de pago (Pagar fuera del sitio)",
+      "method.trc": "USDT TRC20",
+      "method.erc": "USDT ERC20",
+      "method.bep": "BTC (BEP20)",
+      "method.cashapp": "Cash App (solo EE. UU.)",
+      "method.bank": "Transferencia bancaria (Revolut Instant)",
+      "method.bank_note": "Contacte al administrador en vivo en Google Meet o por correo electrónico support@vanguardescrow.online",
+      "btn.copy": "Copiar",
+      "btn.use": "Usar",
+      "btn.info": "Info",
+      "btn.use_custom": "Usar personalizado",
+      "btn.clear": "Borrar",
+      "ph.custom": "Ingrese método de pago personalizado",
+      "note.bank_limit": "NB: Las transferencias bancarias no son compatibles con transferencias superiores a $ 5000.",
+      "deposit.h2": "Depositar en Escrow",
+      "deposit.send": "Envíe su pago a la billetera a continuación:",
+      "label.escrow": "ID de Escrow:",
+      "label.amount": "Cantidad:",
+      "btn.deposit_done": "He depositado",
+      "my.h2": "Mis Escrows",
+      "tbl.id": "ID",
+      "tbl.status": "Estado",
+      "tbl.amount": "Cantidad",
+      "tbl.wallet": "Billetera",
+      "transactions.h2": "Transacciones",
+      "kyc.h2": "KYC",
+      "kyc.note": "Se exigirá verificación KYC para los compradores que elijan pagar a los vendedores mediante transferencia bancaria."
+    }
+  }
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("✅ i18n and wallet features initialized");
+
+  await i18next.init({
+    lng: localStorage.getItem('selectedLanguage') || 'en',
+    resources: translations,
+    fallbackLng: 'en'
+  });
+
+  function updatePageTexts() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      el.textContent = i18next.t(key);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      el.placeholder = i18next.t(key);
+    });
+    document.title = i18next.t('title');
+  }
+
+  updatePageTexts();
+
+  const langSwitcher = document.getElementById('langSwitcher');
+  if (langSwitcher) {
+    langSwitcher.value = i18next.language;
+    langSwitcher.addEventListener('change', async (e) => {
+      const lang = e.target.value;
+      await i18next.changeLanguage(lang);
+      localStorage.setItem('selectedLanguage', lang);
+      updatePageTexts();
+      console.log(`Language changed to: ${lang}`);
+    });
+  }
+
+  // =======================================================
+  // WALLET SELECTION AND COPY FUNCTIONALITY
+  // =======================================================
+  const paymentItems = document.querySelectorAll('.payment-item');
+  const selectedDisplay = document.getElementById('selectedPaymentDisplay');
+  const selectedText = document.getElementById('selectedPaymentText');
+  const paymentMethodInput = document.getElementById('paymentMethod');
+  
+  paymentItems.forEach(item => {
+    const useBtn = item.querySelector('.use-btn');
+    const copyBtn = item.querySelector('.copy-btn');
+    const walletValue = useBtn?.getAttribute('data-val');
+
+    if (copyBtn && walletValue) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(walletValue);
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✓ Copied!';
+            setTimeout(() => {
+              copyBtn.textContent = originalText;
+            }, 2000);
+          } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = walletValue;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✓ Copied!';
+            setTimeout(() => {
+              copyBtn.textContent = originalText;
+            }, 2000);
+          }
+        } catch (err) {
+          console.error('Failed to copy:', err);
+          alert('Failed to copy to clipboard');
+        }
+      });
+    }
+
+    if (useBtn && walletValue) {
+      useBtn.addEventListener('click', () => {
+        if (paymentMethodInput) {
+          paymentMethodInput.value = walletValue;
+        }
+        if (selectedDisplay && selectedText) {
+          selectedText.textContent = walletValue;
+          selectedDisplay.style.display = 'flex';
+        }
+      });
+    }
+  });
+
+  const customPaymentInput = document.getElementById('customPayment');
+  const useCustomBtn = document.getElementById('useCustomBtn');
+  
+  if (useCustomBtn && customPaymentInput && paymentMethodInput) {
+    useCustomBtn.addEventListener('click', () => {
+      const customValue = customPaymentInput.value.trim();
+      if (customValue) {
+        paymentMethodInput.value = customValue;
+        if (selectedDisplay && selectedText) {
+          selectedText.textContent = customValue;
+          selectedDisplay.style.display = 'flex';
+        }
+      }
+    });
+  }
+
+  const clearSelectedBtn = document.getElementById('clearSelected');
+  if (clearSelectedBtn && selectedDisplay && paymentMethodInput) {
+    clearSelectedBtn.addEventListener('click', () => {
+      selectedDisplay.style.display = 'none';
+      paymentMethodInput.value = '';
+      if (customPaymentInput) {
+        customPaymentInput.value = '';
+      }
+      document.querySelectorAll('input[name="paymentMethod"][type="radio"]').forEach(radio => {
+        radio.checked = false;
+      });
+    });
+  }
+});
+</script>
+</body>
 </html>
