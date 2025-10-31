@@ -1207,10 +1207,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const auth0Client = await auth0.createAuth0Client({
     domain: "dev-qlqii3uyji7mbn7d.us.auth0.com",
-    clientId: "vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas",
+    clientId: "OYRRg3M0HoQrQXrrk6a6GHU8W0j9SHMR",
     authorizationParams: {
       audience: "https://vanguardescrow.online/",
-      redirect_uri: window.location.origin + "/index.html"
+      redirect_uri: window.location.origin + "/buyer_dashboard.html"
     },
     cacheLocation: "localstorage",
     useRefreshTokens: true
@@ -1228,7 +1228,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       e.preventDefault();
       auth0Client.loginWithRedirect({
         authorizationParams: {
-          redirect_uri: window.location.origin + "/index.html"
+          redirect_uri: window.location.origin + "/buyer_dashboard.html"
         }
       });
     });
@@ -1240,7 +1240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       e.preventDefault();
       auth0Client.loginWithRedirect({
         authorizationParams: {
-          redirect_uri: window.location.origin + "/index.html",
+          redirect_uri: window.location.origin + "/buyer_dashboard.html",
           screen_hint: "signup"
         }
       });
