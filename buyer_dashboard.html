@@ -8,7 +8,6 @@
    Buyer Dashboard — VanGuard Escrow
   </title>
 
-<!-- i18next (client-side translations) -->
 <script src="https://cdn.jsdelivr.net/npm/i18next@23.7.6/i18next.min.js"></script>
 <style>
    body{font-family:"Segoe UI",sans-serif;background:#f8fafc;margin:0;color:#0f172a;}
@@ -71,7 +70,6 @@
 </div>
 </header>
 <div class="container">
-<!-- Navigation Tabs -->
 <nav aria-label="main-nav">
 <button class="active" data-i18n="nav.escrow" id="tabEscrow">
      Escrow Setup
@@ -86,7 +84,6 @@
      KYC
     </button>
 </nav>
-<!-- Escrow Setup -->
 <div id="escrowSection">
 <div class="card">
 <form action="https://vanguardescrow.online/.netlify/functions/createEscrow" id="createEscrowForm" method="POST">
@@ -96,7 +93,6 @@
 <button class="action" id="createEscrowBtn" type="submit">Create Escrow</button>
 <div class="msg" id="createMsg"></div></form>
 </div>
-<!-- Payment Methods -->
 <div class="card" id="paymentMethodsCard">
 <h2 data-i18n="payment.h2">
       Payment Methods (Pay Offsite)
@@ -202,10 +198,9 @@
       </button>
 </div>
 <div class="small-note" data-i18n="note.bank_limit">
-      NB: Bank transfers aren’t supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.
+      NB: Bank transfers aren't supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.
      </div>
 </div>
-<!-- Deposit Wallet (shown after escrow creation) -->
 <div class="card" id="depositCard" style="display:none;">
 <h2 data-i18n="deposit.h2">
       Deposit to Escrow
@@ -256,7 +251,6 @@
 <div class="msg" id="releaseMsg"></div></form>
 </div>
 </div>
-<!-- My Escrows -->
 <div id="myEscrowsSection" style="display:none;">
 <div class="card">
 <h2 data-i18n="my.h2">
@@ -284,7 +278,6 @@
 </table>
 </div>
 </div>
-<!-- Transactions -->
 <div id="transactionsSection" style="display:none;">
 <div class="card">
 <h2 data-i18n="transactions.h2">
@@ -294,7 +287,6 @@
 </ul>
 </div>
 </div>
-<!-- KYC -->
 <div id="kycSection" style="display:none;">
 <div class="card">
 <h2 data-i18n="kyc.h2">
@@ -310,82 +302,82 @@
 <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 
 <script>
-// =======================================================
-// 1. CONFIGURATION CONSTANTS AND HELPER FUNCTION
-// =======================================================
-const AUTH0_DOMAIN = "dev-qlqii3uyji7mbn7d.us.auth0.com";
-const AUTH0_CLIENT_ID = "vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas";
-const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
-const ESCROW_ENDPOINT = "https://vanguardescrow.online/.netlify/functions/createEscrow";
+let auth0Client = null;
+let currentAccessToken = null;
 
-let auth0ClientInstance = null;
-let storedAccessToken = null;
-
-async function getAuth0Client() {
-  if (!auth0ClientInstance) {
-    auth0ClientInstance = await auth0.createAuth0Client({
-      domain: AUTH0_DOMAIN,
-      clientId: AUTH0_CLIENT_ID,
-      cacheLocation: 'localstorage',
+async function initializeAuth0() {
+  if (!auth0Client) {
+    auth0Client = await auth0.createAuth0Client({
+      domain: 'dev-qlqii3uyji7mbn7d.us.auth0.com',
+      clientId: 'vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas',
       authorizationParams: {
-        audience: AUTH0_AUDIENCE
-      }
+        audience: 'https://vanguardescrow.online/'
+      },
+      cacheLocation: 'localstorage'
     });
   }
-  return auth0ClientInstance;
+  return auth0Client;
 }
 
-// =======================================================
-// 2. SESSION RESTORATION AND VALIDATION
-// =======================================================
 async function restoreSession() {
-  console.log("🔄 Restoring Auth0 session...");
-  
   try {
-    // Get Auth0 client
-    const auth0Client = await getAuth0Client();
+    const client = await initializeAuth0();
     
-    // Check for existing session
-    await auth0Client.checkSession();
-    
-    // Try to get access token
-    const isAuthenticated = await auth0Client.isAuthenticated();
+    const isAuthenticated = await client.isAuthenticated();
     
     if (!isAuthenticated) {
-      console.warn("⚠️ No valid session found. Redirecting to login...");
-      window.location.href = "index.html";
+      console.warn('No valid session found. Redirecting to login...');
+      window.location.href = '/index.html';
       return false;
     }
     
-    // Get and store the access token
-    storedAccessToken = await auth0Client.getTokenSilently();
+    currentAccessToken = await client.getTokenSilently();
     
-    if (!storedAccessToken) {
-      console.warn("⚠️ No access token available. Redirecting to login...");
-      window.location.href = "index.html";
+    if (!currentAccessToken) {
+      console.warn('Could not retrieve access token. Redirecting to login...');
+      window.location.href = '/index.html';
       return false;
     }
     
-    console.log("✅ Session restored successfully");
+    console.log('Session restored successfully');
     return true;
   } catch (error) {
-    console.error("❌ Session restoration failed:", error);
-    console.warn("Redirecting to login page...");
-    window.location.href = "index.html";
+    console.error('Session restoration failed:', error);
+    
+    if (error.error === 'login_required' || error.error === 'consent_required') {
+      console.warn('Session expired. Redirecting to Universal Login...');
+      window.location.href = '/index.html';
+      return false;
+    }
+    
+    window.location.href = '/index.html';
     return false;
   }
 }
 
-// =======================================================
-// 3. MAIN APPLICATION LOGIC
-// =======================================================
+async function getValidAccessToken() {
+  try {
+    if (!currentAccessToken) {
+      const client = await initializeAuth0();
+      currentAccessToken = await client.getTokenSilently();
+    }
+    return currentAccessToken;
+  } catch (error) {
+    console.error('Failed to get access token:', error);
+    
+    if (error.error === 'login_required' || error.error === 'consent_required') {
+      window.location.href = '/index.html';
+    }
+    throw error;
+  }
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
-  console.log("✅ Escrow form script loaded");
+  console.log('Buyer Dashboard initializing...');
   
-  // Restore session before allowing any interactions
   const sessionValid = await restoreSession();
   if (!sessionValid) {
-    return; // Redirect will happen in restoreSession()
+    return;
   }
 
   async function handleEscrowSubmit(e, endpoint, msgId, actionName) {
@@ -396,38 +388,33 @@ window.addEventListener("DOMContentLoaded", async () => {
     msg.className = "msg";
     const data = Object.fromEntries(new FormData(form).entries());
 
-    // Use the stored access token
-    if (!storedAccessToken) {
-      msg.innerHTML = `⚠️ Session Expired or Not Logged In. Please log in first.`;
-      msg.className = "msg error";
-      console.error("No access token available");
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
-      return;
-    }
-
     try {
-      // Use the stored Access Token for API calls 
+      const token = await getValidAccessToken();
+      
+      if (!token) {
+        msg.innerHTML = `Session expired. Please log in again.`;
+        msg.className = "msg error";
+        setTimeout(() => window.location.href = '/index.html', 2000);
+        return;
+      }
+
       const res = await fetch(endpoint, { 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Attach the stored token in the required Bearer format
-          "Authorization": `Bearer ${storedAccessToken}` 
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(data)
       });
 
-      // 5. Check for 401 Unauthorized errors from the server
       if (res.status === 401) {
-        console.error("401 Unauthorized. Token rejected by Netlify Function.");
-        msg.innerHTML = `❌ Session Invalid/Expired. Please log in again.`;
+        console.error('401 Unauthorized - session invalid');
+        msg.innerHTML = `Session expired. Please log in again.`;
         msg.className = "msg error";
+        setTimeout(() => window.location.href = '/index.html', 2000);
         return; 
       }
       
-      // 6. Response Handling (Your original success/error logic)
       let text = await res.text();
       let json;
       try { json = JSON.parse(text); } catch { json = null; }
@@ -439,33 +426,35 @@ window.addEventListener("DOMContentLoaded", async () => {
       console.log(actionName + " success:", json);
       
     } catch (err) {
-      // Handles network or general system errors.
       msg.innerHTML = "❌ " + (err.message || "Network/System Error");
       msg.className = "msg error";
       console.error(actionName + " error:", err);
     }
   }
   
-  // These lines must be INSIDE the window.addEventListener block
   const base = "https://vanguardescrow.online/.netlify/functions";
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
   document.getElementById("releaseFundsForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/releaseFunds", "releaseMsg", "Release Funds"));
 
-  // Logout functionality
   document.getElementById("logoutBtn")?.addEventListener("click", async () => {
-    const auth0Client = await getAuth0Client();
-    await auth0Client.logout({ 
-      logoutParams: { 
-        returnTo: window.location.origin + "/index.html" 
-      } 
-    });
+    try {
+      const client = await initializeAuth0();
+      await client.logout({ 
+        logoutParams: { 
+          returnTo: window.location.origin + "/index.html"
+        } 
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+      window.location.href = '/index.html';
+    }
   });
 });
 </script>
 <script id="tabControl">
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ Tab system initialized");
+  console.log("Tab system initialized");
 
   const tabs = {
     tabEscrow: "escrowSection",
@@ -501,14 +490,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Show default
   showSection("escrowSection");
 });
 </script>
 <script id="i18nAndWalletFeatures">
-// =======================================================
-// i18next INITIALIZATION AND LANGUAGE SWITCHING
-// =======================================================
 const translations = {
   en: {
     translation: {
@@ -626,74 +611,74 @@ const translations = {
   },
   it: {
     translation: {
-      "title": "Dashboard Acquirente — VanGuard Escrow",
-      "header.title": "Dashboard Acquirente",
+      "title": "Pannello Acquirente — VanGuard Escrow",
+      "header.title": "Pannello Acquirente",
       "btn.logout": "Disconnetti",
       "nav.escrow": "Configurazione Escrow",
-      "nav.my_escrows": "I miei Escrow",
+      "nav.my_escrows": "I Miei Escrow",
       "nav.transactions": "Transazioni",
       "nav.kyc": "KYC",
-      "payment.h2": "Metodi di pagamento (Paga fuori sito)",
+      "payment.h2": "Metodi di Pagamento (Paga Fuori Sito)",
       "method.trc": "USDT TRC20",
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (solo USA)",
-      "method.bank": "Bonifico bancario (Revolut Instant)",
-      "method.bank_note": "Contatta l'amministratore in diretta su Google Meet o via email support@vanguardescrow.online",
+      "method.bank": "Bonifico Bancario (Revolut Instant)",
+      "method.bank_note": "Chatta con Admin Live su Google Meet o email support@vanguardescrow.online",
       "btn.copy": "Copia",
       "btn.use": "Usa",
       "btn.info": "Info",
-      "btn.use_custom": "Usa personalizzato",
+      "btn.use_custom": "Usa Personalizzato",
       "btn.clear": "Cancella",
       "ph.custom": "Inserisci metodo di pagamento personalizzato",
-      "note.bank_limit": "NB: I bonifici bancari non sono supportati per importi superiori a $ 5000.",
-      "deposit.h2": "Deposita su Escrow",
-      "deposit.send": "Si prega di inviare il pagamento al portafoglio sottostante:",
+      "note.bank_limit": "NB: I bonifici bancari non sono supportati per trasferimenti superiori a $ 5000.",
+      "deposit.h2": "Deposito su Escrow",
+      "deposit.send": "Invia il tuo pagamento al portafoglio qui sotto:",
       "label.escrow": "ID Escrow:",
       "label.amount": "Importo:",
-      "btn.deposit_done": "Ho depositato",
-      "my.h2": "I miei Escrow",
+      "btn.deposit_done": "Ho Depositato",
+      "my.h2": "I Miei Escrow",
       "tbl.id": "ID",
       "tbl.status": "Stato",
       "tbl.amount": "Importo",
       "tbl.wallet": "Portafoglio",
       "transactions.h2": "Transazioni",
       "kyc.h2": "KYC",
-      "kyc.note": "La verifica KYC sarà richiesta per gli acquirenti che scelgono di pagare i venditori tramite bonifico bancario."
+      "kyc.note": "La verifica KYC sarà richiesta agli acquirenti che scelgono di pagare i venditori tramite bonifico bancario."
     }
   },
   es: {
     translation: {
-      "title": "Panel de comprador — VanGuard Escrow",
-      "header.title": "Panel de comprador",
+      "title": "Panel del Comprador — VanGuard Escrow",
+      "header.title": "Panel del Comprador",
       "btn.logout": "Cerrar sesión",
-      "nav.escrow": "Configuración Escrow",
+      "nav.escrow": "Configuración de Escrow",
       "nav.my_escrows": "Mis Escrows",
       "nav.transactions": "Transacciones",
       "nav.kyc": "KYC",
-      "payment.h2": "Métodos de pago (Pagar fuera del sitio)",
+      "payment.h2": "Métodos de Pago (Pagar Fuera del Sitio)",
       "method.trc": "USDT TRC20",
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (solo EE. UU.)",
-      "method.bank": "Transferencia bancaria (Revolut Instant)",
-      "method.bank_note": "Contacte al administrador en vivo en Google Meet o por correo electrónico support@vanguardescrow.online",
+      "method.bank": "Transferencia Bancaria (Revolut Instant)",
+      "method.bank_note": "Chatea con Admin en Google Meet o correo support@vanguardescrow.online",
       "btn.copy": "Copiar",
       "btn.use": "Usar",
       "btn.info": "Info",
-      "btn.use_custom": "Usar personalizado",
+      "btn.use_custom": "Usar Personalizado",
       "btn.clear": "Borrar",
       "ph.custom": "Ingrese método de pago personalizado",
-      "note.bank_limit": "NB: Las transferencias bancarias no son compatibles con transferencias superiores a $ 5000.",
-      "deposit.h2": "Depositar en Escrow",
+      "note.bank_limit": "NB: Las transferencias bancarias no son compatibles para transferencias superiores a $ 5000.",
+      "deposit.h2": "Depósito a Escrow",
       "deposit.send": "Envíe su pago a la billetera a continuación:",
       "label.escrow": "ID de Escrow:",
-      "label.amount": "Cantidad:",
-      "btn.deposit_done": "He depositado",
+      "label.amount": "Monto:",
+      "btn.deposit_done": "He Depositado",
       "my.h2": "Mis Escrows",
       "tbl.id": "ID",
       "tbl.status": "Estado",
-      "tbl.amount": "Cantidad",
+      "tbl.amount": "Monto",
       "tbl.wallet": "Billetera",
       "transactions.h2": "Transacciones",
       "kyc.h2": "KYC",
@@ -702,126 +687,114 @@ const translations = {
   }
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
-  console.log("✅ i18n and wallet features initialized");
-
-  await i18next.init({
-    lng: localStorage.getItem('selectedLanguage') || 'en',
-    resources: translations,
-    fallbackLng: 'en'
-  });
-
-  function updatePageTexts() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      el.textContent = i18next.t(key);
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      el.placeholder = i18next.t(key);
-    });
-    document.title = i18next.t('title');
+i18next.init({
+  lng: 'en',
+  debug: false,
+  resources: translations
+}, function(err, t) {
+  if (err) {
+    console.error("i18next initialization error:", err);
+    return;
   }
+  updateContent();
+});
 
-  updatePageTexts();
+function updateContent() {
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    element.textContent = i18next.t(key);
+  });
+  
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+    const key = element.getAttribute('data-i18n-placeholder');
+    element.placeholder = i18next.t(key);
+  });
+  
+  const titleElement = document.querySelector('title');
+  if (titleElement) {
+    titleElement.textContent = i18next.t('title');
+  }
+}
 
+document.addEventListener('DOMContentLoaded', () => {
   const langSwitcher = document.getElementById('langSwitcher');
   if (langSwitcher) {
-    langSwitcher.value = i18next.language;
-    langSwitcher.addEventListener('change', async (e) => {
-      const lang = e.target.value;
-      await i18next.changeLanguage(lang);
-      localStorage.setItem('selectedLanguage', lang);
-      updatePageTexts();
-      console.log(`Language changed to: ${lang}`);
+    langSwitcher.addEventListener('change', (e) => {
+      i18next.changeLanguage(e.target.value, () => {
+        updateContent();
+      });
     });
   }
 
-  // =======================================================
-  // WALLET SELECTION AND COPY FUNCTIONALITY
-  // =======================================================
-  const paymentItems = document.querySelectorAll('.payment-item');
-  const selectedDisplay = document.getElementById('selectedPaymentDisplay');
-  const selectedText = document.getElementById('selectedPaymentText');
-  const paymentMethodInput = document.getElementById('paymentMethod');
-  
-  paymentItems.forEach(item => {
-    const useBtn = item.querySelector('.use-btn');
-    const copyBtn = item.querySelector('.copy-btn');
-    const walletValue = useBtn?.getAttribute('data-val');
+  const copyButtons = document.querySelectorAll('.copy-btn');
+  copyButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = btn.getAttribute('data-val');
+      if (val === 'BankTransferInfo') {
+        alert('Chat Live Admin on our Google Meet link or email support@vanguardescrow.online');
+      } else {
+        navigator.clipboard.writeText(val).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = '✓';
+          setTimeout(() => {
+            btn.textContent = originalText;
+          }, 1500);
+        });
+      }
+    });
+  });
 
-    if (copyBtn && walletValue) {
-      copyBtn.addEventListener('click', async () => {
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(walletValue);
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = '✓ Copied!';
-            setTimeout(() => {
-              copyBtn.textContent = originalText;
-            }, 2000);
-          } else {
-            const textarea = document.createElement('textarea');
-            textarea.value = walletValue;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = '✓ Copied!';
-            setTimeout(() => {
-              copyBtn.textContent = originalText;
-            }, 2000);
-          }
-        } catch (err) {
-          console.error('Failed to copy:', err);
-          alert('Failed to copy to clipboard');
+  const useButtons = document.querySelectorAll('.use-btn');
+  useButtons.forEach(btn => {
+    if (btn.id !== 'useCustomBtn' && btn.id !== 'clearSelected') {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-val');
+        const paymentInput = document.getElementById('paymentMethod');
+        if (paymentInput) {
+          paymentInput.value = val;
         }
-      });
-    }
-
-    if (useBtn && walletValue) {
-      useBtn.addEventListener('click', () => {
-        if (paymentMethodInput) {
-          paymentMethodInput.value = walletValue;
-        }
-        if (selectedDisplay && selectedText) {
-          selectedText.textContent = walletValue;
-          selectedDisplay.style.display = 'flex';
+        const display = document.getElementById('selectedPaymentDisplay');
+        const text = document.getElementById('selectedPaymentText');
+        if (display && text) {
+          text.textContent = val;
+          display.style.display = 'flex';
         }
       });
     }
   });
 
-  const customPaymentInput = document.getElementById('customPayment');
   const useCustomBtn = document.getElementById('useCustomBtn');
-  
-  if (useCustomBtn && customPaymentInput && paymentMethodInput) {
+  if (useCustomBtn) {
     useCustomBtn.addEventListener('click', () => {
-      const customValue = customPaymentInput.value.trim();
-      if (customValue) {
-        paymentMethodInput.value = customValue;
-        if (selectedDisplay && selectedText) {
-          selectedText.textContent = customValue;
-          selectedDisplay.style.display = 'flex';
-        }
+      const custom = document.getElementById('customPayment').value.trim();
+      if (!custom) {
+        alert('Please enter a custom payment method');
+        return;
+      }
+      const paymentInput = document.getElementById('paymentMethod');
+      if (paymentInput) {
+        paymentInput.value = custom;
+      }
+      const display = document.getElementById('selectedPaymentDisplay');
+      const text = document.getElementById('selectedPaymentText');
+      if (display && text) {
+        text.textContent = custom;
+        display.style.display = 'flex';
       }
     });
   }
 
-  const clearSelectedBtn = document.getElementById('clearSelected');
-  if (clearSelectedBtn && selectedDisplay && paymentMethodInput) {
-    clearSelectedBtn.addEventListener('click', () => {
-      selectedDisplay.style.display = 'none';
-      paymentMethodInput.value = '';
-      if (customPaymentInput) {
-        customPaymentInput.value = '';
+  const clearSelected = document.getElementById('clearSelected');
+  if (clearSelected) {
+    clearSelected.addEventListener('click', () => {
+      const paymentInput = document.getElementById('paymentMethod');
+      if (paymentInput) {
+        paymentInput.value = '';
       }
-      document.querySelectorAll('input[name="paymentMethod"][type="radio"]').forEach(radio => {
-        radio.checked = false;
-      });
+      const display = document.getElementById('selectedPaymentDisplay');
+      if (display) {
+        display.style.display = 'none';
+      }
     });
   }
 });
