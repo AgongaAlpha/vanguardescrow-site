@@ -319,6 +319,53 @@ async function initializeAuth0() {
   return auth0Client;
 }
 
+async function finishAuthRedirectIfNeeded(client) {
+  const query = window.location.search;
+  const hash = window.location.hash;
+  
+  if (query.includes('code=') || query.includes('error=') || hash.includes('access_token')) {
+    console.log('Auth0 redirect detected, processing callback...');
+    
+    try {
+      if (query.includes('error=')) {
+        const params = new URLSearchParams(query);
+        const error = params.get('error');
+        const errorDescription = params.get('error_description');
+        console.error('Auth0 error:', error, errorDescription);
+        alert('Authentication error: ' + (errorDescription || error));
+        window.location.href = '/index.html';
+        return;
+      }
+      
+      await client.handleRedirectCallback();
+      console.log('Auth0 callback handled successfully');
+      
+      window.history.replaceState({}, document.title, "/buyer_dashboard.html");
+      
+      try {
+        currentAccessToken = await client.getTokenSilently({
+          authorizationParams: {
+            audience: 'https://vanguardescrow.online/'
+          }
+        });
+        console.log('Token retrieved successfully after redirect');
+      } catch (tokenError) {
+        console.error('Failed to get token after redirect:', tokenError);
+        
+        await client.loginWithRedirect({
+          authorizationParams: {
+            audience: 'https://vanguardescrow.online/',
+            redirect_uri: window.location.origin + "/buyer_dashboard.html"
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error handling Auth0 redirect:', error);
+      window.location.href = '/index.html';
+    }
+  }
+}
+
 async function restoreSession() {
   try {
     const client = await initializeAuth0();
@@ -374,6 +421,10 @@ async function getValidAccessToken() {
 
 window.addEventListener("DOMContentLoaded", async () => {
   console.log('Buyer Dashboard initializing...');
+  
+  const client = await initializeAuth0();
+  
+  await finishAuthRedirectIfNeeded(client);
   
   const sessionValid = await restoreSession();
   if (!sessionValid) {
