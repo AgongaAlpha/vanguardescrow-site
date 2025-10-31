@@ -319,6 +319,7 @@ const AUTH0_AUDIENCE = "https://vanguardescrow.online/";
 const ESCROW_ENDPOINT = "https://vanguardescrow.online/.netlify/functions/createEscrow";
 
 let auth0ClientInstance = null;
+let storedAccessToken = null;
 
 async function getAuth0Client() {
   if (!auth0ClientInstance) {
@@ -335,10 +336,57 @@ async function getAuth0Client() {
 }
 
 // =======================================================
-// 2. MAIN APPLICATION LOGIC
+// 2. SESSION RESTORATION AND VALIDATION
 // =======================================================
-window.addEventListener("DOMContentLoaded", () => {
+async function restoreSession() {
+  console.log("🔄 Restoring Auth0 session...");
+  
+  try {
+    // Get Auth0 client
+    const auth0Client = await getAuth0Client();
+    
+    // Check for existing session
+    await auth0Client.checkSession();
+    
+    // Try to get access token
+    const isAuthenticated = await auth0Client.isAuthenticated();
+    
+    if (!isAuthenticated) {
+      console.warn("⚠️ No valid session found. Redirecting to login...");
+      window.location.href = "index.html";
+      return false;
+    }
+    
+    // Get and store the access token
+    storedAccessToken = await auth0Client.getTokenSilently();
+    
+    if (!storedAccessToken) {
+      console.warn("⚠️ No access token available. Redirecting to login...");
+      window.location.href = "index.html";
+      return false;
+    }
+    
+    console.log("✅ Session restored successfully");
+    return true;
+  } catch (error) {
+    console.error("❌ Session restoration failed:", error);
+    console.warn("Redirecting to login page...");
+    window.location.href = "index.html";
+    return false;
+  }
+}
+
+// =======================================================
+// 3. MAIN APPLICATION LOGIC
+// =======================================================
+window.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ Escrow form script loaded");
+  
+  // Restore session before allowing any interactions
+  const sessionValid = await restoreSession();
+  if (!sessionValid) {
+    return; // Redirect will happen in restoreSession()
+  }
 
   async function handleEscrowSubmit(e, endpoint, msgId, actionName) {
     e.preventDefault();
@@ -348,29 +396,25 @@ window.addEventListener("DOMContentLoaded", () => {
     msg.className = "msg";
     const data = Object.fromEntries(new FormData(form).entries());
 
-    // 1. Get the Auth0 client instance
-    const auth0Client = await getAuth0Client();
-
-    // 2. Check authentication and get token silently
-    let token;
-    try {
-      token = await auth0Client.getTokenSilently();
-    } catch (authError) {
+    // Use the stored access token
+    if (!storedAccessToken) {
       msg.innerHTML = `⚠️ Session Expired or Not Logged In. Please log in first.`;
       msg.className = "msg error";
-      console.error("Authentication error:", authError);
+      console.error("No access token available");
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
       return;
     }
 
     try {
-      // 3. Use the Access Token for API calls 
-
+      // Use the stored Access Token for API calls 
       const res = await fetch(endpoint, { 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // 4. Attach the fresh token in the required Bearer format
-          "Authorization": `Bearer ${token}` 
+          // Attach the stored token in the required Bearer format
+          "Authorization": `Bearer ${storedAccessToken}` 
         },
         body: JSON.stringify(data)
       });
