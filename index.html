@@ -750,21 +750,32 @@
 <aside class="auth">
 <!-- Sign Up Card -->
 <div aria-labelledby="signup-title" class="form" id="signupFormCard" style="display:flex;flex-direction:column;gap:16px;text-align:center;">
-<h4 id="signup-title" style="margin:0;font-size:20px;">
-       Create Account
-      </h4>
-<div class="muted" style="font-size:14px;line-height:1.6;">
-       Sign up with Auth0 to start or receive secure escrow payments
-      </div>
-<button id="signupBtn" style="padding:14px 20px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;font-size:16px;box-shadow: 0 4px 14px rgba(30,64,175,0.25);transition:transform 0.2s ease, box-shadow 0.2s ease;">
-        Create Account
-      </button>
-<div style="font-size:13px;color:#6b7280;">
-       Already have an account?
-       <a href="#" id="switchToLogin" style="color:#1e40af;font-weight:600;text-decoration:none;">
-        Login here
-       </a>
-</div>
+  <h4 id="signup-title" data-i18n="signup_title" style="margin:0;font-size:20px;">Create Account</h4>
+  <div class="muted" data-i18n="signup_desc" style="font-size:14px;line-height:1.6;">
+    Sign up to start or receive secure escrow payments
+  </div>
+
+  <input id="signupName" type="text" data-i18n-placeholder="signup_name_ph" placeholder="Full name" aria-label="Full name" />
+  <input id="signupEmail" type="email" data-i18n-placeholder="signup_email_ph" placeholder="Email" aria-label="Email" />
+  <input id="signupPassword" type="password" data-i18n-placeholder="signup_password_ph" placeholder="Password" aria-label="Password" />
+  <label style="display:flex;gap:8px;align-items:center;justify-content:center;">
+    <span class="muted" data-i18n="signup_role_label">I am a</span>
+    <select id="signupRole" aria-label="Role" style="padding:8px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);">
+      <option value="buyer" data-i18n="signup_role_buyer">Buyer</option>
+      <option value="seller" data-i18n="signup_role_seller">Seller</option>
+    </select>
+  </label>
+
+  <button id="signupSubmitBtn" data-i18n="signup_btn" style="padding:14px 20px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;font-size:16px;">
+    Create Account
+  </button>
+
+  <div style="font-size:13px;color:#6b7280;">
+    <span data-i18n="login_prompt">Already have an account?</span>
+    <a href="#" id="switchToLogin" data-i18n="login_link" style="color:#1e40af;font-weight:600;text-decoration:none;">Login here</a>
+  </div>
+
+  <div id="signupMsg" class="msg" style="display:none"></div>
 </div>
 
 <div style="height:16px">
@@ -772,21 +783,22 @@
 
 <!-- Login Card -->
 <div aria-labelledby="login-title" class="form" id="loginFormCard" style="display:none;flex-direction:column;gap:16px;text-align:center;">
-<h4 data-i18n="login_title" id="login-title" style="margin:0;font-size:20px;">
-       Login
-      </h4>
-<div class="muted" data-i18n="login_desc" style="font-size:14px;line-height:1.6;">
-       Access your escrow dashboard
-      </div>
-<button data-i18n="login_btn" id="loginBtn" style="padding:14px 20px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;font-size:16px;box-shadow: 0 4px 14px rgba(30,64,175,0.25);transition:transform 0.2s ease, box-shadow 0.2s ease;">
-       Sign In
-      </button>
-<div style="font-size:13px;color:#6b7280;">
-       Don't have an account?
-       <a href="#" id="switchToSignup" style="color:#1e40af;font-weight:600;text-decoration:none;">
-        Create one
-       </a>
-</div>
+  <h4 data-i18n="login_title" id="login-title" style="margin:0;font-size:20px;">Login</h4>
+  <div class="muted" data-i18n="login_desc" style="font-size:14px;line-height:1.6;">Access your escrow dashboard</div>
+
+  <input id="loginEmail" type="email" data-i18n-placeholder="login_email_ph" placeholder="Email" aria-label="Email" />
+  <input id="loginPassword" type="password" data-i18n-placeholder="login_password_ph" placeholder="Password" aria-label="Password" />
+
+  <button id="loginSubmitBtn" data-i18n="login_btn" style="padding:14px 20px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:700;font-size:16px;">
+    Sign In
+  </button>
+
+  <div style="font-size:13px;color:#6b7280;">
+    <span data-i18n="signup_prompt">Don't have an account?</span>
+    <a href="#" id="switchToSignup" data-i18n="signup_link" style="color:#1e40af;font-weight:600;text-decoration:none;">Create one</a>
+  </div>
+
+  <div id="loginMsg" class="msg" style="display:none"></div>
 </div>
 </aside>
 </div>
@@ -946,8 +958,8 @@
         markets_title: "Markets", markets_desc: "We operate across multiple regions with local compliance guidance.",
         market_europe: "Europe", market_na: "North America", market_sg: "Singapore", market_my: "Malaysia", market_me: "Middle East",
         payments_title: "Payment Methods", payment_crypto_title: "Crypto (primary)", payment_crypto_desc: "BTC, ETH & stablecoins", payment_cashapp_title: "Cash App", payment_cashapp_desc: "US only", payment_wire_title: "Bank / Wire", payment_wire_desc: "By arrangement", payments_note: "Note: Crypto is the primary payment method due to speed and irrevocability. Cash App is supported for US transactions only — follow KYC rules for fiat transfers.",
-        signup_title: "Create account", signup_desc: "Sign up to start or receive escrow payments", signup_btn: "Create account", signup_email_ph: "Email", signup_password_ph: "Password", login_prompt: "Already have an account?", login_link: "Login",
-        login_title: "Login", login_desc: "Access your dashboard", login_btn: "Sign in", login_email_ph: "Email", login_password_ph: "Password",
+        signup_title: "Create account", signup_desc: "Sign up to start or receive escrow payments", signup_name_ph: "Full name", signup_email_ph: "Email", signup_password_ph: "Password", signup_role_label: "I am a", signup_role_buyer: "Buyer", signup_role_seller: "Seller", signup_btn: "Create account", login_prompt: "Already have an account?", login_link: "Login",
+        login_title: "Login", login_desc: "Access your dashboard", login_email_ph: "Email", login_password_ph: "Password", login_btn: "Sign in", signup_prompt: "Don't have an account?", signup_link: "Create one",
         modal_signup_title: "Create account",
         footer_email_label: "Email", footer_chat_label: "Live chat", footer_chat_link: "Google Meet", footer_quick_links: "Quick Links", footer_legal: "Legal",
         legal_terms: "Terms", legal_privacy: "Privacy Policy", legal_disputes: "Disputes & Arbitration",
@@ -980,8 +992,8 @@
         markets_title: "Mercados", markets_desc: "Operamos en múltiples regiones con orientación de cumplimiento local.",
         market_europe: "Europa", market_na: "Norteamérica", market_sg: "Singapur", market_my: "Malasia",
         payments_title: "Métodos de Pago", payment_crypto_title: "Cripto (principal)", payment_crypto_desc: "BTC, ETH & stablecoins", payment_cashapp_title: "Cash App", payment_cashapp_desc: "Solo EE. UU.", payment_wire_title: "Banco / Transferencia", payment_wire_desc: "Mediante acuerdo", payments_note: "Nota: Cripto es el método de pago principal debido a la velocidad e irrevocabilidad. Cash App solo es compatible con transacciones en EE. UU. — siga las reglas de KYC para transferencias fiduciarias.",
-        signup_title: "Crear cuenta", signup_desc: "Regístrate para iniciar o recibir pagos de fideicomiso", signup_btn: "Crear cuenta", signup_email_ph: "Correo Electrónico", signup_password_ph: "Contraseña", login_prompt: "¿Ya tienes cuenta?", login_link: "Iniciar sesión",
-        login_title: "Iniciar sesión", login_desc: "Accede a tu panel", login_btn: "Iniciar sesión", login_email_ph: "Correo Electrónico", login_password_ph: "Contraseña",
+        signup_title: "Crear cuenta", signup_desc: "Regístrate para iniciar o recibir pagos de fideicomiso", signup_name_ph: "Nombre completo", signup_email_ph: "Correo Electrónico", signup_password_ph: "Contraseña", signup_role_label: "Soy un", signup_role_buyer: "Comprador", signup_role_seller: "Vendedor", signup_btn: "Crear cuenta", login_prompt: "¿Ya tienes cuenta?", login_link: "Iniciar sesión",
+        login_title: "Iniciar sesión", login_desc: "Accede a tu panel", login_email_ph: "Correo Electrónico", login_password_ph: "Contraseña", login_btn: "Iniciar sesión", signup_prompt: "¿No tienes cuenta?", signup_link: "Crear una",
         modal_signup_title: "Crear cuenta",
         footer_email_label: "Correo Electrónico", footer_chat_label: "Chat en vivo", footer_chat_link: "Google Meet", footer_quick_links: "Enlaces Rápidos", footer_legal: "Legal",
         legal_terms: "Términos", legal_privacy: "Política de Privacidad", legal_disputes: "Disputas y Arbitraje",
@@ -1014,8 +1026,8 @@
         markets_title: "Pasaran", markets_desc: "Kami beroperasi merentasi pelbagai wilayah dengan panduan pematuhan tempatan.",
         market_europe: "Eropah", market_na: "Amerika Utara", market_sg: "Singapura", market_my: "Malaysia", market_me: "Timur Tengah",
         payments_title: "Kaedah Pembayaran", payment_crypto_title: "Kripto (utama)", payment_crypto_desc: "BTC, ETH & stablecoin", payment_cashapp_title: "Aplikasi Tunai", payment_cashapp_desc: "AS sahaja", payment_wire_title: "Bank / Kawat", payment_wire_desc: "Melalui perjanjian", payments_note: "Nota: Kripto ialah kaedah pembayaran utama kerana kelajuan dan ketidakbolehbalikan. Cash App hanya disokong untuk urus niaga AS — ikuti peraturan KYC untuk pemindahan fiat.",
-        signup_title: "Cipta akaun", signup_desc: "Daftar untuk memulakan atau menerima pembayaran escrow", signup_btn: "Cipta akaun", signup_email_ph: "E-mel", signup_password_ph: "Kata Laluan", login_prompt: "Sudah ada akaun?", login_link: "Log Masuk",
-        login_title: "Log masuk", login_desc: "Akses papan pemuka anda", login_btn: "Daftar masuk", login_email_ph: "E-mel", login_password_ph: "Kata Laluan",
+        signup_title: "Cipta akaun", signup_desc: "Daftar untuk memulakan atau menerima pembayaran escrow", signup_name_ph: "Nama penuh", signup_email_ph: "E-mel", signup_password_ph: "Kata Laluan", signup_role_label: "Saya adalah", signup_role_buyer: "Pembeli", signup_role_seller: "Penjual", signup_btn: "Cipta akaun", login_prompt: "Sudah ada akaun?", login_link: "Log Masuk",
+        login_title: "Log masuk", login_desc: "Akses papan pemuka anda", login_email_ph: "E-mel", login_password_ph: "Kata Laluan", login_btn: "Daftar masuk", signup_prompt: "Tiada akaun?", signup_link: "Cipta satu",
         modal_signup_title: "Cipta akaun",
         footer_email_label: "E-mel", footer_chat_label: "Sembang langsung", footer_chat_link: "Google Meet", footer_quick_links: "Pautan Pantas", footer_legal: "Undang-undang",
         legal_terms: "Terma", legal_privacy: "Dasar Privasi", legal_disputes: "Pertikaian & Arbitrasi",
@@ -1048,8 +1060,8 @@
         markets_title: "Mercati", markets_desc: "Operiamo in più regioni con linee guida di conformità locali.",
         market_europe: "Europa", market_na: "Nord America", market_sg: "Singapore", market_my: "Malesia", market_me: "Medio Oriente",
         payments_title: "Metodi di Pagamento", payment_crypto_title: "Criptovaluta (principale)", payment_crypto_desc: "BTC, ETH e stablecoin", payment_cashapp_title: "Cash App", payment_cashapp_desc: "Solo USA", payment_wire_title: "Banca / Bonifico", payment_wire_desc: "Su accordo", payments_note: "Nota: la Criptovaluta è il metodo di pagamento principale per velocità e irrevocabilità. Cash App è supportata solo per le transazioni negli Stati Uniti — seguire le regole KYC per i trasferimenti fiat.",
-        signup_title: "Crea account", signup_desc: "Registrati per avviare o ricevere pagamenti in escrow", signup_btn: "Crea account", signup_email_ph: "E-mail", signup_password_ph: "Password", login_prompt: "Hai già un account?", login_link: "Accedi",
-        login_title: "Accesso", login_desc: "Accedi alla tua dashboard", login_btn: "Accedi", login_email_ph: "E-mail", login_password_ph: "Password",
+        signup_title: "Crea account", signup_desc: "Registrati per avviare o ricevere pagamenti in escrow", signup_name_ph: "Nome completo", signup_email_ph: "E-mail", signup_password_ph: "Password", signup_role_label: "Sono un", signup_role_buyer: "Acquirente", signup_role_seller: "Venditore", signup_btn: "Crea account", login_prompt: "Hai già un account?", login_link: "Accedi",
+        login_title: "Accesso", login_desc: "Accedi alla tua dashboard", login_email_ph: "E-mail", login_password_ph: "Password", login_btn: "Accedi", signup_prompt: "Non hai un account?", signup_link: "Creane uno",
         modal_signup_title: "Crea account",
         footer_email_label: "E-mail", footer_chat_label: "Chat dal vivo", footer_chat_link: "Google Meet", footer_quick_links: "Link Rapidi", footer_legal: "Legale",
         legal_terms: "Termini", legal_privacy: "Informativa sulla Privacy", legal_disputes: "Controversie e Arbitrato",
@@ -1082,8 +1094,8 @@
         markets_title: "Marchés", markets_desc: "Nous opérons dans plusieurs régions avec des directives de conformité locales.",
         market_europe: "Europe", market_na: "Amérique du Nord", market_sg: "Singapour", market_my: "Malaisie", market_me: "Moyen-Orient",
         payments_title: "Modes de Paiement", payment_crypto_title: "Crypto (principal)", payment_crypto_desc: "BTC, ETH et stablecoins", payment_cashapp_title: "Cash App", payment_cashapp_desc: "USA uniquement", payment_wire_title: "Banque / Virement", payment_wire_desc: "Par arrangement", payments_note: "Note: La Crypto est le mode de paiement principal en raison de sa rapidité et de son irrévocabilité. Cash App n'est pris en charge que pour les transactions américaines — suivez les règles KYC pour les transferts fiduciaires.",
-        signup_title: "Créer un compte", signup_desc: "Inscrivez-vous pour démarrer ou recevoir des paiements escrow", signup_btn: "Créer un compte", signup_email_ph: "E-mail", signup_password_ph: "Mot de passe", login_prompt: "Vous avez déjà un compte?", login_link: "Connexion",
-        login_title: "Connexion", login_desc: "Accédez à votre tableau de bord", login_btn: "Se connecter", login_email_ph: "E-mail", login_password_ph: "Mot de passe",
+        signup_title: "Créer un compte", signup_desc: "Inscrivez-vous pour démarrer ou recevoir des paiements escrow", signup_name_ph: "Nom complet", signup_email_ph: "E-mail", signup_password_ph: "Mot de passe", signup_role_label: "Je suis un", signup_role_buyer: "Acheteur", signup_role_seller: "Vendeur", signup_btn: "Créer un compte", login_prompt: "Vous avez déjà un compte?", login_link: "Connexion",
+        login_title: "Connexion", login_desc: "Accédez à votre tableau de bord", login_email_ph: "E-mail", login_password_ph: "Mot de passe", login_btn: "Se connecter", signup_prompt: "Vous n'avez pas de compte?", signup_link: "Créer un",
         modal_signup_title: "Créer un compte",
         footer_email_label: "E-mail", footer_chat_label: "Chat en direct", footer_chat_link: "Google Meet", footer_quick_links: "Liens Rapides", footer_legal: "Légal",
         legal_terms: "Conditions", legal_privacy: "Politique de Confidentialité", legal_disputes: "Litiges et Arbitrage",
@@ -1116,8 +1128,8 @@
         markets_title: "Rynki", markets_desc: "Działamy w wielu regionach z lokalnymi wytycznymi dotyczącymi zgodności.",
         market_europe: "Europa", market_na: "Ameryka Północna", market_sg: "Singapur", market_my: "Malezja", market_me: "Bliski Wschód",
         payments_title: "Metody Płatności", payment_crypto_title: "Krypto (główna)", payment_crypto_desc: "BTC, ETH i stablecoiny", payment_cashapp_title: "Cash App", payment_cashapp_desc: "Tylko USA", payment_wire_title: "Bank / Przelew", payment_wire_desc: "Na mocy ustaleń", payments_note: "Uwaga: Krypto jest główną metodą płatności ze względu na szybkość i nieodwołalność. Cash App jest obsługiwana tylko dla transakcji w USA — przestrzegaj zasad KYC dla przelewów fiat.",
-        signup_title: "Utwórz konto", signup_desc: "Zarejestruj się, aby rozpocząć lub odbierać płatności escrow", signup_btn: "Utwórz konto", signup_email_ph: "E-mail", signup_password_ph: "Hasło", login_prompt: "Masz już konto?", login_link: "Zaloguj się",
-        login_title: "Logowanie", login_desc: "Dostęp do pulpitu nawigacyjnego", login_btn: "Zaloguj się", login_email_ph: "E-mail", login_password_ph: "Hasło",
+        signup_title: "Utwórz konto", signup_desc: "Zarejestruj się, aby rozpocząć lub odbierać płatności escrow", signup_name_ph: "Pełne imię i nazwisko", signup_email_ph: "E-mail", signup_password_ph: "Hasło", signup_role_label: "Jestem", signup_role_buyer: "Kupujący", signup_role_seller: "Sprzedający", signup_btn: "Utwórz konto", login_prompt: "Masz już konto?", login_link: "Zaloguj się",
+        login_title: "Logowanie", login_desc: "Dostęp do pulpitu nawigacyjnego", login_email_ph: "E-mail", login_password_ph: "Hasło", login_btn: "Zaloguj się", signup_prompt: "Nie masz konta?", signup_link: "Utwórz je",
         modal_signup_title: "Utwórz konto",
         footer_email_label: "E-mail", footer_chat_label: "Czat na żywo", footer_chat_link: "Google Meet", footer_quick_links: "Szybkie Linki", footer_legal: "Prawne",
         legal_terms: "Warunki", legal_privacy: "Polityka Prywatności", legal_disputes: "Spory i Arbitraż",
@@ -1199,55 +1211,119 @@
 
     // Defensive: report BASE_URL in console for devs
     console.info('VanGuard Escrow frontend configured. Backend BASE_URL =', BASE_URL);
+
+    // ---- Auth UI toggles ----
+    document.getElementById('switchToLogin').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('signupFormCard').style.display = 'none';
+      document.getElementById('loginFormCard').style.display = 'flex';
+    });
+    document.getElementById('switchToSignup').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('signupFormCard').style.display = 'flex';
+      document.getElementById('loginFormCard').style.display = 'none';
+    });
+
+    // ---- Signup handler ----
+    document.getElementById('signupSubmitBtn').addEventListener('click', async () => {
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const role = document.getElementById('signupRole').value;
+      const msgEl = document.getElementById('signupMsg');
+      if (!name || !email || !password) {
+        showMsg(msgEl, 'Please fill all fields', 'error');
+        msgEl.style.display = 'block';
+        return;
+      }
+      showMsg(msgEl, 'Creating account...', 'success');
+      msgEl.style.display = 'block';
+
+      try {
+        const res = await fetch(BASE_URL + 'signup', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ name, email, password, role }),
+          credentials: 'include'
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showMsg(msgEl, data.error || (data.message || 'Signup failed'), 'error');
+          return;
+        }
+        showMsg(msgEl, 'Account created. Logging in...', 'success');
+
+        const loginRes = await fetch(BASE_URL + 'login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email, password }),
+          credentials: 'include'
+        });
+        if (!loginRes.ok) {
+          const ld = await loginRes.json().catch(()=>({}));
+          showMsg(msgEl, ld.error || 'Login after signup failed', 'error');
+          return;
+        }
+
+        const meRes = await fetch(BASE_URL + 'me', { credentials: 'include' });
+        const me = await meRes.json().catch(()=>null);
+        if (me && me.role === 'seller') window.location.href = '/seller_dashboard.html';
+        else window.location.href = '/buyer_dashboard.html';
+      } catch (err) {
+        showMsg(msgEl, err.message || 'Network error', 'error');
+      }
+    });
+
+    // ---- Login handler ----
+    document.getElementById('loginSubmitBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const msgEl = document.getElementById('loginMsg');
+      if (!email || !password) {
+        showMsg(msgEl, 'Please enter email and password', 'error');
+        msgEl.style.display = 'block';
+        return;
+      }
+      showMsg(msgEl, 'Signing in...', 'success');
+      msgEl.style.display = 'block';
+
+      try {
+        const res = await fetch(BASE_URL + 'login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email, password }),
+          credentials: 'include'
+        });
+        const json = await res.json();
+        if (!res.ok) {
+          showMsg(msgEl, json.error || 'Login failed', 'error');
+          return;
+        }
+
+        const meRes = await fetch(BASE_URL + 'me', { credentials: 'include' });
+        const me = await meRes.json().catch(()=>null);
+        if (me && me.role === 'seller') window.location.href = '/seller_dashboard.html';
+        else window.location.href = '/buyer_dashboard.html';
+      } catch (err) {
+        showMsg(msgEl, err.message || 'Network error', 'error');
+      }
+    });
+
+    ['loginEmail','loginPassword'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') document.getElementById('loginSubmitBtn').click();
+      });
+    });
+    ['signupName','signupEmail','signupPassword'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') document.getElementById('signupSubmitBtn').click();
+      });
+    });
   </script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2.0.4/dist/auth0-spa-js.production.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  const auth0Client = await auth0.createAuth0Client({
-    domain: "dev-qlqii3uyji7mbn7d.us.auth0.com",
-    clientId: "vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas",
-    authorizationParams: {
-      audience: "https://vanguardescrow.online/",
-      redirect_uri: window.location.origin + "/buyer_dashboard.html"
-    },
-    cacheLocation: "localstorage",
-    useRefreshTokens: true
-  });
-
-  // handle redirect after login
-  if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
-    await auth0Client.handleRedirectCallback();
-    window.location.replace(window.location.origin + "/buyer_dashboard.html");
-  }
-
-  // attach to login buttons
-  document.querySelectorAll("#loginBtn, form.loginForm").forEach(el => {
-    el.addEventListener("click", e => {
-      e.preventDefault();
-      auth0Client.loginWithRedirect({
-        authorizationParams: {
-          redirect_uri: window.location.origin + "/buyer_dashboard.html"
-        }
-      });
-    });
-  });
-
-  // attach to signup buttons
-  document.querySelectorAll("#signupBtn, #signupBtn_2").forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      auth0Client.loginWithRedirect({
-        authorizationParams: {
-          redirect_uri: window.location.origin + "/buyer_dashboard.html",
-          screen_hint: "signup"
-        }
-      });
-    });
-  });
-});
-</script>
 
 </body>
 </html>

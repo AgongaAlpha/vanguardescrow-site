@@ -1,22 +1,21 @@
 [build]
-  # This tells Netlify that your static files (index.html, etc.) are in the root directory.
   publish = "."
-
-  # This tells Netlify where your serverless functions are located.
   functions = "netlifyfunctions/functions"
-  
+  command = ""
+
+# 👇 Optional: Ensure Python environment is detected
 [functions]
-  # We remove the problematic 'node_version = "18"' line which causes a syntax error.
-  # Netlify defaults to a recent, stable Node.js version (like 18 or 20) anyway.
-  
-  # This ensures Netlify uses the faster esbuild bundler for your functions.
   node_bundler = "esbuild"
+  included_files = ["netlifyfunctions/functions/**"]
 
-# If you need any redirects, you can add them here. 
-# The function calls (/.netlify/functions/login) are handled automatically 
-# by the "functions" setting above.
+# 👇 Redirect /api/* to your Netlify Functions folder
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
 
-# [[redirects]]
-#   from = "/api/*"
-#   to = "/.netlify/functions/:splat"
-#   status = 200
+# 👇 Redirect root URLs to index.html (SPA behavior)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

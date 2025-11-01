@@ -45,6 +45,7 @@
 <span data-i18n="header.title" id="headerTitle">
      Buyer Dashboard
     </span>
+<a href="/index.html" style="margin-left:20px;color:white;text-decoration:none;font-weight:500;font-size:14px;padding:6px 12px;border:1px solid rgba(255,255,255,0.3);border-radius:6px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='transparent'">🏠 Home</a>
 </div>
 <div style="display:flex;align-items:center;gap:10px">
 <select aria-label="Language selector" id="langSwitcher">
@@ -299,137 +300,41 @@
 </div>
 </div>
 
-<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
-
 <script>
-let auth0Client = null;
-let currentAccessToken = null;
+let currentUser = null;
 
-async function initializeAuth0() {
-  if (!auth0Client) {
-    auth0Client = await auth0.createAuth0Client({
-      domain: 'dev-qlqii3uyji7mbn7d.us.auth0.com',
-      clientId: 'vgjq43SEnDfIVPzgLvZfiiUKZ6X4eAas',
-      authorizationParams: {
-        audience: 'https://vanguardescrow.online/'
-      },
-      cacheLocation: 'localstorage'
-    });
-  }
-  return auth0Client;
-}
-
-async function finishAuthRedirectIfNeeded(client) {
-  const query = window.location.search;
-  const hash = window.location.hash;
-  
-  if (query.includes('code=') || query.includes('error=') || hash.includes('access_token')) {
-    console.log('Auth0 redirect detected, processing callback...');
-    
-    try {
-      if (query.includes('error=')) {
-        const params = new URLSearchParams(query);
-        const error = params.get('error');
-        const errorDescription = params.get('error_description');
-        console.error('Auth0 error:', error, errorDescription);
-        alert('Authentication error: ' + (errorDescription || error));
-        window.location.href = '/index.html';
-        return;
-      }
-      
-      await client.handleRedirectCallback();
-      console.log('Auth0 callback handled successfully');
-      
-      window.history.replaceState({}, document.title, "/buyer_dashboard.html");
-      
-      try {
-        currentAccessToken = await client.getTokenSilently({
-          authorizationParams: {
-            audience: 'https://vanguardescrow.online/'
-          }
-        });
-        console.log('Token retrieved successfully after redirect');
-      } catch (tokenError) {
-        console.error('Failed to get token after redirect:', tokenError);
-        
-        await client.loginWithRedirect({
-          authorizationParams: {
-            audience: 'https://vanguardescrow.online/',
-            redirect_uri: window.location.origin + "/buyer_dashboard.html"
-          }
-        });
-      }
-    } catch (error) {
-      console.error('Error handling Auth0 redirect:', error);
-      window.location.href = '/index.html';
-    }
-  }
-}
-
-async function restoreSession() {
+async function checkSession() {
   try {
-    const client = await initializeAuth0();
+    const res = await fetch('https://vanguardescrow.online/.netlify/functions/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
     
-    const isAuthenticated = await client.isAuthenticated();
-    
-    if (!isAuthenticated) {
-      console.warn('No valid session found. Redirecting to login...');
-      window.location.href = '/index.html';
+    if (!res.ok) {
+      console.warn('No valid session found.');
       return false;
     }
     
-    currentAccessToken = await client.getTokenSilently();
+    const data = await res.json();
+    currentUser = data;
     
-    if (!currentAccessToken) {
-      console.warn('Could not retrieve access token. Redirecting to login...');
-      window.location.href = '/index.html';
+    if (currentUser.role !== 'buyer') {
+      console.warn('Access denied. Wrong dashboard for your role.');
       return false;
     }
     
-    console.log('Session restored successfully');
+    console.log('Session valid for buyer:', currentUser.email);
     return true;
   } catch (error) {
-    console.error('Session restoration failed:', error);
-    
-    if (error.error === 'login_required' || error.error === 'consent_required') {
-      console.warn('Session expired. Redirecting to Universal Login...');
-      window.location.href = '/index.html';
-      return false;
-    }
-    
-    window.location.href = '/index.html';
+    console.error('Session check failed:', error);
     return false;
-  }
-}
-
-async function getValidAccessToken() {
-  try {
-    if (!currentAccessToken) {
-      const client = await initializeAuth0();
-      currentAccessToken = await client.getTokenSilently();
-    }
-    return currentAccessToken;
-  } catch (error) {
-    console.error('Failed to get access token:', error);
-    
-    if (error.error === 'login_required' || error.error === 'consent_required') {
-      window.location.href = '/index.html';
-    }
-    throw error;
   }
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
   console.log('Buyer Dashboard initializing...');
   
-  const client = await initializeAuth0();
-  
-  await finishAuthRedirectIfNeeded(client);
-  
-  const sessionValid = await restoreSession();
-  if (!sessionValid) {
-    return;
-  }
+  await checkSession();
 
   async function handleEscrowSubmit(e, endpoint, msgId, actionName) {
     e.preventDefault();
@@ -440,21 +345,12 @@ window.addEventListener("DOMContentLoaded", async () => {
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const token = await getValidAccessToken();
-      
-      if (!token) {
-        msg.innerHTML = `Session expired. Please log in again.`;
-        msg.className = "msg error";
-        setTimeout(() => window.location.href = '/index.html', 2000);
-        return;
-      }
-
       const res = await fetch(endpoint, { 
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Content-Type": "application/json"
         },
+        credentials: 'include',
         body: JSON.stringify(data)
       });
 
@@ -462,7 +358,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         console.error('401 Unauthorized - session invalid');
         msg.innerHTML = `Session expired. Please log in again.`;
         msg.className = "msg error";
-        setTimeout(() => window.location.href = '/index.html', 2000);
         return; 
       }
       
@@ -490,15 +385,13 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     try {
-      const client = await initializeAuth0();
-      await client.logout({ 
-        logoutParams: { 
-          returnTo: window.location.origin + "/index.html"
-        } 
+      await fetch('https://vanguardescrow.online/.netlify/functions/logout', {
+        method: 'POST',
+        credentials: 'include'
       });
+      console.log('Logged out successfully');
     } catch (error) {
       console.error('Logout error:', error);
-      window.location.href = '/index.html';
     }
   });
 });
