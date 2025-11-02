@@ -1,21 +1,12 @@
 [build]
   publish = "."
   functions = "netlifyfunctions/functions"
-  command = ""
 
-# 👇 Optional: Ensure Python environment is detected
 [functions]
-  node_bundler = "esbuild"
   included_files = ["netlifyfunctions/functions/**"]
 
-# 👇 Redirect /api/* to your Netlify Functions folder
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
 
-# 👇 Redirect root URLs to index.html (SPA behavior)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
