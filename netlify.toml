@@ -1,10 +1,15 @@
+# --- Declare function runtime + bundler ---
+[functions]
+  python_version = "3.10"
+  node_bundler = "esbuild"
+  included_files = ["netlifyfunctions/functions/**"]
+
+# --- Build configuration ---
 [build]
   publish = "."
   functions = "netlifyfunctions/functions"
 
-[functions]
-  included_files = ["netlifyfunctions/functions/**"]
-
+# --- Redirect all /api/* calls to the Netlify Functions runtime ---
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
