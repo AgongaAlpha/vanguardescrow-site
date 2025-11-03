@@ -1,5 +1,5 @@
     [build]
-      publish = "dist" # Change this if your frontend build outputs to a different folder
+      publish = "." # Changed to root directory since we are only deploying serverless functions.
       command = "echo 'No frontend build command required for this test.'" # Placeholder command
       functions = "netlifyfunctions/functions"
 
