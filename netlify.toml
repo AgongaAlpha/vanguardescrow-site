@@ -1,17 +1,12 @@
-# --- Declare function runtime + bundler ---
-[functions]
-python_version="3.10"
-node_bundler="esbuild"
-included_files=["netlifyfunctions/functions/**"]
+    [build]
+      publish = "dist" # Change this if your frontend build outputs to a different folder
+      command = "echo 'No frontend build command required for this test.'" # Placeholder command
+      functions = "netlifyfunctions/functions"
 
-# --- Build configuration ---
-[build]
-publish="."
-functions="netlifyfunctions/functions"
-
-# --- Redirect all /api/* calls to the Netlify Functions runtime ---
-[[redirects]]
-from="/api/*"
-to="/.netlify/functions/:splat"
-status=200
-
+    [context.production.environment]
+      # Define any environment variables here if needed later
+      PYTHON_VERSION = "3.10" # Explicitly set the Python version
+    
+    [context.deploy-preview.environment]
+      PYTHON_VERSION = "3.10"
+    
