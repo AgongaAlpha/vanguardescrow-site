@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title data-i18n="title">
-   Buyer Dashboard — VanGuard Escrow
-  </title>
+<title data-i18n="title">Buyer Dashboard — VanGuard Escrow</title>
 
 <script src="https://cdn.jsdelivr.net/npm/i18next@23.7.6/i18next.min.js"></script>
 <style>
@@ -37,265 +34,156 @@
     .copy-btn{padding:6px 10px;border-radius:8px;border:none;background:linear-gradient(90deg,#1e40af,#3b82f6);color:#fff;cursor:pointer;font-weight:600}
     .use-btn{padding:6px 10px;border-radius:8px;border:1px solid #cbd5e1;background:white;color:#0f172a;cursor:pointer}
     .selected-display{margin-top:8px;padding:8px;border-radius:8px;background:#f1f5f9;display:flex;justify-content:space-between;align-items:center;font-family:monospace}
-  </style>
+</style>
 </head>
 <body>
 <header>
 <div class="header-left">
-<span data-i18n="header.title" id="headerTitle">
-     Buyer Dashboard
-    </span>
+<span data-i18n="header.title" id="headerTitle">Buyer Dashboard</span>
 <a href="/index.html" style="margin-left:20px;color:white;text-decoration:none;font-weight:500;font-size:14px;padding:6px 12px;border:1px solid rgba(255,255,255,0.3);border-radius:6px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='transparent'">🏠 Home</a>
 </div>
 <div style="display:flex;align-items:center;gap:10px">
 <select aria-label="Language selector" id="langSwitcher">
-<option value="en">
-      English
-     </option>
-<option value="de">
-      Deutsch
-     </option>
-<option value="fr">
-      Français
-     </option>
-<option value="it">
-      Italiano
-     </option>
-<option value="es">
-      Español
-     </option>
+<option value="en">English</option>
+<option value="de">Deutsch</option>
+<option value="fr">Français</option>
+<option value="it">Italiano</option>
+<option value="es">Español</option>
 </select>
-<button data-i18n="btn.logout" id="logoutBtn">
-     Logout
-    </button>
+<button data-i18n="btn.logout" id="logoutBtn">Logout</button>
 </div>
 </header>
 <div class="container">
 <nav aria-label="main-nav">
-<button class="active" data-i18n="nav.escrow" id="tabEscrow">
-     Escrow Setup
-    </button>
-<button data-i18n="nav.my_escrows" id="tabMyEscrows">
-     My Escrows
-    </button>
-<button data-i18n="nav.transactions" id="tabTransactions">
-     Transactions
-    </button>
-<button data-i18n="nav.kyc" id="tabKYC">
-     KYC
-    </button>
+<button class="active" data-i18n="nav.escrow" id="tabEscrow">Escrow Setup</button>
+<button data-i18n="nav.my_escrows" id="tabMyEscrows">My Escrows</button>
+<button data-i18n="nav.transactions" id="tabTransactions">Transactions</button>
+<button data-i18n="nav.kyc" id="tabKYC">KYC</button>
 </nav>
 <div id="escrowSection">
 <div class="card">
-<form action="https://vanguardescrow.online/.netlify/functions/createEscrow" id="createEscrowForm" method="POST">
+<form action="https://vanguardescrow-api-4.onrender.com/createEscrow" id="createEscrowForm" method="POST">
 <textarea id="agreement" name="description" placeholder="Enter agreement terms"></textarea>
 <input id="amount" name="amount" placeholder="Enter amount" type="number"/>
 <input id="paymentMethod" name="paymentMethod" placeholder="Enter payment method" type="text"/>
-<button class="action" id="createEscrowBtn" type="submit">Create Escrow</button>
+<button class="action" id="createEscrowBtn" type="submit" data-i18n="btn.create_escrow">Create Escrow</button>
 <div class="msg" id="createMsg"></div></form>
 </div>
 <div class="card" id="paymentMethodsCard">
-<h2 data-i18n="payment.h2">
-      Payment Methods (Pay Offsite)
-     </h2>
+<h2 data-i18n="payment.h2">Payment Methods (Pay Offsite)</h2>
 <div class="payment-list" id="paymentList">
 <div class="payment-item">
 <input id="pm_trc" name="paymentMethod" type="radio" value="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR"/>
 <div style="flex:1">
-<div class="method-label" data-i18n="method.trc">
-         USDT TRC20
-        </div>
-<div class="method-note" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">
-         TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR
-        </div>
+<div class="method-label" data-i18n="method.trc">USDT TRC20</div>
+<div class="method-note" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR</div>
 </div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.use" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">
-        Use
-       </button>
+<button class="copy-btn" data-i18n="btn.copy" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">Copy</button>
+<button class="use-btn" data-i18n="btn.use" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">Use</button>
 </div>
 <div class="payment-item">
 <input id="pm_erc" name="paymentMethod" type="radio" value="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02"/>
 <div style="flex:1">
-<div class="method-label" data-i18n="method.erc">
-         USDT ERC20
-        </div>
-<div class="method-note" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-         0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02
-        </div>
+<div class="method-label" data-i18n="method.erc">USDT ERC20</div>
+<div class="method-note" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02</div>
 </div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.use" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Use
-       </button>
+<button class="copy-btn" data-i18n="btn.copy" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">Copy</button>
+<button class="use-btn" data-i18n="btn.use" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">Use</button>
 </div>
 <div class="payment-item">
 <input id="pm_bep20" name="paymentMethod" type="radio" value="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02"/>
 <div style="flex:1">
-<div class="method-label" data-i18n="method.bep">
-         BTC (BEP20)
-        </div>
-<div class="method-note" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-         0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02
-        </div>
+<div class="method-label" data-i18n="method.bep">BTC (BEP20)</div>
+<div class="method-note" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02</div>
 </div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.use" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Use
-       </button>
+<button class="copy-btn" data-i18n="btn.copy" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">Copy</button>
+<button class="use-btn" data-i18n="btn.use" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">Use</button>
 </div>
 <div class="payment-item">
 <input id="pm_cashapp" name="paymentMethod" type="radio" value="$VanguardAdams"/>
 <div style="flex:1">
-<div class="method-label" data-i18n="method.cashapp">
-         Cash App (US only)
-        </div>
-<div class="method-note" data-val="$VanguardAdams">
-         $VanguardAdams
-        </div>
+<div class="method-label" data-i18n="method.cashapp">Cash App (US only)</div>
+<div class="method-note" data-val="$VanguardAdams">$VanguardAdams</div>
 </div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="$VanguardAdams">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.use" data-val="$VanguardAdams">
-        Use
-       </button>
+<button class="copy-btn" data-i18n="btn.copy" data-val="$VanguardAdams">Copy</button>
+<button class="use-btn" data-i18n="btn.use" data-val="$VanguardAdams">Use</button>
 </div>
 <div class="payment-item">
 <div style="flex:1">
-<div class="method-label" data-i18n="method.bank">
-         Bank Transfer (Revolut Instant)
-        </div>
-<div class="method-note" data-i18n="method.bank_note">
-         Chat Live Admin on our Google Meet link or email support@vanguardescrow.online
-        </div>
+<div class="method-label" data-i18n="method.bank">Bank Transfer (Revolut Instant)</div>
+<div class="method-note" data-i18n="method.bank_note">Chat Live Admin on our Google Meet link or email support@vanguardescrow.online</div>
 </div>
-<button class="copy-btn" data-i18n="btn.info" data-val="BankTransferInfo">
-        Info
-       </button>
-<button class="use-btn" data-i18n="btn.use" data-val="BANK_TRANSFER">
-        Use
-       </button>
+<button class="copy-btn" data-i18n="btn.info" data-val="BankTransferInfo">Info</button>
+<button class="use-btn" data-i18n="btn.use" data-val="BANK_TRANSFER">Use</button>
 </div>
 </div>
 <div style="margin-top:12px">
 <input data-i18n-placeholder="ph.custom" id="customPayment" placeholder=""/>
-<button class="use-btn" data-i18n="btn.use_custom" id="useCustomBtn">
-       Use Custom
-      </button>
+<button class="use-btn" data-i18n="btn.use_custom" id="useCustomBtn">Use Custom</button>
 </div>
 <div class="selected-display" id="selectedPaymentDisplay" style="display:none">
-<span id="selectedPaymentText">
-       --
-      </span>
-<button class="use-btn" data-i18n="btn.clear" id="clearSelected">
-       Clear
-      </button>
+<span id="selectedPaymentText">--</span>
+<button class="use-btn" data-i18n="btn.clear" id="clearSelected">Clear</button>
 </div>
-<div class="small-note" data-i18n="note.bank_limit">
-      NB: Bank transfers aren't supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.
-     </div>
+<div class="small-note" data-i18n="note.bank_limit">NB: Bank transfers aren't supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.</div>
 </div>
 <div class="card" id="depositCard" style="display:none;">
-<h2 data-i18n="deposit.h2">
-      Deposit to Escrow
-     </h2>
-<p data-i18n="deposit.send">
-      Please send your payment to the wallet below (you chose the method above):
-     </p>
+<h2 data-i18n="deposit.h2">Deposit to Escrow</h2>
+<p data-i18n="deposit.send">Please send your payment to the wallet below (you chose the method above):</p>
 <div class="wallet-box">
-<span id="walletAddress">
-       --
-      </span>
-<button class="copy-btn" data-i18n="btn.copy" id="copyDepositWallet">
-       Copy
-      </button>
+<span id="walletAddress">--</span>
+<button class="copy-btn" data-i18n="btn.copy" id="copyDepositWallet">Copy</button>
 </div>
 <p>
-<strong data-i18n="label.escrow">
-       Escrow ID:
-      </strong>
-<span id="escrowIdDisplay">
-       --
-      </span>
+<strong data-i18n="label.escrow">Escrow ID:</strong>
+<span id="escrowIdDisplay">--</span>
 </p>
 <p>
-<strong data-i18n="label.amount">
-       Amount:
-      </strong>
-<span id="escrowAmountDisplay">
-       --
-      </span>
+<strong data-i18n="label.amount">Amount:</strong>
+<span id="escrowAmountDisplay">--</span>
 </p>
-<button class="action" data-i18n="btn.deposit_done" id="depositDoneBtn">
-      I've Deposited
-     </button>
-<div id="depositMsg">
-</div>
+<button class="action" data-i18n="btn.deposit_done" id="depositDoneBtn">I've Deposited</button>
+<div id="depositMsg"></div>
 </div>
 <div class="card">
-<form action="https://vanguardescrow.online/.netlify/functions/markPaid" id="markPaidForm" method="POST">
+<form action="https://vanguardescrow-api-4.onrender.com/markPaid" id="markPaidForm" method="POST">
 <input id="escrowIdConfirm" name="escrowId" placeholder="Escrow ID" type="text"/>
-<button class="action" id="confirmDepositBtn" type="submit">Mark as Paid</button>
+<button class="action" id="confirmDepositBtn" type="submit" data-i18n="btn.mark_paid">Mark as Paid</button>
 <div class="msg" id="markMsg"></div></form>
 </div>
 <div class="card">
-<form action="https://vanguardescrow.online/.netlify/functions/releaseFunds" id="releaseFundsForm" method="POST">
+<form action="https://vanguardescrow-api-4.onrender.com/releaseFunds" id="releaseFundsForm" method="POST">
 <input id="escrowIdRelease" name="escrowId" placeholder="Escrow ID" type="text"/>
-<button class="action" id="releaseFundsBtn" type="submit">Release Funds to Seller</button>
+<button class="action" id="releaseFundsBtn" type="submit" data-i18n="btn.release_funds">Release Funds to Seller</button>
 <div class="msg" id="releaseMsg"></div></form>
 </div>
 </div>
 <div id="myEscrowsSection" style="display:none;">
 <div class="card">
-<h2 data-i18n="my.h2">
-      My Escrows
-     </h2>
+<h2 data-i18n="my.h2">My Escrows</h2>
 <table>
 <thead>
 <tr>
-<th data-i18n="tbl.id">
-         ID
-        </th>
-<th data-i18n="tbl.status">
-         Status
-        </th>
-<th data-i18n="tbl.amount">
-         Amount
-        </th>
-<th data-i18n="tbl.wallet">
-         Wallet
-        </th>
+<th data-i18n="tbl.id">ID</th>
+<th data-i18n="tbl.status">Status</th>
+<th data-i18n="tbl.amount">Amount</th>
+<th data-i18n="tbl.wallet">Wallet</th>
 </tr>
 </thead>
-<tbody id="escrowTable">
-</tbody>
+<tbody id="escrowTable"></tbody>
 </table>
 </div>
 </div>
 <div id="transactionsSection" style="display:none;">
 <div class="card">
-<h2 data-i18n="transactions.h2">
-      Transactions
-     </h2>
-<ul id="transactionsList">
-</ul>
+<h2 data-i18n="transactions.h2">Transactions</h2>
+<ul id="transactionsList"></ul>
 </div>
 </div>
 <div id="kycSection" style="display:none;">
 <div class="card">
-<h2 data-i18n="kyc.h2">
-      KYC
-     </h2>
-<p data-i18n="kyc.note">
-      KYC verification will be demanded for buyers who choose to pay sellers via Bank Transfer.
-     </p>
+<h2 data-i18n="kyc.h2">KYC</h2>
+<p data-i18n="kyc.note">KYC verification will be demanded for buyers who choose to pay sellers via Bank Transfer.</p>
 </div>
 </div>
 </div>
@@ -304,14 +192,24 @@
 let currentUser = null;
 
 async function checkSession() {
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    console.warn('No auth token found');
+    return false;
+  }
+
   try {
-    const res = await fetch('https://vanguardescrow.online/.netlify/functions/me', {
+    const res = await fetch('https://vanguardescrow-api-4.onrender.com/me', {
       method: 'GET',
-      credentials: 'include'
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
     });
     
     if (!res.ok) {
       console.warn('No valid session found.');
+      localStorage.removeItem('authToken');
       return false;
     }
     
@@ -344,18 +242,26 @@ window.addEventListener("DOMContentLoaded", async () => {
     msg.className = "msg";
     const data = Object.fromEntries(new FormData(form).entries());
 
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      msg.innerHTML = "Session expired. Please log in again.";
+      msg.className = "msg error";
+      return;
+    }
+
     try {
       const res = await fetch(endpoint, { 
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
-        credentials: 'include',
         body: JSON.stringify(data)
       });
 
       if (res.status === 401) {
-        console.error('401 Unauthorized - session invalid');
+        console.error('401 Unauthorized - token invalid');
+        localStorage.removeItem('authToken');
         msg.innerHTML = `Session expired. Please log in again.`;
         msg.className = "msg error";
         return; 
@@ -378,25 +284,22 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
   
-  const base = "https://vanguardescrow.online/.netlify/functions";
+  const base = "https://vanguardescrow-api-4.onrender.com";
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
   document.getElementById("releaseFundsForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/releaseFunds", "releaseMsg", "Release Funds"));
 
   document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     try {
-      await fetch('https://vanguardescrow.online/.netlify/functions/logout', {
-        method: 'POST',
-        credentials: 'include'
-      });
+      localStorage.removeItem('authToken');
       console.log('Logged out successfully');
+      window.location.href = '/index.html';
     } catch (error) {
       console.error('Logout error:', error);
     }
   });
 });
-</script>
-<script id="tabControl">
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Tab system initialized");
 
@@ -436,8 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   showSection("escrowSection");
 });
-</script>
-<script id="i18nAndWalletFeatures">
+
 const translations = {
   en: {
     translation: {
@@ -460,6 +362,9 @@ const translations = {
       "btn.info": "Info",
       "btn.use_custom": "Use Custom",
       "btn.clear": "Clear",
+      "btn.create_escrow": "Create Escrow",
+      "btn.mark_paid": "Mark as Paid",
+      "btn.release_funds": "Release Funds to Seller",
       "ph.custom": "Enter custom payment method",
       "note.bank_limit": "NB: Bank transfers aren't supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.",
       "deposit.h2": "Deposit to Escrow",
@@ -498,6 +403,9 @@ const translations = {
       "btn.info": "Info",
       "btn.use_custom": "Benutzerdefiniert verwenden",
       "btn.clear": "Löschen",
+      "btn.create_escrow": "Escrow erstellen",
+      "btn.mark_paid": "Als bezahlt markieren",
+      "btn.release_funds": "Mittel an Verkäufer freigeben",
       "ph.custom": "Benutzerdefinierte Zahlungsmethode eingeben",
       "note.bank_limit": "Hinweis: Banküberweisungen werden nicht für Beträge über 5000 $ unterstützt.",
       "deposit.h2": "Einzahlung auf Escrow",
@@ -536,6 +444,9 @@ const translations = {
       "btn.info": "Info",
       "btn.use_custom": "Utiliser personnalisé",
       "btn.clear": "Effacer",
+      "btn.create_escrow": "Créer un Escrow",
+      "btn.mark_paid": "Marquer comme payé",
+      "btn.release_funds": "Libérer les fonds au vendeur",
       "ph.custom": "Entrez un mode de paiement personnalisé",
       "note.bank_limit": "NB : Les virements bancaires ne sont pas pris en charge pour les montants supérieurs à 5000 $.",
       "deposit.h2": "Dépôt sur Escrow",
@@ -574,6 +485,9 @@ const translations = {
       "btn.info": "Info",
       "btn.use_custom": "Usa Personalizzato",
       "btn.clear": "Cancella",
+      "btn.create_escrow": "Crea Escrow",
+      "btn.mark_paid": "Segna come pagato",
+      "btn.release_funds": "Rilascia fondi al venditore",
       "ph.custom": "Inserisci metodo di pagamento personalizzato",
       "note.bank_limit": "NB: I bonifici bancari non sono supportati per trasferimenti superiori a $ 5000.",
       "deposit.h2": "Deposito su Escrow",
@@ -612,6 +526,9 @@ const translations = {
       "btn.info": "Info",
       "btn.use_custom": "Usar Personalizado",
       "btn.clear": "Borrar",
+      "btn.create_escrow": "Crear Escrow",
+      "btn.mark_paid": "Marcar como pagado",
+      "btn.release_funds": "Liberar fondos al vendedor",
       "ph.custom": "Ingrese método de pago personalizado",
       "note.bank_limit": "NB: Las transferencias bancarias no son compatibles para transferencias superiores a $ 5000.",
       "deposit.h2": "Depósito a Escrow",

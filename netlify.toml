@@ -1,14 +1,8 @@
 [build]
-  # The directory to deploy. Since this is a functions-only deployment, we point to the root.
-  publish = "." 
-  # This command is executed during the build but is a placeholder since no frontend is being built.
-  command = "echo 'No frontend build command required for this deployment.'" 
-  # This is the crucial line: it specifies the exact sub-folder path where your handler files (.py) are located.
-  functions = "netlifyfunctions/functions"
+  publish = "."
+  command = "echo 'Static site deployment'"
 
-# Optional: Setting the Python environment explicitly is good practice.
-[context.production.environment]
-  PYTHON_VERSION = "3.10" 
-  
-[context.deploy-preview.environment]
-  PYTHON_VERSION = "3.10"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

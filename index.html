@@ -917,7 +917,7 @@
    /**********************
      * Backend base URL
      **********************/
-    const BASE_URL = "/.netlify/functions/";
+    const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
 
     /* Utility: show message in container */
     function showMsg(el, text, type='success') {
@@ -1083,7 +1083,7 @@
         step_1_title: "L'Acheteur et le Vendeur s'accordent sur les termes", step_1_desc: "Définir les livrables, les délais et les conditions.",
         step_2_title: "L'Acheteur dépose l'argent", step_2_desc: "Les fonds sont détenus en toute sécurité par VanGuard jusqu'à la finalisation.",
         step_3_title: "Le Vendeur livre", step_3_desc: "Transfert du compte, des fichiers, des identifiants ou des services comme convenu.",
-        step_4_title: "Fonds libérés", step_4_desc: "Après la confirmation de l'acheteur (ou la résolution du litige), les fonds sont libérés au vendeur.",
+        step_4_title: "Fonds libérés", step_4_desc: "Après la confirmation de l'acheteur (or résolution du litige), les fonds sont libérés au vendeur.",
         services_title: "Services", services_desc: "Nous sommes spécialisés dans les transferts sécurisés d'une gamme de biens et services numériques.",
         service_freelancing_title: "Travail Indépendant", service_freelancing_desc: "Protection basée sur des jalons pour le travail à distance.",
         service_verification_title: "Vérification", service_verification_desc: "Vérification par des tiers et contrôles d'identité pour réduire la fraude.",
@@ -1240,11 +1240,14 @@
       msgEl.style.display = 'block';
 
       try {
-        const res = await fetch(BASE_URL + 'signup', {
+        const token = localStorage.getItem('token');
+        const res = await fetch(BASE_URL + '/signup', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ name, email, password, role }),
-          credentials: 'include'
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ name, email, password, role })
         });
         const data = await res.json();
         if (!res.ok) {
@@ -1253,11 +1256,10 @@
         }
         showMsg(msgEl, 'Account created. Logging in...', 'success');
 
-        const loginRes = await fetch(BASE_URL + 'login', {
+        const loginRes = await fetch(BASE_URL + '/login', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ email, password }),
-          credentials: 'include'
+          body: JSON.stringify({ email, password })
         });
         if (!loginRes.ok) {
           const ld = await loginRes.json().catch(()=>({}));
@@ -1265,7 +1267,14 @@
           return;
         }
 
-        const meRes = await fetch(BASE_URL + 'me', { credentials: 'include' });
+        const loginData = await loginRes.json();
+        localStorage.setItem('token', loginData.token);
+
+        const meRes = await fetch(BASE_URL + '/me', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         const me = await meRes.json().catch(()=>null);
         if (me && me.role === 'seller') window.location.href = '/seller_dashboard.html';
         else window.location.href = '/buyer_dashboard.html';
@@ -1288,11 +1297,10 @@
       msgEl.style.display = 'block';
 
       try {
-        const res = await fetch(BASE_URL + 'login', {
+        const res = await fetch(BASE_URL + '/login', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ email, password }),
-          credentials: 'include'
+          body: JSON.stringify({ email, password })
         });
         const json = await res.json();
         if (!res.ok) {
@@ -1300,7 +1308,13 @@
           return;
         }
 
-        const meRes = await fetch(BASE_URL + 'me', { credentials: 'include' });
+        localStorage.setItem('token', json.token);
+
+        const meRes = await fetch(BASE_URL + '/me', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         const me = await meRes.json().catch(()=>null);
         if (me && me.role === 'seller') window.location.href = '/seller_dashboard.html';
         else window.location.href = '/buyer_dashboard.html';

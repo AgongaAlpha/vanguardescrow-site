@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title data-i18n="title">
-   Seller Dashboard — VanGuard Escrow
-  </title>
+<title data-i18n="title">Seller Dashboard — VanGuard Escrow</title>
 
 <script src="https://cdn.jsdelivr.net/npm/i18next@23.7.6/i18next.min.js"></script>
 <style>
@@ -39,53 +36,34 @@
     .selected-display{margin-top:8px;padding:8px;border-radius:8px;background:#f1f5f9;display:flex;justify-content:space-between;align-items:center;font-family:monospace}
     .file-list{margin-top:10px;padding:10px;background:#f8fafc;border-radius:8px;font-size:13px;}
     .file-item{padding:6px;background:white;border-radius:4px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;}
-  </style>
+    .wallet-input-group{margin-top:8px;display:flex;gap:8px;}
+    .wallet-input-group input{flex:1;margin-top:0;}
+    .save-btn{padding:6px 12px;border-radius:8px;border:none;background:#10b981;color:white;cursor:pointer;font-weight:600}
+</style>
 </head>
 <body>
 <header>
 <div class="header-left">
-<span data-i18n="header.title" id="headerTitle">
-     Seller Dashboard
-    </span>
+<span data-i18n="header.title" id="headerTitle">Seller Dashboard</span>
 <a href="/index.html" style="margin-left:20px;color:white;text-decoration:none;font-weight:500;font-size:14px;padding:6px 12px;border:1px solid rgba(255,255,255,0.3);border-radius:6px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='transparent'">🏠 Home</a>
 </div>
 <div style="display:flex;align-items:center;gap:10px">
 <select aria-label="Language selector" id="langSwitcher">
-<option value="en">
-      English
-     </option>
-<option value="de">
-      Deutsch
-     </option>
-<option value="fr">
-      Français
-     </option>
-<option value="it">
-      Italiano
-     </option>
-<option value="es">
-      Español
-     </option>
+<option value="en">English</option>
+<option value="de">Deutsch</option>
+<option value="fr">Français</option>
+<option value="it">Italiano</option>
+<option value="es">Español</option>
 </select>
-<button data-i18n="btn.logout" id="logoutBtn">
-     Logout
-    </button>
+<button data-i18n="btn.logout" id="logoutBtn">Logout</button>
 </div>
 </header>
 <div class="container">
 <nav aria-label="main-nav">
-<button class="active" data-i18n="nav.escrow" id="tabEscrow">
-     Escrow Setup
-    </button>
-<button data-i18n="nav.my_escrows" id="tabMyEscrows">
-     My Escrows
-    </button>
-<button data-i18n="nav.transactions" id="tabTransactions">
-     Transactions
-    </button>
-<button data-i18n="nav.kyc" id="tabKYC">
-     KYC
-    </button>
+<button class="active" data-i18n="nav.escrow" id="tabEscrow">Escrow Setup</button>
+<button data-i18n="nav.my_escrows" id="tabMyEscrows">My Escrows</button>
+<button data-i18n="nav.transactions" id="tabTransactions">Transactions</button>
+<button data-i18n="nav.kyc" id="tabKYC">KYC</button>
 </nav>
 <div id="escrowSection">
 <div class="card">
@@ -127,186 +105,123 @@
 </form>
 </div>
 
+<div class="card" id="withdrawalMethodsCard">
+<h2 data-i18n="withdrawal.h2">Set Your Withdrawal Method</h2>
+<p data-i18n="withdrawal.desc">Enter your wallet addresses where you want to receive payments. These will be used for all your payouts.</p>
+<div class="payment-list" id="paymentList">
+<div class="payment-item">
+<div style="flex:1">
+<div class="method-label" data-i18n="method.trc">USDT TRC20</div>
+<div class="wallet-input-group">
+<input type="text" id="wallet_trc" placeholder="Enter your USDT TRC20 wallet address" data-i18n-placeholder="ph.wallet_trc"/>
+<button class="save-btn" data-i18n="btn.save" data-method="trc">Save</button>
+</div>
+</div>
+</div>
+<div class="payment-item">
+<div style="flex:1">
+<div class="method-label" data-i18n="method.erc">USDT ERC20</div>
+<div class="wallet-input-group">
+<input type="text" id="wallet_erc" placeholder="Enter your USDT ERC20 wallet address" data-i18n-placeholder="ph.wallet_erc"/>
+<button class="save-btn" data-i18n="btn.save" data-method="erc">Save</button>
+</div>
+</div>
+</div>
+<div class="payment-item">
+<div style="flex:1">
+<div class="method-label" data-i18n="method.bep">BTC (BEP20)</div>
+<div class="wallet-input-group">
+<input type="text" id="wallet_bep" placeholder="Enter your BTC BEP20 wallet address" data-i18n-placeholder="ph.wallet_bep"/>
+<button class="save-btn" data-i18n="btn.save" data-method="bep">Save</button>
+</div>
+</div>
+</div>
+<div class="payment-item">
+<div style="flex:1">
+<div class="method-label" data-i18n="method.cashapp">Cash App (US only)</div>
+<div class="wallet-input-group">
+<input type="text" id="wallet_cashapp" placeholder="Enter your Cash App username" data-i18n-placeholder="ph.wallet_cashapp"/>
+<button class="save-btn" data-i18n="btn.save" data-method="cashapp">Save</button>
+</div>
+</div>
+</div>
+<div class="payment-item">
+<div style="flex:1">
+<div class="method-label" data-i18n="method.bank">Bank Transfer (Revolut Instant)</div>
+<div class="method-note" data-i18n="method.bank_note">Contact support to set up bank transfer details</div>
+</div>
+</div>
+</div>
+
+<div class="selected-display" id="savedWalletsDisplay" style="display:none">
+<strong data-i18n="label.saved_wallets">Saved Wallets:</strong>
+<div id="savedWalletsList"></div>
+</div>
+</div>
+
 <div class="card">
 <h2 data-i18n="release.h2">Request Payment Release</h2>
-<p data-i18n="release.desc">Request the buyer to release payment after completing the delivery.</p>
+<p data-i18n="release.desc">Request the buyer to release payment after completing the delivery. Make sure you've set your withdrawal method above.</p>
 <form id="releaseRequestForm">
 <input id="escrowIdRelease" name="escrowId" placeholder="Escrow ID" type="text" data-i18n-placeholder="ph.escrow_id"/>
 <button class="action" id="requestReleaseBtn" type="submit" data-i18n="btn.request_release">Request Release</button>
 <div class="msg" id="releaseRequestMsg"></div>
 </form>
 </div>
-
-<div class="card" id="withdrawalMethodsCard">
-<h2 data-i18n="withdrawal.h2">
-      Choose Withdrawal Method
-     </h2>
-<p data-i18n="withdrawal.desc">Select how you would like to receive your payout once the escrow is completed.</p>
-<div class="payment-list" id="paymentList">
-<div class="payment-item">
-<input id="pm_trc" name="withdrawalMethod" type="radio" value="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR"/>
-<div style="flex:1">
-<div class="method-label" data-i18n="method.trc">
-         USDT TRC20
-        </div>
-<div class="method-note" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">
-         TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR
-        </div>
-</div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.select_withdrawal" data-val="TKTVFbMAyEh6p9kydRNfavxy6hEvyfsTBR">
-        Select Withdrawal Method
-       </button>
-</div>
-<div class="payment-item">
-<input id="pm_erc" name="withdrawalMethod" type="radio" value="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02"/>
-<div style="flex:1">
-<div class="method-label" data-i18n="method.erc">
-         USDT ERC20
-        </div>
-<div class="method-note" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-         0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02
-        </div>
-</div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.select_withdrawal" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Select Withdrawal Method
-       </button>
-</div>
-<div class="payment-item">
-<input id="pm_bep20" name="withdrawalMethod" type="radio" value="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02"/>
-<div style="flex:1">
-<div class="method-label" data-i18n="method.bep">
-         BTC (BEP20)
-        </div>
-<div class="method-note" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-         0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02
-        </div>
-</div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.select_withdrawal" data-val="0x2bc86574cd42770bdb208f37b7d1d94e5f6d4f02">
-        Select Withdrawal Method
-       </button>
-</div>
-<div class="payment-item">
-<input id="pm_cashapp" name="withdrawalMethod" type="radio" value="$VanguardAdams"/>
-<div style="flex:1">
-<div class="method-label" data-i18n="method.cashapp">
-         Cash App (US only)
-        </div>
-<div class="method-note" data-val="$VanguardAdams">
-         $VanguardAdams
-        </div>
-</div>
-<button class="copy-btn" data-i18n="btn.copy" data-val="$VanguardAdams">
-        Copy
-       </button>
-<button class="use-btn" data-i18n="btn.select_withdrawal" data-val="$VanguardAdams">
-        Select Withdrawal Method
-       </button>
-</div>
-<div class="payment-item">
-<div style="flex:1">
-<div class="method-label" data-i18n="method.bank">
-         Bank Transfer (Revolut Instant)
-        </div>
-<div class="method-note" data-i18n="method.bank_note">
-         Chat Live Admin on our Google Meet link or email support@vanguardescrow.online
-        </div>
-</div>
-<button class="copy-btn" data-i18n="btn.info" data-val="BankTransferInfo">
-        Info
-       </button>
-<button class="use-btn" data-i18n="btn.select_withdrawal" data-val="BANK_TRANSFER">
-        Select Withdrawal Method
-       </button>
-</div>
-</div>
-<div style="margin-top:12px">
-<input data-i18n-placeholder="ph.custom" id="customPayment" placeholder=""/>
-<button class="use-btn" data-i18n="btn.use_custom" id="useCustomBtn">
-       Use Custom
-      </button>
-</div>
-<div class="selected-display" id="selectedPaymentDisplay" style="display:none">
-<span id="selectedPaymentText">
-       --
-      </span>
-<button class="use-btn" data-i18n="btn.clear" id="clearSelected">
-       Clear
-      </button>
-</div>
-<div class="small-note" data-i18n="note.bank_limit">
-      NB: Bank transfers aren't supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.
-     </div>
-</div>
 </div>
 <div id="myEscrowsSection" style="display:none;">
 <div class="card">
-<h2 data-i18n="my.h2">
-      My Escrows
-     </h2>
+<h2 data-i18n="my.h2">My Escrows</h2>
 <table>
 <thead>
 <tr>
-<th data-i18n="tbl.id">
-         ID
-        </th>
-<th data-i18n="tbl.status">
-         Status
-        </th>
-<th data-i18n="tbl.amount">
-         Amount
-        </th>
-<th data-i18n="tbl.wallet">
-         Wallet
-        </th>
+<th data-i18n="tbl.id">ID</th>
+<th data-i18n="tbl.status">Status</th>
+<th data-i18n="tbl.amount">Amount</th>
+<th data-i18n="tbl.wallet">Wallet</th>
 </tr>
 </thead>
-<tbody id="escrowTable">
-</tbody>
+<tbody id="escrowTable"></tbody>
 </table>
 </div>
 </div>
 <div id="transactionsSection" style="display:none;">
 <div class="card">
-<h2 data-i18n="transactions.h2">
-      Transactions
-     </h2>
-<ul id="transactionsList">
-</ul>
+<h2 data-i18n="transactions.h2">Transactions</h2>
+<ul id="transactionsList"></ul>
 </div>
 </div>
 <div id="kycSection" style="display:none;">
 <div class="card">
-<h2 data-i18n="kyc.h2">
-      KYC
-     </h2>
-<p data-i18n="kyc.note">
-      KYC verification will be demanded for sellers who choose to receive payment via Bank Transfer.
-     </p>
+<h2 data-i18n="kyc.h2">KYC</h2>
+<p data-i18n="kyc.note">KYC verification will be demanded for sellers who choose to receive payment via Bank Transfer.</p>
 </div>
 </div>
 </div>
 
 <script>
 let currentUser = null;
+let savedWallets = {};
 
 async function checkSession() {
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    console.warn('No auth token found');
+    return false;
+  }
+
   try {
-    const res = await fetch('https://vanguardescrow.online/.netlify/functions/me', {
+    const res = await fetch('https://vanguardescrow-api-4.onrender.com/me', {
       method: 'GET',
-      credentials: 'include'
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
     });
     
     if (!res.ok) {
       console.warn('No valid session found.');
+      localStorage.removeItem('authToken');
       return false;
     }
     
@@ -326,12 +241,79 @@ async function checkSession() {
   }
 }
 
+function loadSavedWallets() {
+  const saved = localStorage.getItem('sellerWallets');
+  if (saved) {
+    savedWallets = JSON.parse(saved);
+    updateSavedWalletsDisplay();
+  }
+}
+
+function saveWallet(method, address) {
+  if (!address.trim()) {
+    alert('Please enter a wallet address');
+    return false;
+  }
+  
+  savedWallets[method] = address.trim();
+  localStorage.setItem('sellerWallets', JSON.stringify(savedWallets));
+  updateSavedWalletsDisplay();
+  
+  // Show success message
+  const methodNames = {
+    'trc': 'USDT TRC20',
+    'erc': 'USDT ERC20', 
+    'bep': 'BTC BEP20',
+    'cashapp': 'Cash App'
+  };
+  
+  alert(`${methodNames[method]} wallet saved successfully!`);
+  return true;
+}
+
+function updateSavedWalletsDisplay() {
+  const display = document.getElementById('savedWalletsDisplay');
+  const list = document.getElementById('savedWalletsList');
+  
+  if (Object.keys(savedWallets).length === 0) {
+    display.style.display = 'none';
+    return;
+  }
+  
+  display.style.display = 'block';
+  list.innerHTML = '';
+  
+  const methodNames = {
+    'trc': 'USDT TRC20',
+    'erc': 'USDT ERC20',
+    'bep': 'BTC BEP20',
+    'cashapp': 'Cash App'
+  };
+  
+  Object.keys(savedWallets).forEach(method => {
+    const walletItem = document.createElement('div');
+    walletItem.style.marginTop = '4px';
+    walletItem.style.padding = '4px';
+    walletItem.style.background = '#f1f5f9';
+    walletItem.style.borderRadius = '4px';
+    walletItem.innerHTML = `<strong>${methodNames[method]}:</strong> <span style="font-family: monospace;">${savedWallets[method]}</span>`;
+    list.appendChild(walletItem);
+  });
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
   console.log('Seller Dashboard initializing...');
   
   await checkSession();
+  loadSavedWallets();
 
   async function handleEscrowAction(escrowId, endpoint, msgId, actionName) {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.error('No auth token found');
+      return;
+    }
+
     const msg = document.getElementById(msgId);
     if (msg) {
       msg.innerHTML = "Processing...";
@@ -342,14 +324,15 @@ window.addEventListener("DOMContentLoaded", async () => {
       const res = await fetch(endpoint, { 
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
-        credentials: 'include',
         body: JSON.stringify({ escrowId })
       });
 
       if (res.status === 401) {
-        console.error('401 Unauthorized - session invalid');
+        console.error('401 Unauthorized - token invalid');
+        localStorage.removeItem('authToken');
         if (msg) {
           msg.innerHTML = `Session expired. Please log in again.`;
           msg.className = "msg error";
@@ -380,6 +363,12 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   async function handleDeliverySubmit(e) {
     e.preventDefault();
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Session expired. Please log in again.');
+      return;
+    }
+
     const form = e.target;
     const msg = document.getElementById('deliveryMsg');
     msg.innerHTML = "Processing...";
@@ -388,14 +377,17 @@ window.addEventListener("DOMContentLoaded", async () => {
     try {
       const formData = new FormData(form);
       
-      const res = await fetch("https://vanguardescrow.online/.netlify/functions/sellerSubmitDelivery", { 
+      const res = await fetch("https://vanguardescrow-api-4.onrender.com/sellerSubmitDelivery", { 
         method: "POST",
-        credentials: 'include',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData
       });
 
       if (res.status === 401) {
-        console.error('401 Unauthorized - session invalid');
+        console.error('401 Unauthorized - token invalid');
+        localStorage.removeItem('authToken');
         msg.innerHTML = `Session expired. Please log in again.`;
         msg.className = "msg error";
         return; 
@@ -422,6 +414,18 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   async function handleReleaseRequest(e) {
     e.preventDefault();
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('Session expired. Please log in again.');
+      return;
+    }
+
+    // Check if seller has saved any wallets
+    if (Object.keys(savedWallets).length === 0) {
+      alert('Please set up at least one withdrawal method before requesting release.');
+      return;
+    }
+
     const form = e.target;
     const msg = document.getElementById('releaseRequestMsg');
     msg.innerHTML = "Processing...";
@@ -429,17 +433,18 @@ window.addEventListener("DOMContentLoaded", async () => {
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await fetch("https://vanguardescrow.online/.netlify/functions/sellerRequestRelease", { 
+      const res = await fetch("https://vanguardescrow-api-4.onrender.com/sellerRequestRelease", { 
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
-        credentials: 'include',
         body: JSON.stringify(data)
       });
 
       if (res.status === 401) {
-        console.error('401 Unauthorized - session invalid');
+        console.error('401 Unauthorized - token invalid');
+        localStorage.removeItem('authToken');
         msg.innerHTML = `Session expired. Please log in again.`;
         msg.className = "msg error";
         return; 
@@ -462,10 +467,19 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  const base = "https://vanguardescrow.online/.netlify/functions";
+  const base = "https://vanguardescrow-api-4.onrender.com";
   
   document.getElementById("deliveryForm")?.addEventListener("submit", handleDeliverySubmit);
   document.getElementById("releaseRequestForm")?.addEventListener("submit", handleReleaseRequest);
+
+  // Wallet save buttons
+  document.querySelectorAll('.save-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const method = this.getAttribute('data-method');
+      const input = document.getElementById(`wallet_${method}`);
+      saveWallet(method, input.value);
+    });
+  });
 
   document.getElementById("attachFiles")?.addEventListener("change", function(e) {
     const files = e.target.files;
@@ -496,18 +510,15 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     try {
-      await fetch('https://vanguardescrow.online/.netlify/functions/logout', {
-        method: 'POST',
-        credentials: 'include'
-      });
+      localStorage.removeItem('authToken');
       console.log('Logged out successfully');
+      window.location.href = '/index.html';
     } catch (error) {
       console.error('Logout error:', error);
     }
   });
 });
-</script>
-<script id="tabControl">
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Tab system initialized");
 
@@ -547,8 +558,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   showSection("escrowSection");
 });
-</script>
-<script id="i18nAndWalletFeatures">
+
 const translations = {
   en: {
     translation: {
@@ -563,32 +573,34 @@ const translations = {
       "pending.desc": "Review buyer-initiated escrow requests awaiting your confirmation.",
       "delivery.h2": "Submit Delivery & Terms",
       "release.h2": "Request Payment Release",
-      "release.desc": "Request the buyer to release payment after completing the delivery.",
-      "withdrawal.h2": "Choose Withdrawal Method",
-      "withdrawal.desc": "Select how you would like to receive your payout once the escrow is completed.",
+      "release.desc": "Request the buyer to release payment after completing the delivery. Make sure you've set your withdrawal method above.",
+      "withdrawal.h2": "Set Your Withdrawal Method",
+      "withdrawal.desc": "Enter your wallet addresses where you want to receive payments. These will be used for all your payouts.",
       "method.trc": "USDT TRC20",
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (US only)",
       "method.bank": "Bank Transfer (Revolut Instant)",
-      "method.bank_note": "Chat Live Admin on our Google Meet link or email support@vanguardescrow.online",
+      "method.bank_note": "Contact support to set up bank transfer details",
       "btn.copy": "Copy",
-      "btn.select_withdrawal": "Select Withdrawal Method",
+      "btn.save": "Save",
       "btn.info": "Info",
-      "btn.use_custom": "Use Custom",
-      "btn.clear": "Clear",
       "btn.submit_delivery": "Submit Delivery",
       "btn.request_release": "Request Release",
       "btn.confirm_escrow": "Confirm Escrow",
       "btn.reject_escrow": "Reject Escrow",
-      "ph.custom": "Enter custom withdrawal method",
       "ph.escrow_id": "Escrow ID",
       "ph.delivery_terms": "Describe your deliverables or terms...",
       "ph.deliverable_content": "Paste deliverable text, download links, or instructions...",
+      "ph.wallet_trc": "Enter your USDT TRC20 wallet address",
+      "ph.wallet_erc": "Enter your USDT ERC20 wallet address", 
+      "ph.wallet_bep": "Enter your BTC BEP20 wallet address",
+      "ph.wallet_cashapp": "Enter your Cash App username",
       "label.delivery_terms": "Delivery Terms:",
       "label.deliverable_content": "Deliverable Content:",
       "label.attach_files": "Attach Files:",
       "label.selected_files": "Selected Files:",
+      "label.saved_wallets": "Saved Wallets:",
       "note.bank_limit": "NB: Bank transfers aren't supported for transfers above $5000. For bank transfer assistance use Google Meet or support@vanguardescrow.online.",
       "my.h2": "My Escrows",
       "tbl.id": "ID",
@@ -615,32 +627,34 @@ const translations = {
       "pending.desc": "Überprüfen Sie vom Käufer initiierte Escrow-Anfragen, die auf Ihre Bestätigung warten.",
       "delivery.h2": "Lieferung & Bedingungen einreichen",
       "release.h2": "Zahlungsfreigabe anfordern",
-      "release.desc": "Fordern Sie den Käufer auf, die Zahlung nach Abschluss der Lieferung freizugeben.",
-      "withdrawal.h2": "Auszahlungsmethode wählen",
-      "withdrawal.desc": "Wählen Sie aus, wie Sie Ihre Auszahlung nach Abschluss des Escrow erhalten möchten.",
+      "release.desc": "Fordern Sie den Käufer auf, die Zahlung nach Abschluss der Lieferung freizugeben. Stellen Sie sicher, dass Sie Ihre Auszahlungsmethode oben festgelegt haben.",
+      "withdrawal.h2": "Auszahlungsmethode festlegen",
+      "withdrawal.desc": "Geben Sie Ihre Wallet-Adressen ein, an die Sie Zahlungen erhalten möchten. Diese werden für alle Ihre Auszahlungen verwendet.",
       "method.trc": "USDT TRC20",
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (nur USA)",
       "method.bank": "Banküberweisung (Revolut Instant)",
-      "method.bank_note": "Live-Admin über Google Meet kontaktieren oder E-Mail an support@vanguardescrow.online",
+      "method.bank_note": "Kontaktieren Sie den Support, um Banküberweisungsdetails einzurichten",
       "btn.copy": "Kopieren",
-      "btn.select_withdrawal": "Auszahlungsmethode auswählen",
+      "btn.save": "Speichern",
       "btn.info": "Info",
-      "btn.use_custom": "Benutzerdefiniert verwenden",
-      "btn.clear": "Löschen",
       "btn.submit_delivery": "Lieferung einreichen",
       "btn.request_release": "Freigabe anfordern",
       "btn.confirm_escrow": "Escrow bestätigen",
       "btn.reject_escrow": "Escrow ablehnen",
-      "ph.custom": "Benutzerdefinierte Auszahlungsmethode eingeben",
       "ph.escrow_id": "Escrow-ID",
       "ph.delivery_terms": "Beschreiben Sie Ihre Liefergegenstände oder Bedingungen...",
       "ph.deliverable_content": "Fügen Sie Liefertext, Download-Links oder Anweisungen ein...",
+      "ph.wallet_trc": "Geben Sie Ihre USDT TRC20 Wallet-Adresse ein",
+      "ph.wallet_erc": "Geben Sie Ihre USDT ERC20 Wallet-Adresse ein",
+      "ph.wallet_bep": "Geben Sie Ihre BTC BEP20 Wallet-Adresse ein", 
+      "ph.wallet_cashapp": "Geben Sie Ihren Cash App Benutzernamen ein",
       "label.delivery_terms": "Lieferbedingungen:",
       "label.deliverable_content": "Lieferinhalt:",
       "label.attach_files": "Dateien anhängen:",
       "label.selected_files": "Ausgewählte Dateien:",
+      "label.saved_wallets": "Gespeicherte Wallets:",
       "note.bank_limit": "Hinweis: Banküberweisungen werden nicht für Beträge über 5000 $ unterstützt.",
       "my.h2": "Meine Escrows",
       "tbl.id": "ID",
@@ -667,32 +681,34 @@ const translations = {
       "pending.desc": "Examinez les demandes d'escrow initiées par l'acheteur en attente de votre confirmation.",
       "delivery.h2": "Soumettre la livraison et les conditions",
       "release.h2": "Demander la libération du paiement",
-      "release.desc": "Demandez à l'acheteur de libérer le paiement après avoir terminé la livraison.",
-      "withdrawal.h2": "Choisir la méthode de retrait",
-      "withdrawal.desc": "Sélectionnez comment vous souhaitez recevoir votre paiement une fois l'escrow terminé.",
+      "release.desc": "Demandez à l'acheteur de libérer le paiement après avoir terminé la livraison. Assurez-vous d'avoir configuré votre méthode de retrait ci-dessus.",
+      "withdrawal.h2": "Configurer votre méthode de retrait",
+      "withdrawal.desc": "Entrez vos adresses de portefeuille où vous souhaitez recevoir les paiements. Elles seront utilisées pour tous vos versements.",
       "method.trc": "USDT TRC20",
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (USA uniquement)",
       "method.bank": "Virement bancaire (Revolut Instant)",
-      "method.bank_note": "Contactez l'administrateur en direct via Google Meet ou par e-mail support@vanguardescrow.online",
+      "method.bank_note": "Contactez le support pour configurer les détails de virement bancaire",
       "btn.copy": "Copier",
-      "btn.select_withdrawal": "Sélectionner la méthode de retrait",
+      "btn.save": "Sauvegarder",
       "btn.info": "Info",
-      "btn.use_custom": "Utiliser personnalisé",
-      "btn.clear": "Effacer",
       "btn.submit_delivery": "Soumettre la livraison",
       "btn.request_release": "Demander la libération",
       "btn.confirm_escrow": "Confirmer l'escrow",
       "btn.reject_escrow": "Rejeter l'escrow",
-      "ph.custom": "Entrez une méthode de retrait personnalisée",
       "ph.escrow_id": "ID Escrow",
       "ph.delivery_terms": "Décrivez vos livrables ou conditions...",
       "ph.deliverable_content": "Collez le texte livrable, les liens de téléchargement ou les instructions...",
+      "ph.wallet_trc": "Entrez votre adresse de portefeuille USDT TRC20",
+      "ph.wallet_erc": "Entrez votre adresse de portefeuille USDT ERC20",
+      "ph.wallet_bep": "Entrez votre adresse de portefeuille BTC BEP20",
+      "ph.wallet_cashapp": "Entrez votre nom d'utilisateur Cash App",
       "label.delivery_terms": "Conditions de livraison:",
       "label.deliverable_content": "Contenu livrable:",
       "label.attach_files": "Joindre des fichiers:",
       "label.selected_files": "Fichiers sélectionnés:",
+      "label.saved_wallets": "Portefeuilles sauvegardés:",
       "note.bank_limit": "NB: Les virements bancaires ne sont pas pris en charge pour les montants supérieurs à 5000 $.",
       "my.h2": "Mes Escrows",
       "tbl.id": "ID",
@@ -719,32 +735,34 @@ const translations = {
       "pending.desc": "Rivedi le richieste di escrow avviate dall'acquirente in attesa della tua conferma.",
       "delivery.h2": "Invia consegna e termini",
       "release.h2": "Richiedi rilascio pagamento",
-      "release.desc": "Richiedi all'acquirente di rilasciare il pagamento dopo aver completato la consegna.",
-      "withdrawal.h2": "Scegli il metodo di prelievo",
-      "withdrawal.desc": "Seleziona come desideri ricevere il tuo pagamento una volta completato l'escrow.",
+      "release.desc": "Richiedi all'acquirente di rilasciare il pagamento dopo aver completato la consegna. Assicurati di aver impostato il tuo metodo di prelievo sopra.",
+      "withdrawal.h2": "Imposta il tuo metodo di prelievo",
+      "withdrawal.desc": "Inserisci i tuoi indirizzi wallet dove desideri ricevere i pagamenti. Questi verranno utilizzati per tutti i tuoi pagamenti.",
       "method.trc": "USDT TRC20",
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (solo USA)",
       "method.bank": "Bonifico bancario (Revolut Instant)",
-      "method.bank_note": "Contatta l'amministratore in diretta su Google Meet o via email support@vanguardescrow.online",
+      "method.bank_note": "Contatta il supporto per impostare i dettagli del bonifico bancario",
       "btn.copy": "Copia",
-      "btn.select_withdrawal": "Seleziona metodo di prelievo",
+      "btn.save": "Salva",
       "btn.info": "Info",
-      "btn.use_custom": "Usa personalizzato",
-      "btn.clear": "Cancella",
       "btn.submit_delivery": "Invia consegna",
       "btn.request_release": "Richiedi rilascio",
       "btn.confirm_escrow": "Conferma escrow",
       "btn.reject_escrow": "Rifiuta escrow",
-      "ph.custom": "Inserisci metodo di prelievo personalizzato",
       "ph.escrow_id": "ID Escrow",
       "ph.delivery_terms": "Descrivi i tuoi consegnabili o termini...",
       "ph.deliverable_content": "Incolla testo consegnabile, link di download o istruzioni...",
+      "ph.wallet_trc": "Inserisci il tuo indirizzo wallet USDT TRC20",
+      "ph.wallet_erc": "Inserisci il tuo indirizzo wallet USDT ERC20",
+      "ph.wallet_bep": "Inserisci il tuo indirizzo wallet BTC BEP20",
+      "ph.wallet_cashapp": "Inserisci il tuo nome utente Cash App",
       "label.delivery_terms": "Termini di consegna:",
       "label.deliverable_content": "Contenuto consegnabile:",
       "label.attach_files": "Allega file:",
       "label.selected_files": "File selezionati:",
+      "label.saved_wallets": "Wallet salvati:",
       "note.bank_limit": "NB: I bonifici bancari non sono supportati per importi superiori a $5000.",
       "my.h2": "I Miei Escrow",
       "tbl.id": "ID",
@@ -771,32 +789,34 @@ const translations = {
       "pending.desc": "Revise las solicitudes de escrow iniciadas por el comprador que esperan su confirmación.",
       "delivery.h2": "Enviar entrega y términos",
       "release.h2": "Solicitar liberación de pago",
-      "release.desc": "Solicite al comprador que libere el pago después de completar la entrega.",
-      "withdrawal.h2": "Elegir método de retiro",
-      "withdrawal.desc": "Seleccione cómo desea recibir su pago una vez completado el escrow.",
+      "release.desc": "Solicite al comprador que libere el pago después de completar la entrega. Asegúrese de haber configurado su método de retiro arriba.",
+      "withdrawal.h2": "Configurar su método de retiro",
+      "withdrawal.desc": "Ingrese sus direcciones de billetera donde desea recibir los pagos. Estas se utilizarán para todos sus pagos.",
       "method.trc": "USDT TRC20",
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (solo EE. UU.)",
       "method.bank": "Transferencia bancaria (Revolut Instant)",
-      "method.bank_note": "Contacte al administrador en vivo en Google Meet o por correo electrónico support@vanguardescrow.online",
+      "method.bank_note": "Contacte al soporte para configurar los detalles de transferencia bancaria",
       "btn.copy": "Copiar",
-      "btn.select_withdrawal": "Seleccionar método de retiro",
+      "btn.save": "Guardar",
       "btn.info": "Info",
-      "btn.use_custom": "Usar personalizado",
-      "btn.clear": "Limpiar",
       "btn.submit_delivery": "Enviar entrega",
       "btn.request_release": "Solicitar liberación",
       "btn.confirm_escrow": "Confirmar escrow",
       "btn.reject_escrow": "Rechazar escrow",
-      "ph.custom": "Ingrese método de retiro personalizado",
       "ph.escrow_id": "ID de Escrow",
       "ph.delivery_terms": "Describa sus entregables o términos...",
       "ph.deliverable_content": "Pegue texto entregable, enlaces de descarga o instrucciones...",
+      "ph.wallet_trc": "Ingrese su dirección de billetera USDT TRC20",
+      "ph.wallet_erc": "Ingrese su dirección de billetera USDT ERC20",
+      "ph.wallet_bep": "Ingrese su dirección de billetera BTC BEP20",
+      "ph.wallet_cashapp": "Ingrese su nombre de usuario de Cash App",
       "label.delivery_terms": "Términos de entrega:",
       "label.deliverable_content": "Contenido entregable:",
       "label.attach_files": "Adjuntar archivos:",
       "label.selected_files": "Archivos seleccionados:",
+      "label.saved_wallets": "Billeteras guardadas:",
       "note.bank_limit": "NB: Las transferencias bancarias no están soportadas para montos superiores a $5000.",
       "my.h2": "Mis Escrows",
       "tbl.id": "ID",
@@ -837,56 +857,6 @@ function updateContent() {
 document.getElementById('langSwitcher')?.addEventListener('change', function(e) {
   i18next.changeLanguage(e.target.value, () => {
     updateContent();
-  });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const copyButtons = document.querySelectorAll('.copy-btn');
-  copyButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const val = btn.getAttribute('data-val');
-      if (val && val !== 'BankTransferInfo') {
-        navigator.clipboard.writeText(val).then(() => {
-          const original = btn.textContent;
-          btn.textContent = '✓ Copied!';
-          setTimeout(() => {
-            btn.textContent = original;
-          }, 2000);
-        });
-      } else if (val === 'BankTransferInfo') {
-        alert('Bank Transfer Info:\nContact Live Admin via Google Meet or email support@vanguardescrow.online');
-      }
-    });
-  });
-
-  const useButtons = document.querySelectorAll('.use-btn');
-  useButtons.forEach(btn => {
-    if (btn.id !== 'useCustomBtn' && btn.id !== 'clearSelected') {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const val = btn.getAttribute('data-val');
-        if (val) {
-          document.getElementById('selectedPaymentText').textContent = val;
-          document.getElementById('selectedPaymentDisplay').style.display = 'flex';
-        }
-      });
-    }
-  });
-
-  document.getElementById('useCustomBtn')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    const custom = document.getElementById('customPayment').value.trim();
-    if (custom) {
-      document.getElementById('selectedPaymentText').textContent = custom;
-      document.getElementById('selectedPaymentDisplay').style.display = 'flex';
-    }
-  });
-
-  document.getElementById('clearSelected')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('selectedPaymentDisplay').style.display = 'none';
-    document.getElementById('selectedPaymentText').textContent = '--';
   });
 });
 </script>

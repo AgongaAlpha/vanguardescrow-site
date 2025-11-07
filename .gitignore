@@ -1,2 +1,39 @@
 # Local Netlify folder
 .netlify
+
+# Python virtual environment
+venv/
+
+# Environment variables - DO NOT COMMIT THESE TO NETLIFY
+.env
+
+# Log files
+backend_run.log
+*.log
+
+# Python cache and build files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Netlify functions (you're not using them anymore)
+netlifyfunctions/
