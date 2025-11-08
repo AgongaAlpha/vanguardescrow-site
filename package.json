@@ -1,0 +1,8 @@
+{
+  "name": "vanguardescrow-site",
+  "version": "1.0.0",
+  "description": "Vanguard Escrow Frontend",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
