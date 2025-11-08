@@ -62,7 +62,7 @@
 </nav>
 <div id="escrowSection">
 <div class="card">
-<form action="https://vanguardescrow-api-4.onrender.com/createEscrow" id="createEscrowForm" method="POST">
+<form id="createEscrowForm" method="POST">
 <textarea id="agreement" name="description" placeholder="Enter agreement terms"></textarea>
 <input id="amount" name="amount" placeholder="Enter amount" type="number"/>
 <input id="paymentMethod" name="paymentMethod" placeholder="Enter payment method" type="text"/>
@@ -146,13 +146,13 @@
 <div id="depositMsg"></div>
 </div>
 <div class="card">
-<form action="https://vanguardescrow-api-4.onrender.com/markPaid" id="markPaidForm" method="POST">
+<form id="markPaidForm" method="POST">
 <input id="escrowIdConfirm" name="escrowId" placeholder="Escrow ID" type="text"/>
 <button class="action" id="confirmDepositBtn" type="submit" data-i18n="btn.mark_paid">Mark as Paid</button>
 <div class="msg" id="markMsg"></div></form>
 </div>
 <div class="card">
-<form action="https://vanguardescrow-api-4.onrender.com/releaseFunds" id="releaseFundsForm" method="POST">
+<form id="releaseFundsForm" method="POST">
 <input id="escrowIdRelease" name="escrowId" placeholder="Escrow ID" type="text"/>
 <button class="action" id="releaseFundsBtn" type="submit" data-i18n="btn.release_funds">Release Funds to Seller</button>
 <div class="msg" id="releaseMsg"></div></form>
@@ -284,7 +284,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
   
-  const base = "https://vanguardescrow-api-4.onrender.com";
+  const base = "/.netlify/functions/proxy";
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
   document.getElementById("releaseFundsForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/releaseFunds", "releaseMsg", "Release Funds"));
