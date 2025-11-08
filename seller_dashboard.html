@@ -88,7 +88,7 @@
 
 <div class="card">
 <h2 data-i18n="delivery.h2">Submit Delivery & Terms</h2>
-<form id="deliveryForm">
+<form id="deliveryForm" method="POST">
 <input id="escrowIdDelivery" name="escrowId" placeholder="Escrow ID" type="text" data-i18n-placeholder="ph.escrow_id"/>
 <label for="deliveryTerms" style="display:block;margin-top:12px;font-weight:600;" data-i18n="label.delivery_terms">Delivery Terms:</label>
 <textarea id="deliveryTerms" name="deliveryTerms" placeholder="Describe your deliverables or terms..." data-i18n-placeholder="ph.delivery_terms"></textarea>
@@ -162,7 +162,7 @@
 <div class="card">
 <h2 data-i18n="release.h2">Request Payment Release</h2>
 <p data-i18n="release.desc">Request the buyer to release payment after completing the delivery. Make sure you've set your withdrawal method above.</p>
-<form id="releaseRequestForm">
+<form id="releaseRequestForm" method="POST">
 <input id="escrowIdRelease" name="escrowId" placeholder="Escrow ID" type="text" data-i18n-placeholder="ph.escrow_id"/>
 <button class="action" id="requestReleaseBtn" type="submit" data-i18n="btn.request_release">Request Release</button>
 <div class="msg" id="releaseRequestMsg"></div>
@@ -211,7 +211,7 @@ async function checkSession() {
   }
 
   try {
-    const base = "/.netlify/functions/proxy"; {
+    const base = "https://vanguardescrow-api-4.onrender.com";
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
