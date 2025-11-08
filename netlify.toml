@@ -1,8 +1,11 @@
 [build]
   publish = "."
-  command = "echo 'Static site deployment'"
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[functions]
+  node_bundle = true
