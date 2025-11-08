@@ -377,7 +377,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     try {
       const formData = new FormData(form);
       
-      const res = await fetch("https://vanguardescrow-api-4.onrender.com/sellerSubmitDelivery", { 
+      const res = await fetch("/.netlify/functions/proxy/sellerSubmitDelivery", { 
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`
@@ -433,7 +433,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await fetch("https://vanguardescrow-api-4.onrender.com/sellerRequestRelease", { 
+      const res = await fetch("/.netlify/functions/proxy/sellerRequestRelease", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -467,7 +467,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  const base = "https://vanguardescrow-api-4.onrender.com";
+  const base = "/.netlify/functions/proxy";
   
   document.getElementById("deliveryForm")?.addEventListener("submit", handleDeliverySubmit);
   document.getElementById("releaseRequestForm")?.addEventListener("submit", handleReleaseRequest);
