@@ -199,7 +199,7 @@ async function checkSession() {
   }
 
   try {
-    const res = await fetch('https://vanguardescrow-api-4.onrender.com/me', {
+    const base = "/.netlify/functions/proxy";
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
