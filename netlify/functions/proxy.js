@@ -1,43 +1,53 @@
+// netlify/functions/proxy.js - Node.js version
+const fetch = require('node-fetch');
 
-// netlify/functions/proxy.js - Simple proxy to Render API
 exports.handler = async (event, context) => {
-  // Handle CORS preflight requests
+  console.log('Proxy function called:', event.path);
+  
+  // Handle CORS
+  const headers = {
+    'Access-Control-Allow-Origin': 'https://vanguardescrow.online',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+  };
+  
+  // Handle OPTIONS preflight
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': 'https://vanguardescrow.online',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
-      },
+      headers,
       body: ''
     };
   }
-
+  
   try {
-    // Extract the API path from the request
-    const path = event.path.replace('/.netlify/functions/proxy', '');
-    const renderUrl = `https://vanguardescrow-api-4.onrender.com${path}`;
+    // Extract API path
+    const apiPath = event.path.replace('/.netlify/functions/proxy', '');
+    const targetUrl = `https://vanguardescrow-api-4.onrender.com${apiPath}`;
     
-    console.log('Proxying to:', renderUrl);
+    console.log('Forwarding to:', targetUrl);
     
-    // Forward the request to Render
-    const response = await fetch(renderUrl, {
+    // Prepare headers for the request to Render
+    const requestHeaders = {
+      'Content-Type': 'application/json'
+    };
+    if (event.headers.authorization) {
+      requestHeaders['Authorization'] = event.headers.authorization;
+    }
+    
+    // Forward request
+    const response = await fetch(targetUrl, {
       method: event.httpMethod,
-      headers: {
-        'Content-Type': 'application/json',
-        ...(event.headers.authorization && { Authorization: event.headers.authorization })
-      },
+      headers: requestHeaders,
       body: event.body
     });
-
+    
     const data = await response.text();
     
-    // Return the response with CORS headers
     return {
       statusCode: response.status,
       headers: {
-        'Access-Control-Allow-Origin': 'https://vanguardescrow.online',
+        ...headers,
         'Content-Type': 'application/json'
       },
       body: data
@@ -47,10 +57,11 @@ exports.handler = async (event, context) => {
     console.error('Proxy error:', error);
     return {
       statusCode: 500,
-      headers: {
-        'Access-Control-Allow-Origin': 'https://vanguardescrow.online'
-      },
-      body: JSON.stringify({ error: 'Internal server error' })
+      headers,
+      body: JSON.stringify({ 
+        error: 'Proxy failed', 
+        message: error.message 
+      })
     };
   }
 };
