@@ -199,13 +199,14 @@ async function checkSession() {
   }
 
   try {
-    const base = "https://vanguardescrow-api-4.onrender.com";
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
+  const base = "https://vanguardescrow-api-4.onrender.com";
+  const res = await fetch(base + '/me', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
     
     if (!res.ok) {
       console.warn('No valid session found.');
