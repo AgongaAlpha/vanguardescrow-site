@@ -285,10 +285,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
   
-  const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
-  document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
-  document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
-  document.getElementById("releaseFundsForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/releaseFunds", "releaseMsg", "Release Funds"));
+const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
+document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, BASE_URL + "/createEscrow", "createMsg", "Create Escrow"));
+document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, BASE_URL + "/markPaid", "markMsg", "Mark as Paid"));
+document.getElementById("releaseFundsForm")?.addEventListener("submit", e => handleEscrowSubmit(e, BASE_URL + "/releaseFunds", "releaseMsg", "Release Funds"));
 
   document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     try {
