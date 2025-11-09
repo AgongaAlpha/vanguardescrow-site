@@ -284,7 +284,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
   
-  const base = "/.netlify/functions/proxy";
+  const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
   document.getElementById("createEscrowForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/createEscrow", "createMsg", "Create Escrow"));
   document.getElementById("markPaidForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/markPaid", "markMsg", "Mark as Paid"));
   document.getElementById("releaseFundsForm")?.addEventListener("submit", e => handleEscrowSubmit(e, base + "/releaseFunds", "releaseMsg", "Release Funds"));
