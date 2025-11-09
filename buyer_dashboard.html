@@ -192,7 +192,7 @@
 let currentUser = null;
 
 async function checkSession() {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('token');
   if (!token) {
     console.warn('No auth token found');
     return false;
@@ -243,7 +243,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     msg.className = "msg";
     const data = Object.fromEntries(new FormData(form).entries());
 
-    const token = localStorage.getItem('authToken');
+   const token = localStorage.getItem('token');
     if (!token) {
       msg.innerHTML = "Session expired. Please log in again.";
       msg.className = "msg error";
