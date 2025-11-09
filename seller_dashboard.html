@@ -345,11 +345,14 @@ window.addEventListener("DOMContentLoaded", async () => {
       let json;
       try { json = JSON.parse(text); } catch { json = null; }
 
-      if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+     if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
 
-      if (msg) {
-        msg.innerHTML = "✅ " + actionName + " successful!";
-        msg.className = "msg success";
+msg.innerHTML = "✅ " + actionName + " successful!";
+if (json.escrowId) {
+  msg.innerHTML += "<br>Escrow ID: " + json.escrowId;
+}
+msg.className = "msg success";
+console.log(actionName + " success:", json);
       }
       console.log(actionName + " success:", json);
       
