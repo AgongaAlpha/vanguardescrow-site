@@ -242,9 +242,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     const msg = document.getElementById(msgId);
     msg.innerHTML = "Processing...";
     msg.className = "msg";
-    const data = Object.fromEntries(new FormData(form).entries());
+const data = Object.fromEntries(new FormData(form).entries());
+console.log("Sending data to server:", data); // ADD THIS LINE
 
-   const token = localStorage.getItem('token');
+const token = localStorage.getItem('token');
     if (!token) {
       msg.innerHTML = "Session expired. Please log in again.";
       msg.className = "msg error";
