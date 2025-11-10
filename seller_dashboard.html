@@ -206,12 +206,15 @@ const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
 
 async function checkSession() {
   const token = localStorage.getItem('authToken');
+  console.log("🔍 STEP 1 - Token from localStorage:", token);
+  
   if (!token) {
-    console.warn('No auth token found');
+    console.warn('❌ No auth token found in localStorage');
     return false;
   }
 
   try {
+    console.log("🔍 STEP 2 - Calling checkSession endpoint...");
     const res = await fetch(`${BASE_URL}/checkSession`, {
       method: 'GET',
       headers: {
@@ -219,6 +222,33 @@ async function checkSession() {
         'Content-Type': 'application/json'
       }
     });
+    
+    console.log("🔍 STEP 3 - Response status:", res.status);
+    
+    if (!res.ok) {
+      console.warn('❌ No valid session found. Status:', res.status);
+      localStorage.removeItem('authToken');
+      return false;
+    }
+    
+    const data = await res.json();
+    console.log("🔍 STEP 4 - Session data from server:", data);
+    
+    currentUser = data;
+    console.log("🔍 STEP 5 - User role:", currentUser.role);
+    
+    if (currentUser.role !== 'seller') {
+      console.warn('❌ Access denied. User role is:', currentUser.role, 'but expected: seller');
+      return false;
+    }
+    
+    console.log('✅ STEP 6 - Session valid for seller:', currentUser.email);
+    return true;
+  } catch (error) {
+    console.error('❌ Session check failed:', error);
+    return false;
+  }
+}
     
     
 
