@@ -691,24 +691,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const useButtons = document.querySelectorAll('.use-btn');
-  useButtons.forEach(btn => {
-    if (btn.id !== 'useCustomBtn' && btn.id !== 'clearSelected') {
-      btn.addEventListener('click', () => {
-        const val = btn.getAttribute('data-val');
-        const paymentInput = document.getElementById('paymentMethod');
-        if (paymentInput) {
-          paymentInput.value = val;
-        }
-        const display = document.getElementById('selectedPaymentDisplay');
-        const text = document.getElementById('selectedPaymentText');
-        if (display && text) {
-          text.textContent = val;
-          display.style.display = 'flex';
-        }
-      });
-    }
-  });
-
+ useButtons.forEach(btn => {
+  if (btn.id !== 'useCustomBtn' && btn.id !== 'clearSelected') {
+    btn.addEventListener('click', () => {
+      const val = btn.getAttribute('data-val');
+      const paymentInput = document.getElementById('paymentMethod');
+      console.log('Setting payment method to:', val);
+      if (paymentInput) {
+        paymentInput.value = val;
+        paymentInput.focus();
+      }
+      const display = document.getElementById('selectedPaymentDisplay');
+      const text = document.getElementById('selectedPaymentText');
+      if (display && text) {
+        text.textContent = val;
+        display.style.display = 'flex';
+      }
+    });
+  }
+});
   const useCustomBtn = document.getElementById('useCustomBtn');
   if (useCustomBtn) {
     useCustomBtn.addEventListener('click', () => {
