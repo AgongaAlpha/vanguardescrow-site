@@ -280,7 +280,9 @@ console.log("Parsed JSON:", json); // ADD THIS LINE
 if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
 
 msg.innerHTML = "✅ " + actionName + " successful!";
-if (json && json.escrowId) {
+if (json && json.escrow_id) {
+  msg.innerHTML += "<br>Escrow ID: " + json.escrow_id;
+} else if (json && json.escrowId) {
   msg.innerHTML += "<br>Escrow ID: " + json.escrowId;
 } else if (json && json.id) {
   msg.innerHTML += "<br>Escrow ID: " + json.id;
