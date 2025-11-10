@@ -220,27 +220,7 @@ async function checkSession() {
       }
     });
     
-    if (!res.ok) {
-      console.warn('No valid session found.');
-      localStorage.removeItem('authToken');
-      return false;
-    }
     
-    const data = await res.json();
-    currentUser = data;
-    
-    if (currentUser.role !== 'seller') {
-      console.warn('Access denied. Wrong dashboard for your role.');
-      return false;
-    }
-    
-    console.log('Session valid for seller:', currentUser.email);
-    return true;
-  } catch (error) {
-    console.error('Session check failed:', error);
-    return false;
-  }
-}
 
 async function loadPendingEscrows() {
   const token = localStorage.getItem('authToken');
@@ -378,9 +358,15 @@ function updateSavedWalletsDisplay() {
 window.addEventListener("DOMContentLoaded", async () => {
   console.log('Seller Dashboard initializing...');
   
-  await checkSession();
+  const sessionValid = await checkSession();
+  if (!sessionValid) {
+    alert('Please log in as a seller first');
+    window.location.href = '/index.html';
+    return;
+  }
+  
   loadSavedWallets();
-  loadPendingEscrows();  // <-- ADD THIS LINE
+  loadPendingEscrows();
 
   async function handleEscrowAction(escrowId, endpoint, msgId, actionName) {
     const token = localStorage.getItem('authToken');
@@ -419,14 +405,14 @@ window.addEventListener("DOMContentLoaded", async () => {
       let json;
       try { json = JSON.parse(text); } catch { json = null; }
 
-     if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+           if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
 
-msg.innerHTML = "✅ " + actionName + " successful!";
-if (json.escrowId) {
-  msg.innerHTML += "<br>Escrow ID: " + json.escrowId;
-}
-msg.className = "msg success";
-console.log(actionName + " success:", json);
+      if (msg) {
+        msg.innerHTML = "✅ " + actionName + " successful!";
+        if (json && json.escrowId) {
+          msg.innerHTML += "<br>Escrow ID: " + json.escrowId;
+        }
+        msg.className = "msg success";
       }
       console.log(actionName + " success:", json);
       
@@ -455,7 +441,7 @@ console.log(actionName + " success:", json);
     try {
       const formData = new FormData(form);
       
-      const res = await fetch(base + "/sellerSubmitDelivery", { 
+      const res = await fetch(BASE_URL + "/sellerSubmitDelivery", { 
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`
@@ -511,7 +497,7 @@ console.log(actionName + " success:", json);
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await fetch(base + "/sellerRequestRelease", {
+      const res = await fetch(BASE_URL + "/sellerRequestRelease", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -545,7 +531,7 @@ console.log(actionName + " success:", json);
     }
   }
 
- const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
+ 
   
   document.getElementById("deliveryForm")?.addEventListener("submit", handleDeliverySubmit);
   document.getElementById("releaseRequestForm")?.addEventListener("submit", handleReleaseRequest);
