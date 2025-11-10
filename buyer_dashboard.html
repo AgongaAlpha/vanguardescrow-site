@@ -63,10 +63,13 @@ paymentMethod<!DOCTYPE html>
 <div id="escrowSection">
 <div class="card">
 <form id="createEscrowForm" method="POST">
-<input id="sellerEmail" name="seller_email" placeholder="Seller Email Address" type="email"/>
-<textarea id="agreement" name="description" placeholder="Enter agreement terms"></textarea>
-<input id="amount" name="amount" placeholder="Enter amount" type="number"/>
-<input id="paymentMethod" name="paymentMethod" placeholder="Enter payment method" type="text"/>
+<div style="margin-bottom: 8px; font-size: 14px; color: #374151;" data-i18n="create.step1">🔹 <strong>Step 1:</strong> Fill in the escrow details below</div>
+<input id="sellerEmail" name="seller_email" data-i18n-placeholder="create.ph_seller_email" placeholder="Seller Email Address" type="email"/>
+<textarea id="agreement" name="description" data-i18n-placeholder="create.ph_agreement" placeholder="Describe what you're buying/selling and any terms..."></textarea>
+<input id="amount" name="amount" data-i18n-placeholder="create.ph_amount" placeholder="Enter amount in USD" type="number"/>
+<div style="margin: 12px 0; font-size: 14px; color: #374151;" data-i18n="create.step2">🔹 <strong>Step 2:</strong> Select payment method from the list below (click "Use" button)</div>
+<input id="paymentMethod" name="paymentMethod" data-i18n-placeholder="create.ph_payment" placeholder="Payment method will auto-fill when you select from below" type="text" readonly style="background-color: #f9fafb;"/>
+<div style="margin: 12px 0; font-size: 14px; color: #374151;" data-i18n="create.step3">🔹 <strong>Step 3:</strong> Create escrow and save your Escrow ID</div>
 <button class="action" id="createEscrowBtn" type="submit" data-i18n="btn.create_escrow">Create Escrow</button>
 <div class="msg" id="createMsg"></div></form>
 </div>
