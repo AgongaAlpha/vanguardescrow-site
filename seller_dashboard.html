@@ -241,28 +241,6 @@ async function checkSession() {
     return false;
   }
 }
-    
-    if (!res.ok) {
-      console.warn('No valid session found.');
-      localStorage.removeItem('authToken');
-      return false;
-    }
-    
-    const data = await res.json();
-    currentUser = data;
-    
-    if (currentUser.role !== 'seller') {
-      console.warn('Access denied. Wrong dashboard for your role.');
-      return false;
-    }
-    
-    console.log('Session valid for seller:', currentUser.email);
-    return true;
-  } catch (error) {
-    console.error('Session check failed:', error);
-    return false;
-  }
-}
 
 async function loadPendingEscrows() {
   const token = localStorage.getItem('authToken');
