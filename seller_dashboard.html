@@ -205,7 +205,7 @@ let savedWallets = {};
 const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
 
 async function checkSession() {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('token');
   console.log("🔍 STEP 1 - Token from localStorage:", token);
   
   if (!token) {
@@ -227,7 +227,7 @@ async function checkSession() {
     
     if (!res.ok) {
       console.warn('❌ No valid session found. Status:', res.status);
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('token');
       return false;
     }
     
