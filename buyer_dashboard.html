@@ -270,15 +270,25 @@ const token = localStorage.getItem('token');
         return; 
       }
       
-      let text = await res.text();
-      let json;
-      try { json = JSON.parse(text); } catch { json = null; }
+let text = await res.text();
+let json;
+try { json = JSON.parse(text); } catch { json = null; }
 
-      if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+console.log("Full server response:", text); // ADD THIS LINE
+console.log("Parsed JSON:", json); // ADD THIS LINE
 
-      msg.innerHTML = "✅ " + actionName + " successful!";
-      msg.className = "msg success";
-      console.log(actionName + " success:", json);
+if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+
+msg.innerHTML = "✅ " + actionName + " successful!";
+if (json && json.escrowId) {
+  msg.innerHTML += "<br>Escrow ID: " + json.escrowId;
+} else if (json && json.id) {
+  msg.innerHTML += "<br>Escrow ID: " + json.id;
+} else {
+  msg.innerHTML += "<br>No escrow ID returned. Check server response.";
+}
+msg.className = "msg success";
+console.log(actionName + " success:", json);
       
     } catch (err) {
       msg.innerHTML = "❌ " + (err.message || "Network/System Error");
