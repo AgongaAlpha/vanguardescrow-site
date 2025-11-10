@@ -202,23 +202,96 @@
 <script>
 let currentUser = null;
 let savedWallets = {};
+const BASE_URL = "https://vanguardescrow-api-4.onrender.com"; // ADD THIS LINE
 
 async function checkSession() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('authToken');
   if (!token) {
     console.warn('No auth token found');
     return false;
   }
 
   try {
-    const base = "https://vanguardescrow-api-4.onrender.com";
-    const res = await fetch(base + '/me', {
+    const res = await fetch(`${BASE_URL}/checkSession`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });
+    
+    if (!res.ok) {
+      console.warn('No valid session found.');
+      localStorage.removeItem('authToken');
+      return false;
+    }
+    
+    const data = await res.json();
+    currentUser = data;
+    
+    if (currentUser.role !== 'seller') {
+      console.warn('Access denied. Wrong dashboard for your role.');
+      return false;
+    }
+    
+    console.log('Session valid for seller:', currentUser.email);
+    return true;
+  } catch (error) {
+    console.error('Session check failed:', error);
+    return false;
+  }
+}
+
+async function loadPendingEscrows() {
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    console.error('No auth token found');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${BASE_URL}/sellerPendingEscrows`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch pending escrows');
+    }
+
+    const pendingEscrows = await res.json();
+    const tableBody = document.getElementById('pendingEscrowTable');
+    
+    if (pendingEscrows.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#6b7280;">No pending escrows found</td></tr>';
+      return;
+    }
+
+    tableBody.innerHTML = '';
+    pendingEscrows.forEach(escrow => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${escrow.id}</td>
+        <td>${escrow.buyerEmail || 'N/A'}</td>
+        <td>${escrow.amount} ${escrow.currency}</td>
+        <td>
+          <button onclick="confirmEscrow('${escrow.id}')" style="padding:6px 12px;background:#10b981;color:white;border:none;border-radius:4px;margin-right:8px;cursor:pointer;">Confirm</button>
+          <button onclick="rejectEscrow('${escrow.id}')" style="padding:6px 12px;background:#ef4444;color:white;border:none;border-radius:4px;cursor:pointer;">Reject</button>
+          <div class="msg" id="pendingMsg_${escrow.id}"></div>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error('Error loading pending escrows:', error);
+    const tableBody = document.getElementById('pendingEscrowTable');
+    tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#dc2626;">Error loading pending escrows</td></tr>';
+  }
+}
     
     if (!res.ok) {
       console.warn('No valid session found.');
@@ -307,6 +380,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   
   await checkSession();
   loadSavedWallets();
+  loadPendingEscrows();  // <-- ADD THIS LINE
 
   async function handleEscrowAction(escrowId, endpoint, msgId, actionName) {
     const token = localStorage.getItem('authToken');
@@ -322,14 +396,14 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-      const res = await fetch(endpoint, { 
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ escrowId })
-      });
+    const res = await fetch(`${BASE_URL}${endpoint}`, { 
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ escrowId })
+    });
 
       if (res.status === 401) {
         console.error('401 Unauthorized - token invalid');
@@ -504,12 +578,12 @@ console.log(actionName + " success:", json);
     }
   });
 
-  window.confirmEscrow = function(escrowId) {
-    handleEscrowAction(escrowId, base + "/sellerConfirm", "pendingMsg_" + escrowId, "Confirm Escrow");
+    window.confirmEscrow = function(escrowId) {
+    handleEscrowAction(escrowId, "/sellerConfirm", "pendingMsg_" + escrowId, "Confirm Escrow");
   };
 
   window.rejectEscrow = function(escrowId) {
-    handleEscrowAction(escrowId, base + "/sellerReject", "pendingMsg_" + escrowId, "Reject Escrow");
+    handleEscrowAction(escrowId, "/sellerReject", "pendingMsg_" + escrowId, "Reject Escrow");
   };
 
   document.getElementById("logoutBtn")?.addEventListener("click", async () => {
