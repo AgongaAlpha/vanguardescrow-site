@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title data-i18n="title">Seller Dashboard — VanGuard Escrow</title>
+<title data-i18n="title">Seller Dashboard – VanGuard Escrow</title>
 
 <script src="https://cdn.jsdelivr.net/npm/i18next@23.7.6/i18next.min.js"></script>
 <style>
-   body{font-family:"Segoe UI",sans-serif;background:#f8fafc;margin:0;color:#0f172a;}
+   body{font-family:"Segoe UI",sans-serif;background:#f8fafc;margin:0;color:#0f172a;padding-bottom:60px;}
     header{background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;padding:12px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
     .header-left{display:flex;align-items:center;gap:12px}
     header button{background:white;color:#0f172a;border:none;border-radius:6px;padding:6px 12px;font-weight:600;cursor:pointer;}
@@ -18,7 +18,7 @@
     nav button.active{background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;}
     .card{background:white;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
     h2{margin-top:0;}
-    textarea,input{width:100%;padding:10px;margin-top:8px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;}
+    textarea,input{width:100%;padding:10px;margin-top:8px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;box-sizing:border-box;}
     button.action{margin-top:12px;padding:10px 16px;border:none;border-radius:8px;background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;font-weight:600;cursor:pointer;}
     .wallet-box{font-family:monospace;padding:10px;background:#f1f5f9;border-radius:8px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;}
     .msg{margin-top:10px;padding:8px 10px;border-radius:8px;font-size:13px;}
@@ -39,6 +39,16 @@
     .wallet-input-group{margin-top:8px;display:flex;gap:8px;}
     .wallet-input-group input{flex:1;margin-top:0;}
     .save-btn{padding:6px 12px;border-radius:8px;border:none;background:#10b981;color:white;cursor:pointer;font-weight:600}
+    footer{background:#f8fafc;border-top:2px solid #e2e8f0;padding:30px 20px;margin-top:40px;}
+    .footer-content{max-width:1000px;margin:0 auto;}
+    .footer-guide{background:white;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+    .footer-guide h3{color:#1e40af;margin-top:0;}
+    .footer-guide ol{padding-left:20px;}
+    .footer-guide li{margin-bottom:10px;line-height:1.6;}
+    .support-box{background:linear-gradient(90deg,#1e40af,#3b82f6);color:white;padding:20px;border-radius:12px;text-align:center;}
+    .support-box h3{margin-top:0;}
+    .support-link{display:inline-block;background:white;color:#1e40af;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:10px;transition:transform 0.2s;}
+    .support-link:hover{transform:translateY(-2px);}
 </style>
 </head>
 <body>
@@ -181,14 +191,20 @@
 <th data-i18n="tbl.wallet">Wallet</th>
 </tr>
 </thead>
-<tbody id="escrowTable"></tbody>
+<tbody id="escrowTable">
+<tr>
+<td colspan="4" style="text-align:center;color:#6b7280;">Loading your escrows...</td>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
 <div id="transactionsSection" style="display:none;">
 <div class="card">
 <h2 data-i18n="transactions.h2">Transactions</h2>
-<ul id="transactionsList"></ul>
+<ul id="transactionsList" style="padding-left:20px;">
+<li style="color:#6b7280;">Loading transactions...</li>
+</ul>
 </div>
 </div>
 <div id="kycSection" style="display:none;">
@@ -199,11 +215,32 @@
 </div>
 </div>
 
+<footer>
+<div class="footer-content">
+<div class="footer-guide">
+<h3 data-i18n="footer.guide_title">📋 How to Use the Seller Dashboard</h3>
+<ol>
+<li><strong data-i18n="footer.step1_title">Review Pending Escrows:</strong> <span data-i18n="footer.step1_desc">Check the "Pending Escrows" table to see buyer requests. Click "Confirm" to accept or "Reject" to decline.</span></li>
+<li><strong data-i18n="footer.step2_title">Set Withdrawal Methods:</strong> <span data-i18n="footer.step2_desc">Enter your crypto wallet addresses or Cash App username. Click "Save" to store each payment method.</span></li>
+<li><strong data-i18n="footer.step3_title">Submit Delivery:</strong> <span data-i18n="footer.step3_desc">After confirming an escrow, enter the Escrow ID, describe your deliverables, attach files if needed, and click "Submit Delivery".</span></li>
+<li><strong data-i18n="footer.step4_title">Request Release:</strong> <span data-i18n="footer.step4_desc">Once delivery is complete, enter the Escrow ID and click "Request Release" to notify the buyer to release payment.</span></li>
+<li><strong data-i18n="footer.step5_title">Track Your Escrows:</strong> <span data-i18n="footer.step5_desc">Use the "My Escrows" tab to monitor all your active transactions.</span></li>
+</ol>
+</div>
+<div class="support-box">
+<h3 data-i18n="footer.support_title">💬 Need Help?</h3>
+<p data-i18n="footer.support_desc">Our support team is ready to assist you with any questions or issues.</p>
+<a href="https://join.slack.com/share/enQtOTg3NTE1ODYzODcxMS0wODBmM2MyOGYxMTJiMTJhYWMzMmEwNWFlYmVjOGQ2NWNkMWFjY2ExNTY0ZjY5ZGE3YzcyZjA3NTRjNTc3Mjdi?p=free&entry_point=pricing_page" target="_blank" class="support-link" data-i18n="footer.support_link">Join Live Support on Slack</a>
+</div>
+</div>
+</footer>
+
 <script>
 let currentUser = null;
 let savedWallets = {};
 const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
 
+// FIXED: Use consistent token key 'token' everywhere
 async function checkSession() {
   const token = localStorage.getItem('token');
   console.log("🔍 STEP 1 - Token from localStorage:", token);
@@ -249,11 +286,10 @@ async function checkSession() {
     return false;
   }
 }
-    
-    
 
+// FIXED: Use consistent token key 'token' everywhere
 async function loadPendingEscrows() {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('token');
   if (!token) {
     console.error('No auth token found');
     return;
@@ -302,26 +338,46 @@ async function loadPendingEscrows() {
     tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#dc2626;">Error loading pending escrows</td></tr>';
   }
 }
+
+// NEW: Load My Escrows
+async function loadMyEscrows() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/sellerEscrows`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch escrows');
+
+    const escrows = await res.json();
+    const tableBody = document.getElementById('escrowTable');
     
-    if (!res.ok) {
-      console.warn('No valid session found.');
-      localStorage.removeItem('authToken');
-      return false;
+    if (escrows.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#6b7280;">No escrows found</td></tr>';
+      return;
     }
-    
-    const data = await res.json();
-    currentUser = data;
-    
-    if (currentUser.role !== 'seller') {
-      console.warn('Access denied. Wrong dashboard for your role.');
-      return false;
-    }
-    
-    console.log('Session valid for seller:', currentUser.email);
-    return true;
+
+    tableBody.innerHTML = '';
+    escrows.forEach(escrow => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${escrow.id}</td>
+        <td>${escrow.status}</td>
+        <td>${escrow.amount} ${escrow.currency}</td>
+        <td style="font-family:monospace;font-size:12px;">${escrow.wallet || 'N/A'}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+
   } catch (error) {
-    console.error('Session check failed:', error);
-    return false;
+    console.error('Error loading escrows:', error);
+    document.getElementById('escrowTable').innerHTML = '<tr><td colspan="4" style="text-align:center;color:#dc2626;">Error loading escrows</td></tr>';
   }
 }
 
@@ -343,7 +399,6 @@ function saveWallet(method, address) {
   localStorage.setItem('sellerWallets', JSON.stringify(savedWallets));
   updateSavedWalletsDisplay();
   
-  // Show success message
   const methodNames = {
     'trc': 'USDT TRC20',
     'erc': 'USDT ERC20', 
@@ -385,6 +440,7 @@ function updateSavedWalletsDisplay() {
   });
 }
 
+// FIXED: Consolidated initialization
 window.addEventListener("DOMContentLoaded", async () => {
   console.log('Seller Dashboard initializing...');
   
@@ -398,8 +454,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   loadSavedWallets();
   loadPendingEscrows();
 
+  // FIXED: Use consistent token 'token' everywhere
   async function handleEscrowAction(escrowId, endpoint, msgId, actionName) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error('No auth token found');
       return;
@@ -412,18 +469,18 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-    const res = await fetch(`${BASE_URL}${endpoint}`, { 
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({ escrowId })
-    });
+      const res = await fetch(`${BASE_URL}${endpoint}`, { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ escrowId })
+      });
 
       if (res.status === 401) {
         console.error('401 Unauthorized - token invalid');
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('token');
         if (msg) {
           msg.innerHTML = `Session expired. Please log in again.`;
           msg.className = "msg error";
@@ -435,7 +492,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       let json;
       try { json = JSON.parse(text); } catch { json = null; }
 
-           if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+      if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
 
       if (msg) {
         msg.innerHTML = "✅ " + actionName + " successful!";
@@ -446,6 +503,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       }
       console.log(actionName + " success:", json);
       
+      // Reload pending escrows after action
+      setTimeout(() => loadPendingEscrows(), 1000);
+      
     } catch (err) {
       if (msg) {
         msg.innerHTML = "❌ " + (err.message || "Network/System Error");
@@ -455,9 +515,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // FIXED: Use consistent token 'token'
   async function handleDeliverySubmit(e) {
     e.preventDefault();
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       alert('Session expired. Please log in again.');
       return;
@@ -481,7 +542,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
       if (res.status === 401) {
         console.error('401 Unauthorized - token invalid');
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('token');
         msg.innerHTML = `Session expired. Please log in again.`;
         msg.className = "msg error";
         return; 
@@ -506,15 +567,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // FIXED: Use consistent token 'token'
   async function handleReleaseRequest(e) {
     e.preventDefault();
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       alert('Session expired. Please log in again.');
       return;
     }
 
-    // Check if seller has saved any wallets
     if (Object.keys(savedWallets).length === 0) {
       alert('Please set up at least one withdrawal method before requesting release.');
       return;
@@ -538,7 +599,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
       if (res.status === 401) {
         console.error('401 Unauthorized - token invalid');
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('token');
         msg.innerHTML = `Session expired. Please log in again.`;
         msg.className = "msg error";
         return; 
@@ -561,8 +622,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
- 
-  
+  // Event listeners
   document.getElementById("deliveryForm")?.addEventListener("submit", handleDeliverySubmit);
   document.getElementById("releaseRequestForm")?.addEventListener("submit", handleReleaseRequest);
 
@@ -575,6 +635,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  // File preview
   document.getElementById("attachFiles")?.addEventListener("change", function(e) {
     const files = e.target.files;
     const preview = document.getElementById('filePreview');
@@ -594,7 +655,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-    window.confirmEscrow = function(escrowId) {
+  // Global functions for escrow actions
+  window.confirmEscrow = function(escrowId) {
     handleEscrowAction(escrowId, "/sellerConfirm", "pendingMsg_" + escrowId, "Confirm Escrow");
   };
 
@@ -602,20 +664,20 @@ window.addEventListener("DOMContentLoaded", async () => {
     handleEscrowAction(escrowId, "/sellerReject", "pendingMsg_" + escrowId, "Reject Escrow");
   };
 
+  // FIXED: Logout function
   document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     try {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem('token');
+      localStorage.removeItem('sellerWallets');
       console.log('Logged out successfully');
       window.location.href = '/index.html';
     } catch (error) {
       console.error('Logout error:', error);
+      window.location.href = '/index.html';
     }
   });
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Tab system initialized");
-
+  // FIXED: Tab system - integrated into main initialization
   const tabs = {
     tabEscrow: "escrowSection",
     tabMyEscrows: "myEscrowsSection",
@@ -639,6 +701,11 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.remove("active");
       }
     });
+
+    // Load data when switching to specific tabs
+    if (showId === "myEscrowsSection") {
+      loadMyEscrows();
+    }
   }
 
   buttons.forEach(btn => {
@@ -650,13 +717,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Show default section
   showSection("escrowSection");
 });
 
+// FIXED: Translation system - properly initialized
 const translations = {
   en: {
     translation: {
-      "title": "Seller Dashboard — VanGuard Escrow",
+      "title": "Seller Dashboard – VanGuard Escrow",
       "header.title": "Seller Dashboard",
       "btn.logout": "Logout",
       "nav.escrow": "Escrow Setup",
@@ -705,12 +774,26 @@ const translations = {
       "tbl.actions": "Actions",
       "transactions.h2": "Transactions",
       "kyc.h2": "KYC",
-      "kyc.note": "KYC verification will be demanded for sellers who choose to receive payment via Bank Transfer."
+      "kyc.note": "KYC verification will be demanded for sellers who choose to receive payment via Bank Transfer.",
+      "footer.guide_title": "📋 How to Use the Seller Dashboard",
+      "footer.step1_title": "Review Pending Escrows:",
+      "footer.step1_desc": "Check the \"Pending Escrows\" table to see buyer requests. Click \"Confirm\" to accept or \"Reject\" to decline.",
+      "footer.step2_title": "Set Withdrawal Methods:",
+      "footer.step2_desc": "Enter your crypto wallet addresses or Cash App username. Click \"Save\" to store each payment method.",
+      "footer.step3_title": "Submit Delivery:",
+      "footer.step3_desc": "After confirming an escrow, enter the Escrow ID, describe your deliverables, attach files if needed, and click \"Submit Delivery\".",
+      "footer.step4_title": "Request Release:",
+      "footer.step4_desc": "Once delivery is complete, enter the Escrow ID and click \"Request Release\" to notify the buyer to release payment.",
+      "footer.step5_title": "Track Your Escrows:",
+      "footer.step5_desc": "Use the \"My Escrows\" tab to monitor all your active transactions.",
+      "footer.support_title": "💬 Need Help?",
+      "footer.support_desc": "Our support team is ready to assist you with any questions or issues.",
+      "footer.support_link": "Join Live Support on Slack"
     }
   },
   de: {
     translation: {
-      "title": "Verkäufer-Dashboard — VanGuard Escrow",
+      "title": "Verkäufer-Dashboard – VanGuard Escrow",
       "header.title": "Verkäufer-Dashboard",
       "btn.logout": "Abmelden",
       "nav.escrow": "Escrow-Einrichtung",
@@ -759,12 +842,26 @@ const translations = {
       "tbl.actions": "Aktionen",
       "transactions.h2": "Transaktionen",
       "kyc.h2": "KYC",
-      "kyc.note": "KYC-Verifizierung wird für Verkäufer verlangt, die per Banküberweisung bezahlt werden möchten."
+      "kyc.note": "KYC-Verifizierung wird für Verkäufer verlangt, die per Banküberweisung bezahlt werden möchten.",
+      "footer.guide_title": "📋 So verwenden Sie das Verkäufer-Dashboard",
+      "footer.step1_title": "Ausstehende Escrows überprüfen:",
+      "footer.step1_desc": "Überprüfen Sie die Tabelle \"Ausstehende Escrows\", um Käuferanfragen zu sehen. Klicken Sie auf \"Bestätigen\" zum Akzeptieren oder \"Ablehnen\" zum Ablehnen.",
+      "footer.step2_title": "Auszahlungsmethoden festlegen:",
+      "footer.step2_desc": "Geben Sie Ihre Krypto-Wallet-Adressen oder Ihren Cash App-Benutzernamen ein. Klicken Sie auf \"Speichern\", um jede Zahlungsmethode zu speichern.",
+      "footer.step3_title": "Lieferung einreichen:",
+      "footer.step3_desc": "Nach Bestätigung eines Escrows geben Sie die Escrow-ID ein, beschreiben Sie Ihre Liefergegenstände, hängen Sie bei Bedarf Dateien an und klicken Sie auf \"Lieferung einreichen\".",
+      "footer.step4_title": "Freigabe anfordern:",
+      "footer.step4_desc": "Sobald die Lieferung abgeschlossen ist, geben Sie die Escrow-ID ein und klicken Sie auf \"Freigabe anfordern\", um den Käufer über die Zahlungsfreigabe zu benachrichtigen.",
+      "footer.step5_title": "Ihre Escrows verfolgen:",
+      "footer.step5_desc": "Verwenden Sie die Registerkarte \"Meine Escrows\", um alle Ihre aktiven Transaktionen zu überwachen.",
+      "footer.support_title": "💬 Brauchen Sie Hilfe?",
+      "footer.support_desc": "Unser Support-Team ist bereit, Sie bei Fragen oder Problemen zu unterstützen.",
+      "footer.support_link": "Live-Support auf Slack beitreten"
     }
   },
   fr: {
     translation: {
-      "title": "Tableau de bord vendeur — VanGuard Escrow",
+      "title": "Tableau de bord vendeur – VanGuard Escrow",
       "header.title": "Tableau de bord vendeur",
       "btn.logout": "Déconnexion",
       "nav.escrow": "Configuration Escrow",
@@ -813,12 +910,26 @@ const translations = {
       "tbl.actions": "Actions",
       "transactions.h2": "Transactions",
       "kyc.h2": "KYC",
-      "kyc.note": "La vérification KYC sera demandée aux vendeurs qui choisissent de recevoir le paiement par virement bancaire."
+      "kyc.note": "La vérification KYC sera demandée aux vendeurs qui choisissent de recevoir le paiement par virement bancaire.",
+      "footer.guide_title": "📋 Comment utiliser le tableau de bord vendeur",
+      "footer.step1_title": "Examiner les escrows en attente:",
+      "footer.step1_desc": "Consultez le tableau \"Escrows en attente\" pour voir les demandes d'acheteurs. Cliquez sur \"Confirmer\" pour accepter ou \"Rejeter\" pour refuser.",
+      "footer.step2_title": "Définir les méthodes de retrait:",
+      "footer.step2_desc": "Entrez vos adresses de portefeuille crypto ou votre nom d'utilisateur Cash App. Cliquez sur \"Sauvegarder\" pour enregistrer chaque méthode de paiement.",
+      "footer.step3_title": "Soumettre la livraison:",
+      "footer.step3_desc": "Après avoir confirmé un escrow, entrez l'ID Escrow, décrivez vos livrables, joignez des fichiers si nécessaire et cliquez sur \"Soumettre la livraison\".",
+      "footer.step4_title": "Demander la libération:",
+      "footer.step4_desc": "Une fois la livraison terminée, entrez l'ID Escrow et cliquez sur \"Demander la libération\" pour notifier l'acheteur de libérer le paiement.",
+      "footer.step5_title": "Suivre vos escrows:",
+      "footer.step5_desc": "Utilisez l'onglet \"Mes Escrows\" pour surveiller toutes vos transactions actives.",
+      "footer.support_title": "💬 Besoin d'aide?",
+      "footer.support_desc": "Notre équipe de support est prête à vous aider pour toute question ou problème.",
+      "footer.support_link": "Rejoindre le support en direct sur Slack"
     }
   },
   it: {
     translation: {
-      "title": "Dashboard Venditore — VanGuard Escrow",
+      "title": "Dashboard Venditore – VanGuard Escrow",
       "header.title": "Dashboard Venditore",
       "btn.logout": "Disconnetti",
       "nav.escrow": "Configurazione Escrow",
@@ -867,12 +978,26 @@ const translations = {
       "tbl.actions": "Azioni",
       "transactions.h2": "Transazioni",
       "kyc.h2": "KYC",
-      "kyc.note": "La verifica KYC sarà richiesta ai venditori che scelgono di ricevere il pagamento tramite bonifico bancario."
+      "kyc.note": "La verifica KYC sarà richiesta ai venditori che scelgono di ricevere il pagamento tramite bonifico bancario.",
+      "footer.guide_title": "📋 Come utilizzare la Dashboard Venditore",
+      "footer.step1_title": "Rivedi gli escrow in sospeso:",
+      "footer.step1_desc": "Controlla la tabella \"Escrow in sospeso\" per vedere le richieste degli acquirenti. Fai clic su \"Conferma\" per accettare o \"Rifiuta\" per declinare.",
+      "footer.step2_title": "Imposta i metodi di prelievo:",
+      "footer.step2_desc": "Inserisci i tuoi indirizzi wallet cripto o il tuo nome utente Cash App. Fai clic su \"Salva\" per memorizzare ogni metodo di pagamento.",
+      "footer.step3_title": "Invia la consegna:",
+      "footer.step3_desc": "Dopo aver confermato un escrow, inserisci l'ID Escrow, descrivi i tuoi consegnabili, allega file se necessario e fai clic su \"Invia consegna\".",
+      "footer.step4_title": "Richiedi il rilascio:",
+      "footer.step4_desc": "Una volta completata la consegna, inserisci l'ID Escrow e fai clic su \"Richiedi rilascio\" per notificare all'acquirente di rilasciare il pagamento.",
+      "footer.step5_title": "Traccia i tuoi escrow:",
+      "footer.step5_desc": "Usa la scheda \"I Miei Escrow\" per monitorare tutte le tue transazioni attive.",
+      "footer.support_title": "💬 Hai bisogno di aiuto?",
+      "footer.support_desc": "Il nostro team di supporto è pronto ad assisterti per qualsiasi domanda o problema.",
+      "footer.support_link": "Unisciti al supporto dal vivo su Slack"
     }
   },
   es: {
     translation: {
-      "title": "Panel de Vendedor — VanGuard Escrow",
+      "title": "Panel de Vendedor – VanGuard Escrow",
       "header.title": "Panel de Vendedor",
       "btn.logout": "Cerrar sesión",
       "nav.escrow": "Configuración de Escrow",
@@ -926,30 +1051,55 @@ const translations = {
   }
 };
 
+// Initialize i18next
 i18next.init({
   lng: 'en',
   debug: false,
   resources: translations
 }, function(err, t) {
+  if (err) {
+    console.error('i18next initialization error:', err);
+    return;
+  }
   updateContent();
 });
 
 function updateContent() {
+  // Update text content
   document.querySelectorAll('[data-i18n]').forEach(element => {
     const key = element.getAttribute('data-i18n');
-    element.textContent = i18next.t(key);
+    const translation = i18next.t(key);
+    if (translation && translation !== key) {
+      element.textContent = translation;
+    }
   });
   
+  // Update placeholders
   document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
     const key = element.getAttribute('data-i18n-placeholder');
-    element.placeholder = i18next.t(key);
+    const translation = i18next.t(key);
+    if (translation && translation !== key) {
+      element.placeholder = translation;
+    }
   });
   
-  document.title = i18next.t('title');
+  // Update page title
+  const titleTranslation = i18next.t('title');
+  if (titleTranslation && titleTranslation !== 'title') {
+    document.title = titleTranslation;
+  }
 }
 
+// Language switcher event listener
 document.getElementById('langSwitcher')?.addEventListener('change', function(e) {
-  i18next.changeLanguage(e.target.value, () => {
+  const selectedLang = e.target.value;
+  console.log('Switching language to:', selectedLang);
+  i18next.changeLanguage(selectedLang, (err, t) => {
+    if (err) {
+      console.error('Language change error:', err);
+      return;
+    }
+    console.log('Language changed successfully to:', selectedLang);
     updateContent();
   });
 });
