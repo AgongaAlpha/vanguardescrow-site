@@ -363,10 +363,11 @@ async function loadPendingEscrows() {
       throw new Error('Failed to fetch pending escrows');
     }
 
-    const pendingEscrows = await res.json();
-    const tableBody = document.getElementById('pendingEscrowTable');
-    
-    if (pendingEscrows.length === 0) {
+const data = await res.json();
+const pendingEscrows = data.escrows || data || [];
+const tableBody = document.getElementById('pendingEscrowTable');
+
+if (pendingEscrows.length === 0) {
       tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#6b7280;">No pending escrows found</td></tr>';
       return;
     }
