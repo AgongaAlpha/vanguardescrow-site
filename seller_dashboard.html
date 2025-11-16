@@ -703,6 +703,7 @@ async function handleDeliverySubmit(e) {
   // Event listeners
   document.getElementById("deliveryForm")?.addEventListener("submit", handleDeliverySubmit);
   document.getElementById("releaseRequestForm")?.addEventListener("submit", handleReleaseRequest);
+  console.log('✅ Event listeners registered. handleDeliverySubmit exists:', typeof handleDeliverySubmit);
 
   // Wallet save buttons
   document.querySelectorAll('.save-btn').forEach(btn => {
