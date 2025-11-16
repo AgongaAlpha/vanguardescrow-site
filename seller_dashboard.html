@@ -587,59 +587,63 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   // FIXED: Use consistent token 'token'
-  async function handleDeliverySubmit(e) {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('Session expired. Please log in again.');
-      return;
-    }
-
-    const form = e.target;
-    const msg = document.getElementById('deliveryMsg');
-    msg.innerHTML = "Processing...";
-    msg.className = "msg";
-
-    try {
-      const formData = new FormData(form);
-           for (let pair of formData.entries()) {
-      console.log('📤 Sending:', pair[0], '=', pair[1]);
-    }
-      
-      const res = await fetch(BASE_URL + "/sellerSubmitDelivery", { 
-        method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      });
-
-      if (res.status === 401) {
-        console.error('401 Unauthorized - token invalid');
-        localStorage.removeItem('token');
-        msg.innerHTML = `Session expired. Please log in again.`;
-        msg.className = "msg error";
-        return; 
-      }
-      
-      let text = await res.text();
-      let json;
-      try { json = JSON.parse(text); } catch { json = null; }
-
-      if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
-
-      msg.innerHTML = "✅ Delivery submitted successfully!";
-      msg.className = "msg success";
-      console.log("Delivery submit success:", json);
-      form.reset();
-      document.getElementById('filePreview').style.display = 'none';
-      
-    } catch (err) {
-      msg.innerHTML = "❌ " + (err.message || "Network/System Error");
-      msg.className = "msg error";
-      console.error("Delivery submit error:", err);
-    }
+async function handleDeliverySubmit(e) {
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Session expired. Please log in again.');
+    return;
   }
+
+  const form = e.target;
+  const msg = document.getElementById('deliveryMsg');
+  msg.innerHTML = "Processing...";
+  msg.className = "msg";
+
+  try {
+    const formData = new FormData(form);
+    
+    // DEBUG LINES - THESE WILL SHOW WHAT'S BEING SENT
+    console.log('===== FORM DATA BEING SENT =====');
+    for (let pair of formData.entries()) {
+      console.log('📤 ' + pair[0] + ' = ' + pair[1]);
+    }
+    console.log('================================');
+    
+    const res = await fetch(BASE_URL + "/sellerSubmitDelivery", { 
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    if (res.status === 401) {
+      console.error('401 Unauthorized - token invalid');
+      localStorage.removeItem('token');
+      msg.innerHTML = `Session expired. Please log in again.`;
+      msg.className = "msg error";
+      return; 
+    }
+    
+    let text = await res.text();
+    let json;
+    try { json = JSON.parse(text); } catch { json = null; }
+
+    if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+
+    msg.innerHTML = "✅ Delivery submitted successfully!";
+    msg.className = "msg success";
+    console.log("Delivery submit success:", json);
+    form.reset();
+    document.getElementById('filePreview').style.display = 'none';
+    
+  } catch (err) {
+    msg.innerHTML = "❌ " + (err.message || "Network/System Error");
+    msg.className = "msg error";
+    console.error("Delivery submit error:", err);
+  }
+}
 
   // FIXED: Use consistent token 'token'
   async function handleReleaseRequest(e) {
