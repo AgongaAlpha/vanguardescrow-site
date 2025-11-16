@@ -240,19 +240,41 @@ let currentUser = null;
 let savedWallets = {};
 const BASE_URL = "https://vanguardescrow-api-4.onrender.com";
 
-// FIXED: Use consistent token key 'token' everywhere
+// FIXED: Use /me endpoint instead of /checkSession
 async function checkSession() {
-  const token = localStorage.getItem('token');
-  console.log("🔍 STEP 1 - Token from localStorage:", token);
+  console.log("🔍 ===== SESSION CHECK STARTED =====");
+  
+  // Check all possible token keys
+  const tokenKeys = ['token', 'authToken', 'auth_token', 'sellerToken'];
+  let token = null;
+  let foundKey = null;
+  
+  for (const key of tokenKeys) {
+    const value = localStorage.getItem(key);
+    if (value) {
+      token = value;
+      foundKey = key;
+      console.log(`✅ Found token in localStorage with key: "${key}"`);
+      break;
+    }
+  }
   
   if (!token) {
-    console.warn('❌ No auth token found in localStorage');
+    console.error('❌ No auth token found in localStorage');
+    console.log('📋 Available localStorage keys:', Object.keys(localStorage));
+    console.log('📋 localStorage contents:', { ...localStorage });
+    alert('No authentication token found. Please log in again.');
     return false;
   }
 
+  console.log(`🔑 Using token from key: "${foundKey}"`);
+  console.log(`🔑 Token preview: ${token.substring(0, 20)}...`);
+
   try {
-    console.log("🔍 STEP 2 - Calling checkSession endpoint...");
-    const res = await fetch(`${BASE_URL}/checkSession`, {
+    console.log("📡 Calling /me endpoint...");
+    console.log(`📡 URL: ${BASE_URL}/me`);
+    
+    const res = await fetch(`${BASE_URL}/me`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -260,34 +282,67 @@ async function checkSession() {
       }
     });
     
-    console.log("🔍 STEP 3 - Response status:", res.status);
+    console.log("📥 Response status:", res.status);
+    console.log("📥 Response headers:", [...res.headers.entries()]);
     
     if (!res.ok) {
-      console.warn('❌ No valid session found. Status:', res.status);
-      localStorage.removeItem('token');
+      const errorText = await res.text();
+      console.error('❌ Session validation failed');
+      console.error('❌ Status:', res.status);
+      console.error('❌ Response:', errorText);
+      
+      // Clear invalid token
+      localStorage.removeItem(foundKey);
+      
+      alert(`Session validation failed (${res.status}). Please log in again.`);
       return false;
     }
     
     const data = await res.json();
-    console.log("🔍 STEP 4 - Session data from server:", data);
+    console.log("📦 Session data received:", JSON.stringify(data, null, 2));
     
     currentUser = data;
-    console.log("🔍 STEP 5 - User role:", currentUser.role);
     
-    if (currentUser.role !== 'seller') {
-      console.warn('❌ Access denied. User role is:', currentUser.role, 'but expected: seller');
+    // Check if user object has the role property
+    if (!currentUser.role) {
+      console.error('❌ User object missing "role" property');
+      console.error('📦 User object structure:', Object.keys(currentUser));
+      alert('Invalid user data received. Please contact support.');
       return false;
     }
     
-    console.log('✅ STEP 6 - Session valid for seller:', currentUser.email);
+    console.log("👤 User role:", currentUser.role);
+    console.log("📧 User email:", currentUser.email || 'Not provided');
+    
+    if (currentUser.role !== 'seller') {
+      console.warn(`❌ Access denied. User role is: "${currentUser.role}", expected: "seller"`);
+      alert(`This dashboard is for sellers only. Your role: ${currentUser.role}`);
+      return false;
+    }
+    
+    console.log('✅ ===== SESSION CHECK PASSED =====');
+    console.log(`✅ Logged in as seller: ${currentUser.email}`);
+    
+    // If token was found with a different key, migrate it to 'token'
+    if (foundKey !== 'token') {
+      console.log(`🔄 Migrating token from "${foundKey}" to "token"`);
+      localStorage.setItem('token', token);
+      localStorage.removeItem(foundKey);
+    }
+    
     return true;
   } catch (error) {
-    console.error('❌ Session check failed:', error);
+    console.error('❌ ===== SESSION CHECK FAILED =====');
+    console.error('❌ Error type:', error.name);
+    console.error('❌ Error message:', error.message);
+    console.error('❌ Error stack:', error.stack);
+    
+    alert(`Session check failed: ${error.message}. Please try logging in again.`);
     return false;
   }
 }
 
-// FIXED: Use consistent token key 'token' everywhere
+// FIXED: Use consistent token 'token' everywhere
 async function loadPendingEscrows() {
   const token = localStorage.getItem('token');
   if (!token) {
@@ -442,17 +497,33 @@ function updateSavedWalletsDisplay() {
 
 // FIXED: Consolidated initialization
 window.addEventListener("DOMContentLoaded", async () => {
-  console.log('Seller Dashboard initializing...');
+  console.log('🚀 ===== SELLER DASHBOARD INITIALIZING =====');
+  console.log('🌐 BASE_URL:', BASE_URL);
+  console.log('📅 Current time:', new Date().toISOString());
   
-  const sessionValid = await checkSession();
-  if (!sessionValid) {
-    alert('Please log in as a seller first');
-    window.location.href = '/index.html';
+  try {
+    const sessionValid = await checkSession();
+    
+    if (!sessionValid) {
+      console.error('❌ Session validation failed, redirecting to homepage...');
+      setTimeout(() => {
+        window.location.href = '/index.html';
+      }, 2000); // Give user time to see the error
+      return;
+    }
+    
+    console.log('✅ Session valid, loading dashboard...');
+    
+    loadSavedWallets();
+    loadPendingEscrows();
+  } catch (error) {
+    console.error('❌ Fatal error during initialization:', error);
+    alert(`Failed to initialize dashboard: ${error.message}`);
+    setTimeout(() => {
+      window.location.href = '/index.html';
+    }, 2000);
     return;
   }
-  
-  loadSavedWallets();
-  loadPendingEscrows();
 
   // FIXED: Use consistent token 'token' everywhere
   async function handleEscrowAction(escrowId, endpoint, msgId, actionName) {
@@ -502,8 +573,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         msg.className = "msg success";
       }
       console.log(actionName + " success:", json);
-      
-      // Reload pending escrows after action
+// Reload pending escrows after action
       setTimeout(() => loadPendingEscrows(), 1000);
       
     } catch (err) {
@@ -1015,7 +1085,8 @@ const translations = {
       "method.erc": "USDT ERC20",
       "method.bep": "BTC (BEP20)",
       "method.cashapp": "Cash App (solo EE. UU.)",
-      "method.bank": "Transferencia bancaria (Revolut Instant)",
+      "
+method.bank": "Transferencia bancaria (Revolut Instant)",
       "method.bank_note": "Contacte al soporte para configurar los detalles de transferencia bancaria",
       "btn.copy": "Copiar",
       "btn.save": "Guardar",
@@ -1046,7 +1117,21 @@ const translations = {
       "tbl.actions": "Acciones",
       "transactions.h2": "Transacciones",
       "kyc.h2": "KYC",
-      "kyc.note": "Se requerirá verificación KYC para vendedores que elijan recibir el pago mediante transferencia bancaria."
+      "kyc.note": "Se requerirá verificación KYC para vendedores que elijan recibir el pago mediante transferencia bancaria.",
+      "footer.guide_title": "📋 Cómo usar el Panel de Vendedor",
+      "footer.step1_title": "Revisar escrows pendientes:",
+      "footer.step1_desc": "Consulte la tabla \"Escrows pendientes\" para ver las solicitudes de compradores. Haga clic en \"Confirmar\" para aceptar o \"Rechazar\" para declinar.",
+      "footer.step2_title": "Configurar métodos de retiro:",
+      "footer.step2_desc": "Ingrese sus direcciones de billetera cripto o su nombre de usuario de Cash App. Haga clic en \"Guardar\" para almacenar cada método de pago.",
+      "footer.step3_title": "Enviar entrega:",
+      "footer.step3_desc": "Después de confirmar un escrow, ingrese el ID de Escrow, describa sus entregables, adjunte archivos si es necesario y haga clic en \"Enviar entrega\".",
+      "footer.step4_title": "Solicitar liberación:",
+      "footer.step4_desc": "Una vez completada la entrega, ingrese el ID de Escrow y haga clic en \"Solicitar liberación\" para notificar al comprador que libere el pago.",
+      "footer.step5_title": "Rastrear sus escrows:",
+      "footer.step5_desc": "Use la pestaña \"Mis Escrows\" para monitorear todas sus transacciones activas.",
+      "footer.support_title": "💬 ¿Necesita ayuda?",
+      "footer.support_desc": "Nuestro equipo de soporte está listo para ayudarlo con cualquier pregunta o problema.",
+      "footer.support_link": "Únase al soporte en vivo en Slack"
     }
   }
 };
