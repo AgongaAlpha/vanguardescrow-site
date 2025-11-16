@@ -602,6 +602,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const formData = new FormData(form);
+           for (let pair of formData.entries()) {
+      console.log('📤 Sending:', pair[0], '=', pair[1]);
+    }
       
       const res = await fetch(BASE_URL + "/sellerSubmitDelivery", { 
         method: "POST",
