@@ -587,63 +587,89 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   // FIXED: Use consistent token 'token'
-async function handleDeliverySubmit(e) {
-  e.preventDefault();
-  const token = localStorage.getItem('token');
-  if (!token) {
-    alert('Session expired. Please log in again.');
-    return;
-  }
-
-  const form = e.target;
-  const msg = document.getElementById('deliveryMsg');
-  msg.innerHTML = "Processing...";
-  msg.className = "msg";
-
-  try {
-    const formData = new FormData(form);
-    
-    // DEBUG LINES - THESE WILL SHOW WHAT'S BEING SENT
-    console.log('===== FORM DATA BEING SENT =====');
-    for (let pair of formData.entries()) {
-      console.log('📤 ' + pair[0] + ' = ' + pair[1]);
+// FIXED: Handle delivery submission with proper field extraction
+  async function handleDeliverySubmit(e) {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Session expired. Please log in again.');
+      return;
     }
-    console.log('================================');
-    
-    const res = await fetch(BASE_URL + "/sellerSubmitDelivery", { 
-      method: "POST",
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: formData
-    });
 
-    if (res.status === 401) {
-      console.error('401 Unauthorized - token invalid');
-      localStorage.removeItem('token');
-      msg.innerHTML = `Session expired. Please log in again.`;
+    const msg = document.getElementById('deliveryMsg');
+    
+    // Get values directly from inputs
+    const escrowId = document.getElementById('escrowIdDelivery').value.trim();
+    const deliveryTerms = document.getElementById('deliveryTerms').value.trim();
+    const deliverableContent = document.getElementById('deliverableContent').value.trim();
+    const filesInput = document.getElementById('attachFiles');
+    
+    // Validate escrowId
+    if (!escrowId) {
+      msg.innerHTML = "❌ Please enter an Escrow ID";
       msg.className = "msg error";
-      return; 
+      return;
     }
-    
-    let text = await res.text();
-    let json;
-    try { json = JSON.parse(text); } catch { json = null; }
 
-    if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+    msg.innerHTML = "Processing...";
+    msg.className = "msg";
 
-    msg.innerHTML = "✅ Delivery submitted successfully!";
-    msg.className = "msg success";
-    console.log("Delivery submit success:", json);
-    form.reset();
-    document.getElementById('filePreview').style.display = 'none';
-    
-  } catch (err) {
-    msg.innerHTML = "❌ " + (err.message || "Network/System Error");
-    msg.className = "msg error";
-    console.error("Delivery submit error:", err);
+    try {
+      const formData = new FormData();
+      formData.append('escrowId', escrowId);
+      formData.append('deliveryTerms', deliveryTerms);
+      formData.append('deliverableContent', deliverableContent);
+      
+      // Add files if any
+      if (filesInput.files.length > 0) {
+        for (let i = 0; i < filesInput.files.length; i++) {
+          formData.append('files', filesInput.files[i]);
+        }
+      }
+      
+      // Debug log
+      console.log('📤 Sending delivery for escrow:', escrowId);
+      
+      const res = await fetch(BASE_URL + "/sellerSubmitDelivery", { 
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      if (res.status === 401) {
+        console.error('401 Unauthorized - token invalid');
+        localStorage.removeItem('token');
+        msg.innerHTML = `Session expired. Please log in again.`;
+        msg.className = "msg error";
+        return; 
+      }
+      
+      let text = await res.text();
+      console.log('📥 Response:', text);
+      let json;
+      try { json = JSON.parse(text); } catch { json = null; }
+
+      if (!res.ok) throw new Error(json?.error || ("HTTP " + res.status));
+
+      msg.innerHTML = "✅ Delivery submitted successfully!";
+      msg.className = "msg success";
+      console.log("Delivery submit success:", json);
+      
+      // Clear form
+      document.getElementById('escrowIdDelivery').value = '';
+      document.getElementById('deliveryTerms').value = '';
+      document.getElementById('deliverableContent').value = '';
+      document.getElementById('attachFiles').value = '';
+      document.getElementById('filePreview').style.display = 'none';
+      
+    } catch (err) {
+      msg.innerHTML = "❌ " + (err.message || "Network/System Error");
+      msg.className = "msg error";
+      console.error("Delivery submit error:", err);
+    }
   }
-}
 
   // FIXED: Use consistent token 'token'
   async function handleReleaseRequest(e) {
