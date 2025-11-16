@@ -377,7 +377,7 @@ if (pendingEscrows.length === 0) {
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${escrow.id}</td>
-        <td>${escrow.buyerEmail || 'N/A'}</td>
+       <td>Buyer ID: ${escrow.buyer_id || 'N/A'}</td>
         <td>${escrow.amount} ${escrow.currency}</td>
         <td>
           <button onclick="confirmEscrow('${escrow.id}')" style="padding:6px 12px;background:#10b981;color:white;border:none;border-radius:4px;margin-right:8px;cursor:pointer;">Confirm</button>
