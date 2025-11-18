@@ -602,7 +602,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     const escrowId = document.getElementById('escrowIdDelivery').value.trim();
     const deliveryTerms = document.getElementById('deliveryTerms').value.trim();
     const deliverableContent = document.getElementById('deliverableContent').value.trim();
-    const filesInput = document.getElementById('attachFiles');
     
     // Validate escrowId
     if (!escrowId) {
@@ -615,27 +614,23 @@ window.addEventListener("DOMContentLoaded", async () => {
     msg.className = "msg";
 
     try {
-      const formData = new FormData();
-      formData.append('escrowId', escrowId);
-      formData.append('deliveryTerms', deliveryTerms);
-      formData.append('deliverableContent', deliverableContent);
+      // Send as JSON (not FormData)
+      const payload = {
+        escrowId: parseInt(escrowId), // Convert to number
+        deliveryTerms: deliveryTerms,
+        deliverableContent: deliverableContent,
+        attachments: [] // Empty for now
+      };
       
-      // Add files if any
-      if (filesInput.files.length > 0) {
-        for (let i = 0; i < filesInput.files.length; i++) {
-          formData.append('files', filesInput.files[i]);
-        }
-      }
-      
-      // Debug log
-      console.log('📤 Sending delivery for escrow:', escrowId);
+      console.log('📤 Sending JSON payload:', payload);
       
       const res = await fetch(BASE_URL + "/sellerSubmitDelivery", { 
         method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify(payload)
       });
 
       if (res.status === 401) {
@@ -670,6 +665,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       console.error("Delivery submit error:", err);
     }
   }
+
 
   // FIXED: Use consistent token 'token'
   async function handleReleaseRequest(e) {
