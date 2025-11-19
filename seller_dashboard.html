@@ -878,17 +878,25 @@ const translations = {
       "kyc.note": "KYC verification will be demanded for sellers who choose to receive payment via Bank Transfer.",
       "footer.guide_title": "📋 How to Use the Seller Dashboard",
       "footer.step1_title": "Review Pending Escrows:",
-      "footer.step1_desc": "Check the \"Pending Escrows\" table to see buyer requests. Click \"Confirm\" to accept or \"Reject\" to decline.",
+      "footer.step1_desc": "Check the \"Pending Escrows\" table to see buyer requests. Review the escrow details carefully including amount and terms. Click \"Confirm\" to accept or \"Reject\" to decline. Once confirmed, you commit to delivering as per the agreement.",
+
       "footer.step2_title": "Set Withdrawal Methods:",
-      "footer.step2_desc": "Enter your crypto wallet addresses or Cash App username. Click \"Save\" to store each payment method.",
-      "footer.step3_title": "Submit Delivery:",
-      "footer.step3_desc": "After confirming an escrow, enter the Escrow ID, describe your deliverables, attach files if needed, and click \"Submit Delivery\".",
-      "footer.step4_title": "Request Release:",
-      "footer.step4_desc": "Once delivery is complete, enter the Escrow ID and click \"Request Release\" to notify the buyer to release payment.",
-      "footer.step5_title": "Track Your Escrows:",
-      "footer.step5_desc": "Use the \"My Escrows\" tab to monitor all your active transactions.",
+      "footer.step2_desc": "Enter your crypto wallet addresses (USDT TRC20, USDT ERC20, BTC BEP20) or Cash App username where you want to receive payments. Click \"Save\" to store each payment method. Make sure these addresses are correct as this is where you'll receive your funds after successful escrow completion. You can update these anytime.",
+
+      "footer.step3_title": "Submit Delivery to Moderators:",
+      "footer.step3_desc": "After confirming an escrow, deliver your goods/services/credentials to our moderators first (not directly to the buyer). Enter the Escrow ID, describe your deliverables in detail, paste credentials/login details/download links in the content field, attach any necessary files, and click \"Submit Delivery\". Our moderators will verify and hold the delivery securely until the buyer confirms satisfaction.",
+
+      "footer.step4_title": "Wait for Buyer Confirmation:",
+      "footer.step4_desc": "Once you've submitted delivery to moderators, the buyer will be notified to fetch and review the credentials/files. The buyer will test the credentials to ensure they work and meet the agreed requirements. If everything is correct, the buyer will release payment. If there are issues, our moderators will mediate between both parties for fair resolution.",
+
+      "footer.step5_title": "Receive Payment:",
+      "footer.step5_desc": "After the buyer confirms and releases payment, funds will be transferred to your saved withdrawal method. Note that a 10% escrow fee is deducted from the total amount as our service charge. For example, if the escrow is $100, you'll receive $90. Track payment status in the \"My Escrows\" tab.",
+
+      "footer.step6_title": "Important Notes:",
+      "footer.step6_desc": "Always deliver exactly as agreed with the buyer. For account credentials that are IP-sensitive, clearly state this to the buyer beforehand. Never share credentials directly with the buyer - always submit through our moderators for your protection. If disputes arise, contact us immediately on Slack for mediation.",
+
       "footer.support_title": "💬 Need Help?",
-      "footer.support_desc": "Our support team is ready to assist you with any questions or issues.",
+      "footer.support_desc": "Our support team is ready to assist you with any questions, disputes, or technical issues. Contact us if delivery takes longer than expected or if you need clarification on any step.",
       "footer.support_link": "Join Live Support on Slack"
     }
   },
@@ -943,21 +951,28 @@ const translations = {
       "tbl.actions": "Aktionen",
       "transactions.h2": "Transaktionen",
       "kyc.h2": "KYC",
-      "kyc.note": "KYC-Verifizierung wird für Verkäufer verlangt, die per Banküberweisung bezahlt werden möchten.",
-      "footer.guide_title": "📋 So verwenden Sie das Verkäufer-Dashboard",
-      "footer.step1_title": "Ausstehende Escrows überprüfen:",
-      "footer.step1_desc": "Überprüfen Sie die Tabelle \"Ausstehende Escrows\", um Käuferanfragen zu sehen. Klicken Sie auf \"Bestätigen\" zum Akzeptieren oder \"Ablehnen\" zum Ablehnen.",
-      "footer.step2_title": "Auszahlungsmethoden festlegen:",
-      "footer.step2_desc": "Geben Sie Ihre Krypto-Wallet-Adressen oder Ihren Cash App-Benutzernamen ein. Klicken Sie auf \"Speichern\", um jede Zahlungsmethode zu speichern.",
-      "footer.step3_title": "Lieferung einreichen:",
-      "footer.step3_desc": "Nach Bestätigung eines Escrows geben Sie die Escrow-ID ein, beschreiben Sie Ihre Liefergegenstände, hängen Sie bei Bedarf Dateien an und klicken Sie auf \"Lieferung einreichen\".",
-      "footer.step4_title": "Freigabe anfordern:",
-      "footer.step4_desc": "Sobald die Lieferung abgeschlossen ist, geben Sie die Escrow-ID ein und klicken Sie auf \"Freigabe anfordern\", um den Käufer über die Zahlungsfreigabe zu benachrichtigen.",
-      "footer.step5_title": "Ihre Escrows verfolgen:",
-      "footer.step5_desc": "Verwenden Sie die Registerkarte \"Meine Escrows\", um alle Ihre aktiven Transaktionen zu überwachen.",
-      "footer.support_title": "💬 Brauchen Sie Hilfe?",
-      "footer.support_desc": "Unser Support-Team ist bereit, Sie bei Fragen oder Problemen zu unterstützen.",
-      "footer.support_link": "Live-Support auf Slack beitreten"
+"footer.guide_title": "📋 So verwenden Sie das Verkäufer-Dashboard",
+"footer.step1_title": "Ausstehende Escrows überprüfen:",
+"footer.step1_desc": "Überprüfen Sie die Tabelle \"Ausstehende Escrows\", um Käuferanfragen zu sehen. Überprüfen Sie die Escrow-Details sorgfältig, einschließlich Betrag und Bedingungen. Klicken Sie auf \"Bestätigen\" zum Akzeptieren oder \"Ablehnen\" zum Ablehnen. Nach der Bestätigung verpflichten Sie sich zur Lieferung gemäß der Vereinbarung.",
+
+"footer.step2_title": "Auszahlungsmethoden festlegen:",
+"footer.step2_desc": "Geben Sie Ihre Krypto-Wallet-Adressen (USDT TRC20, USDT ERC20, BTC BEP20) oder Ihren Cash App-Benutzernamen ein, wo Sie Zahlungen erhalten möchten. Klicken Sie auf \"Speichern\", um jede Zahlungsmethode zu speichern. Stellen Sie sicher, dass diese Adressen korrekt sind, da Sie hier Ihre Gelder nach erfolgreichem Escrow-Abschluss erhalten. Sie können diese jederzeit aktualisieren.",
+
+"footer.step3_title": "Lieferung an Moderatoren einreichen:",
+"footer.step3_desc": "Nach Bestätigung eines Escrows liefern Sie Ihre Waren/Dienstleistungen/Anmeldedaten zuerst an unsere Moderatoren (nicht direkt an den Käufer). Geben Sie die Escrow-ID ein, beschreiben Sie Ihre Liefergegenstände detailliert, fügen Sie Anmeldedaten/Login-Details/Download-Links in das Inhaltsfeld ein, hängen Sie notwendige Dateien an und klicken Sie auf \"Lieferung einreichen\". Unsere Moderatoren werden die Lieferung überprüfen und sicher aufbewahren, bis der Käufer die Zufriedenheit bestätigt.",
+
+"footer.step4_title": "Auf Käuferbestätigung warten:",
+"footer.step4_desc": "Sobald Sie die Lieferung an die Moderatoren eingereicht haben, wird der Käufer benachrichtigt, die Anmeldedaten/Dateien abzurufen und zu überprüfen. Der Käufer wird die Anmeldedaten testen, um sicherzustellen, dass sie funktionieren und den vereinbarten Anforderungen entsprechen. Wenn alles korrekt ist, wird der Käufer die Zahlung freigeben. Bei Problemen werden unsere Moderatoren zwischen beiden Parteien für eine faire Lösung vermitteln.",
+
+"footer.step5_title": "Zahlung erhalten:",
+"footer.step5_desc": "Nachdem der Käufer bestätigt und die Zahlung freigegeben hat, werden die Gelder auf Ihre gespeicherte Auszahlungsmethode überwiesen. Beachten Sie, dass eine Escrow-Gebühr von 10% vom Gesamtbetrag als unsere Servicegebühr abgezogen wird. Zum Beispiel, wenn das Escrow 100 $ beträgt, erhalten Sie 90 $. Verfolgen Sie den Zahlungsstatus auf der Registerkarte \"Meine Escrows\".",
+
+"footer.step6_title": "Wichtige Hinweise:",
+"footer.step6_desc": "Liefern Sie immer genau wie mit dem Käufer vereinbart. Bei Kontoanmeldedaten, die IP-sensitiv sind, teilen Sie dies dem Käufer im Voraus klar mit. Teilen Sie niemals Anmeldedaten direkt mit dem Käufer - reichen Sie sie immer über unsere Moderatoren zu Ihrem Schutz ein. Wenn Streitigkeiten auftreten, kontaktieren Sie uns sofort auf Slack zur Vermittlung.",
+
+"footer.support_title": "💬 Brauchen Sie Hilfe?",
+"footer.support_desc": "Unser Support-Team ist bereit, Sie bei Fragen, Streitigkeiten oder technischen Problemen zu unterstützen. Kontaktieren Sie uns, wenn die Lieferung länger als erwartet dauert oder wenn Sie Klärung zu einem Schritt benötigen.",
+"footer.support_link": "Live-Support auf Slack beitreten"
     }
   },
   fr: {
@@ -1012,20 +1027,28 @@ const translations = {
       "transactions.h2": "Transactions",
       "kyc.h2": "KYC",
       "kyc.note": "La vérification KYC sera demandée aux vendeurs qui choisissent de recevoir le paiement par virement bancaire.",
-      "footer.guide_title": "📋 Comment utiliser le tableau de bord vendeur",
-      "footer.step1_title": "Examiner les escrows en attente:",
-      "footer.step1_desc": "Consultez le tableau \"Escrows en attente\" pour voir les demandes d'acheteurs. Cliquez sur \"Confirmer\" pour accepter ou \"Rejeter\" pour refuser.",
-      "footer.step2_title": "Définir les méthodes de retrait:",
-      "footer.step2_desc": "Entrez vos adresses de portefeuille crypto ou votre nom d'utilisateur Cash App. Cliquez sur \"Sauvegarder\" pour enregistrer chaque méthode de paiement.",
-      "footer.step3_title": "Soumettre la livraison:",
-      "footer.step3_desc": "Après avoir confirmé un escrow, entrez l'ID Escrow, décrivez vos livrables, joignez des fichiers si nécessaire et cliquez sur \"Soumettre la livraison\".",
-      "footer.step4_title": "Demander la libération:",
-      "footer.step4_desc": "Une fois la livraison terminée, entrez l'ID Escrow et cliquez sur \"Demander la libération\" pour notifier l'acheteur de libérer le paiement.",
-      "footer.step5_title": "Suivre vos escrows:",
-      "footer.step5_desc": "Utilisez l'onglet \"Mes Escrows\" pour surveiller toutes vos transactions actives.",
-      "footer.support_title": "💬 Besoin d'aide?",
-      "footer.support_desc": "Notre équipe de support est prête à vous aider pour toute question ou problème.",
-      "footer.support_link": "Rejoindre le support en direct sur Slack"
+"footer.guide_title": "📋 Comment utiliser le tableau de bord vendeur",
+"footer.step1_title": "Examiner les escrows en attente:",
+"footer.step1_desc": "Consultez le tableau \"Escrows en attente\" pour voir les demandes d'acheteurs. Examinez attentivement les détails de l'escrow, y compris le montant et les conditions. Cliquez sur \"Confirmer\" pour accepter ou \"Rejeter\" pour refuser. Une fois confirmé, vous vous engagez à livrer conformément à l'accord.",
+
+"footer.step2_title": "Définir les méthodes de retrait:",
+"footer.step2_desc": "Entrez vos adresses de portefeuille crypto (USDT TRC20, USDT ERC20, BTC BEP20) ou votre nom d'utilisateur Cash App où vous souhaitez recevoir les paiements. Cliquez sur \"Sauvegarder\" pour enregistrer chaque méthode de paiement. Assurez-vous que ces adresses sont correctes car c'est là que vous recevrez vos fonds après la réussite de l'escrow. Vous pouvez les mettre à jour à tout moment.",
+
+"footer.step3_title": "Soumettre la livraison aux modérateurs:",
+"footer.step3_desc": "Après avoir confirmé un escrow, livrez vos biens/services/identifiants d'abord à nos modérateurs (pas directement à l'acheteur). Entrez l'ID Escrow, décrivez vos livrables en détail, collez les identifiants/détails de connexion/liens de téléchargement dans le champ de contenu, joignez les fichiers nécessaires et cliquez sur \"Soumettre la livraison\". Nos modérateurs vérifieront et conserveront la livraison en toute sécurité jusqu'à ce que l'acheteur confirme sa satisfaction.",
+
+"footer.step4_title": "Attendre la confirmation de l'acheteur:",
+"footer.step4_desc": "Une fois que vous avez soumis la livraison aux modérateurs, l'acheteur sera notifié pour récupérer et examiner les identifiants/fichiers. L'acheteur testera les identifiants pour s'assurer qu'ils fonctionnent et répondent aux exigences convenues. Si tout est correct, l'acheteur libérera le paiement. En cas de problèmes, nos modérateurs médieront entre les deux parties pour une résolution équitable.",
+
+"footer.step5_title": "Recevoir le paiement:",
+"footer.step5_desc": "Après que l'acheteur confirme et libère le paiement, les fonds seront transférés vers votre méthode de retrait enregistrée. Notez qu'une commission d'escrow de 10% est déduite du montant total comme frais de service. Par exemple, si l'escrow est de 100 $, vous recevrez 90 $. Suivez l'état du paiement dans l'onglet \"Mes Escrows\".",
+
+"footer.step6_title": "Notes importantes:",
+"footer.step6_desc": "Livrez toujours exactement comme convenu avec l'acheteur. Pour les identifiants de compte sensibles à l'IP, indiquez-le clairement à l'acheteur à l'avance. Ne partagez jamais les identifiants directement avec l'acheteur - soumettez-les toujours via nos modérateurs pour votre protection. En cas de litiges, contactez-nous immédiatement sur Slack pour médiation.",
+
+"footer.support_title": "💬 Besoin d'aide?",
+"footer.support_desc": "Notre équipe de support est prête à vous aider pour toute question, litige ou problème technique. Contactez-nous si la livraison prend plus de temps que prévu ou si vous avez besoin de clarification sur une étape.",
+"footer.support_link": "Rejoindre le support en direct sur Slack"
     }
   },
   it: {
@@ -1079,21 +1102,28 @@ const translations = {
       "tbl.actions": "Azioni",
       "transactions.h2": "Transazioni",
       "kyc.h2": "KYC",
-      "kyc.note": "La verifica KYC sarà richiesta ai venditori che scelgono di ricevere il pagamento tramite bonifico bancario.",
-      "footer.guide_title": "📋 Come utilizzare la Dashboard Venditore",
-      "footer.step1_title": "Rivedi gli escrow in sospeso:",
-      "footer.step1_desc": "Controlla la tabella \"Escrow in sospeso\" per vedere le richieste degli acquirenti. Fai clic su \"Conferma\" per accettare o \"Rifiuta\" per declinare.",
-      "footer.step2_title": "Imposta i metodi di prelievo:",
-      "footer.step2_desc": "Inserisci i tuoi indirizzi wallet cripto o il tuo nome utente Cash App. Fai clic su \"Salva\" per memorizzare ogni metodo di pagamento.",
-      "footer.step3_title": "Invia la consegna:",
-      "footer.step3_desc": "Dopo aver confermato un escrow, inserisci l'ID Escrow, descrivi i tuoi consegnabili, allega file se necessario e fai clic su \"Invia consegna\".",
-      "footer.step4_title": "Richiedi il rilascio:",
-      "footer.step4_desc": "Una volta completata la consegna, inserisci l'ID Escrow e fai clic su \"Richiedi rilascio\" per notificare all'acquirente di rilasciare il pagamento.",
-      "footer.step5_title": "Traccia i tuoi escrow:",
-      "footer.step5_desc": "Usa la scheda \"I Miei Escrow\" per monitorare tutte le tue transazioni attive.",
-      "footer.support_title": "💬 Hai bisogno di aiuto?",
-      "footer.support_desc": "Il nostro team di supporto è pronto ad assisterti per qualsiasi domanda o problema.",
-      "footer.support_link": "Unisciti al supporto dal vivo su Slack"
+"footer.guide_title": "📋 Come utilizzare la Dashboard Venditore",
+"footer.step1_title": "Rivedi gli escrow in sospeso:",
+"footer.step1_desc": "Controlla la tabella \"Escrow in sospeso\" per vedere le richieste degli acquirenti. Rivedi attentamente i dettagli dell'escrow inclusi importo e termini. Fai clic su \"Conferma\" per accettare o \"Rifiuta\" per declinare. Una volta confermato, ti impegni a consegnare secondo l'accordo.",
+
+"footer.step2_title": "Imposta i metodi di prelievo:",
+"footer.step2_desc": "Inserisci i tuoi indirizzi wallet cripto (USDT TRC20, USDT ERC20, BTC BEP20) o il tuo nome utente Cash App dove desideri ricevere i pagamenti. Fai clic su \"Salva\" per memorizzare ogni metodo di pagamento. Assicurati che questi indirizzi siano corretti poiché è qui che riceverai i tuoi fondi dopo il completamento dell'escrow. Puoi aggiornarli in qualsiasi momento.",
+
+"footer.step3_title": "Invia la consegna ai moderatori:",
+"footer.step3_desc": "Dopo aver confermato un escrow, consegna i tuoi beni/servizi/credenziali prima ai nostri moderatori (non direttamente all'acquirente). Inserisci l'ID Escrow, descrivi i tuoi consegnabili in dettaglio, incolla credenziali/dettagli di accesso/link di download nel campo contenuto, allega i file necessari e fai clic su \"Invia consegna\". I nostri moderatori verificheranno e conserveranno la consegna in sicurezza fino a quando l'acquirente conferma la soddisfazione.",
+
+"footer.step4_title": "Attendi la conferma dell'acquirente:",
+"footer.step4_desc": "Una volta inviata la consegna ai moderatori, l'acquirente verrà notificato per recuperare e rivedere le credenziali/file. L'acquirente testerà le credenziali per assicurarsi che funzionino e soddisfino i requisiti concordati. Se tutto è corretto, l'acquirente rilascerà il pagamento. In caso di problemi, i nostri moderatori medieranno tra entrambe le parti per una risoluzione equa.",
+
+"footer.step5_title": "Ricevi il pagamento:",
+"footer.step5_desc": "Dopo che l'acquirente conferma e rilascia il pagamento, i fondi verranno trasferiti al tuo metodo di prelievo salvato. Nota che una commissione escrow del 10% viene detratta dall'importo totale come nostro costo di servizio. Ad esempio, se l'escrow è di 100 $, riceverai 90 $. Traccia lo stato del pagamento nella scheda \"I Miei Escrow\".",
+
+"footer.step6_title": "Note importanti:",
+"footer.step6_desc": "Consegna sempre esattamente come concordato con l'acquirente. Per le credenziali di account sensibili all'IP, dichiaralo chiaramente all'acquirente in anticipo. Non condividere mai le credenziali direttamente con l'acquirente - invia sempre tramite i nostri moderatori per la tua protezione. Se sorgono controversie, contattaci immediatamente su Slack per la mediazione.",
+
+"footer.support_title": "💬 Hai bisogno di aiuto?",
+"footer.support_desc": "Il nostro team di supporto è pronto ad assisterti con qualsiasi domanda, controversia o problema tecnico. Contattaci se la consegna richiede più tempo del previsto o se hai bisogno di chiarimenti su qualsiasi passaggio.",
+"footer.support_link": "Unisciti al supporto dal vivo su Slack"
     }
   },
 es: {
@@ -1148,20 +1178,28 @@ es: {
       "transactions.h2": "Transacciones",
       "kyc.h2": "KYC",
       "kyc.note": "Se requerirá verificación KYC para vendedores que elijan recibir el pago mediante transferencia bancaria.",
-      "footer.guide_title": "📋 Cómo usar el Panel de Vendedor",
-      "footer.step1_title": "Revisar escrows pendientes:",
-      "footer.step1_desc": "Consulte la tabla \"Escrows pendientes\" para ver las solicitudes de compradores. Haga clic en \"Confirmar\" para aceptar o \"Rechazar\" para declinar.",
-      "footer.step2_title": "Configurar métodos de retiro:",
-      "footer.step2_desc": "Ingrese sus direcciones de billetera cripto o su nombre de usuario de Cash App. Haga clic en \"Guardar\" para almacenar cada método de pago.",
-      "footer.step3_title": "Enviar entrega:",
-      "footer.step3_desc": "Después de confirmar un escrow, ingrese el ID de Escrow, describa sus entregables, adjunte archivos si es necesario y haga clic en \"Enviar entrega\".",
-      "footer.step4_title": "Solicitar liberación:",
-      "footer.step4_desc": "Una vez completada la entrega, ingrese el ID de Escrow y haga clic en \"Solicitar liberación\" para notificar al comprador que libere el pago.",
-      "footer.step5_title": "Rastrear sus escrows:",
-      "footer.step5_desc": "Use la pestaña \"Mis Escrows\" para monitorear todas sus transacciones activas.",
-      "footer.support_title": "💬 ¿Necesita ayuda?",
-      "footer.support_desc": "Nuestro equipo de soporte está listo para ayudarlo con cualquier pregunta o problema.",
-      "footer.support_link": "Únase al soporte en vivo en Slack"
+"footer.guide_title": "📋 Cómo usar el Panel de Vendedor",
+"footer.step1_title": "Revisar escrows pendientes:",
+"footer.step1_desc": "Consulte la tabla \"Escrows pendientes\" para ver las solicitudes de compradores. Revise cuidadosamente los detalles del escrow, incluidos el monto y los términos. Haga clic en \"Confirmar\" para aceptar o \"Rechazar\" para declinar. Una vez confirmado, se compromete a entregar según el acuerdo.",
+
+"footer.step2_title": "Configurar métodos de retiro:",
+"footer.step2_desc": "Ingrese sus direcciones de billetera cripto (USDT TRC20, USDT ERC20, BTC BEP20) o su nombre de usuario de Cash App donde desea recibir los pagos. Haga clic en \"Guardar\" para almacenar cada método de pago. Asegúrese de que estas direcciones sean correctas ya que aquí recibirá sus fondos después de completar el escrow exitosamente. Puede actualizarlas en cualquier momento.",
+
+"footer.step3_title": "Enviar entrega a los moderadores:",
+"footer.step3_desc": "Después de confirmar un escrow, entregue sus bienes/servicios/credenciales primero a nuestros moderadores (no directamente al comprador). Ingrese el ID de Escrow, describa sus entregables en detalle, pegue credenciales/detalles de inicio de sesión/enlaces de descarga en el campo de contenido, adjunte los archivos necesarios y haga clic en \"Enviar entrega\". Nuestros moderadores verificarán y mantendrán la entrega de forma segura hasta que el comprador confirme su satisfacción.",
+
+"footer.step4_title": "Esperar la confirmación del comprador:",
+"footer.step4_desc": "Una vez que haya enviado la entrega a los moderadores, se notificará al comprador para que obtenga y revise las credenciales/archivos. El comprador probará las credenciales para asegurarse de que funcionen y cumplan con los requisitos acordados. Si todo es correcto, el comprador liberará el pago. Si hay problemas, nuestros moderadores mediarán entre ambas partes para una resolución justa.",
+
+"footer.step5_title": "Recibir el pago:",
+"footer.step5_desc": "Después de que el comprador confirme y libere el pago, los fondos se transferirán a su método de retiro guardado. Tenga en cuenta que se deduce una tarifa de escrow del 10% del monto total como nuestro cargo de servicio. Por ejemplo, si el escrow es de $100, recibirá $90. Rastree el estado del pago en la pestaña \"Mis Escrows\".",
+
+"footer.step6_title": "Notas importantes:",
+"footer.step6_desc": "Entregue siempre exactamente como se acordó con el comprador. Para credenciales de cuenta sensibles a la IP, indíquelo claramente al comprador de antemano. Nunca comparta credenciales directamente con el comprador - envíelas siempre a través de nuestros moderadores para su protección. Si surgen disputas, contáctenos inmediatamente en Slack para mediación.",
+
+"footer.support_title": "💬 ¿Necesita ayuda?",
+"footer.support_desc": "Nuestro equipo de soporte está listo para ayudarlo con cualquier pregunta, disputa o problema técnico. Contáctenos si la entrega toma más tiempo de lo esperado o si necesita aclaración sobre algún paso.",
+"footer.support_link": "Únase al soporte en vivo en Slack"
     }
   }
 };
